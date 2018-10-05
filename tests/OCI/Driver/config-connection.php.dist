@@ -1,0 +1,5 @@
+<?php
+
+define('USERNAME', '');
+define('PASSWORD', '');
+define('SCHEMA', '');
