@@ -311,7 +311,7 @@ class DriverTest extends TestCase
     {
         require_once 'config-connection.php';
 
-        $connection = oci_pconnect(USERNAME, PASSWORD, SCHEMA);
+        $connection = oci_pconnect(USERNAME, PASSWORD, SCHEMA, 'UTF8');
 
         return new Driver($connection, new DebuggerDumb());
     }
