@@ -21,13 +21,12 @@
    },
    "require": {
       "php": "^7.1",
-      "beberlei/assert": "^2.9",
       "roave/security-advisories": "dev-master"
    },
    "require-dev": {
       "hamcrest/hamcrest-php": "^2.0",
       "mockery/mockery": "^1.0",
-      "phpunit/phpunit": "^6.0",
+      "phpunit/phpunit": "^7.0",
       "symfony/var-dumper": "^4.0",
       "zendframework/zend-coding-standard": "^1.0"
    },
