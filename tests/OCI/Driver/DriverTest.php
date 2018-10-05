@@ -19,12 +19,7 @@ class DriverTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        set_error_handler([$this, 'errorHandler']);
-    }
-
-    public function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
-    {
-        $this->errors[] = compact('errno', 'errstr', 'errfile', 'errline', 'errcontext');
+        set_error_handler(function() { $this->errors[] = func_get_args(); });
     }
 
     public static function setUpBeforeClass()
