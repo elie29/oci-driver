@@ -20,7 +20,7 @@ class SessionInit
     /**
      * @var array
      */
-    protected $_defaultSessionVars = [
+    protected $defaultSessionVars = [
         'NLS_TIME_FORMAT' => 'HH24:MI:SS',
         'NLS_DATE_FORMAT' => 'YYYY-MM-DD HH24:MI:SS',
         'NLS_TIMESTAMP_FORMAT' => 'YYYY-MM-DD HH24:MI:SS',
@@ -38,7 +38,7 @@ class SessionInit
         $vars = [];
         $sep = "'";
 
-        foreach ($this->_defaultSessionVars as $option => $value) {
+        foreach ($this->defaultSessionVars as $option => $value) {
             // option='value'
             $vars[] = sprintf('%s=%s%s%s', $option, $sep, $value, $sep);
         }
