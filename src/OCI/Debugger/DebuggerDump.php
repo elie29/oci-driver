@@ -5,7 +5,6 @@ declare(strict_types = 1);
 namespace OCI\Debugger;
 
 use Debugger;
-use OCI\Driver\Parameter\Parameter;
 
 /**
  * @uses symfony/var-dumper
@@ -28,11 +27,11 @@ class DebuggerDump implements DebuggerInterface
      * {@inheritDoc}
      * @see \Common\Utils\Debugger\DebuggerInterface::end()
      */
-    public function end(string $query, Parameter $parameter = null, $result = null): void
+    public function end(string $query, array $parameters): void
     {
         $duration = 1000 * microtime(true);
 
-        dump(compact($query, $parameter, $result, $duration));
+        dump(compact($query, $parameters, $duration));
 
         // keep chaining
         $this->startTime = $duration;

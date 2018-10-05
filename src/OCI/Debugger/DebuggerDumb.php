@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace OCI\Debugger;
 
-use OCI\Driver\Parameter\Parameter;
-
 class DebuggerDumb implements DebuggerInterface
 {
 
@@ -13,7 +11,7 @@ class DebuggerDumb implements DebuggerInterface
     {
     }
 
-    public function end(string $query, Parameter $parameter = null, $result = null): void
+    public function end(string $query, array $parameters): void
     {
     }
 }

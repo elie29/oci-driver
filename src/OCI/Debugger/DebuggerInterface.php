@@ -19,8 +19,7 @@ interface DebuggerInterface
      * Called after the query execution.
      *
      * @param string $query The sql to be executed.
-     * @param Parameter $parameter Parameter binding.
-     * @param mixed $result Any further information.
+     * @param array $parameters Parameter binding.
      */
-    public function end(string $query, Parameter $parameter = null, $result = null): void;
+    public function end(string $query, array $parameters): void;
 }
