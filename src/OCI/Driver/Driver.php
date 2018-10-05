@@ -20,7 +20,7 @@ class Driver implements DriverInterface
     protected $connection;
 
     /**
-     * @var SqlDebuggerInterface
+     * @var DebuggerInterface
      */
     protected $debugger;
 
