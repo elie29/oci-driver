@@ -29,7 +29,7 @@ class SessionInit
     ];
 
     /**
-     * @param DBDriverInterface $driver
+     * @param DriverInterface $driver
      *
      * @return bool true session is initialised.
      */
@@ -43,6 +43,6 @@ class SessionInit
             $vars[] = sprintf('%s=%s%s%s', $option, $sep, $value, $sep);
         }
 
-        return !! $driver->executeUpdate('ALTER SESSION SET ' . implode(' ', $vars));
+        return 1 === $driver->executeUpdate('ALTER SESSION SET ' . implode(' ', $vars));
     }
 }

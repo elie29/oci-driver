@@ -11,8 +11,8 @@ class Driver implements DriverInterface
 {
 
     /** OPTIONS pour oci_fetch */
-    const FETCH_ALL_OPT = OCI_FETCHSTATEMENT_BY_ROW+OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
-    const FETCH_ARRAY_OPT = OCI_ASSOC+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
+    const FETCH_ALL_OPT = OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
+    const FETCH_ARRAY_OPT = OCI_ASSOC + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
 
     /**
      * @var resource
@@ -125,7 +125,7 @@ class Driver implements DriverInterface
             oci_bind_by_name($statement, $column, $params->variable, $params->length, $params->type);
         }
 
-        if (!oci_execute($statement, $this->commitOption)) {
+        if (! oci_execute($statement, $this->commitOption)) {
             $this->error($sql, $statement);
         }
 
@@ -137,7 +137,7 @@ class Driver implements DriverInterface
         $ociError = oci_error($resource);
 
         if ($ociError) {
-            trigger_error("SQL error\r\n" . $ociError['message'] . "\r\n" . $sql, E_USER_WARNING);
+            trigger_error(sprintf('SQL error: %s, SQL: %s', $ociError['message'], $sql), E_USER_WARNING);
         }
 
         throw new DriverException('OCIDriver error');

@@ -77,4 +77,3 @@ interface DriverInterface
      */
     public function executeQuery($sql, Parameter $bind = null);
 }
-

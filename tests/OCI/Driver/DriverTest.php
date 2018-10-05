@@ -19,7 +19,9 @@ class DriverTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
-        set_error_handler(function() { $this->errors[] = func_get_args(); });
+        set_error_handler(function () {
+            $this->errors[] = func_get_args();
+        });
     }
 
     public static function setUpBeforeClass()
