@@ -107,7 +107,7 @@ class Driver implements DriverInterface
         $statement = oci_parse($this->connection, $sql);
 
         if ($statement === false) {
-            $this->log($this->connection);
+            $this->error($this->connection);
         }
 
         $this->ociExecuteAndDebug($statement, $sql, $bind);
@@ -126,13 +126,13 @@ class Driver implements DriverInterface
         }
 
         if (!oci_execute($statement, $this->commitOption)) {
-            $this->log($sql, $statement);
+            $this->error($sql, $statement);
         }
 
         $this->debugger->end($sql, $attributes, $this);
     }
 
-    private function log(string $sql, $resource = null): void
+    private function error(string $sql, $resource = null): void
     {
         $ociError = oci_error($resource);
 
