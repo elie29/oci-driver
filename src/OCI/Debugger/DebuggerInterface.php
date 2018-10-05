@@ -22,5 +22,5 @@ interface DebuggerInterface
      * @param Parameter $parameter Parameter binding.
      * @param mixed $result Any further information.
      */
-    public function end(string $query, Parameter $parameter, $result = null): void;
+    public function end(string $query, Parameter $parameter = null, $result = null): void;
 }

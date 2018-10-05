@@ -13,7 +13,7 @@ class DebuggerDumb implements DebuggerInterface
     {
     }
 
-    public function end(string $query, Parameter $parameter, $result = null): void
+    public function end(string $query, Parameter $parameter = null, $result = null): void
     {
     }
 }

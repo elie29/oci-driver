@@ -28,7 +28,7 @@ class DebuggerDump implements DebuggerInterface
      * {@inheritDoc}
      * @see \Common\Utils\Debugger\DebuggerInterface::end()
      */
-    public function end(string $query, Parameter $parameter, $result = null): void
+    public function end(string $query, Parameter $parameter = null, $result = null): void
     {
         $duration = 1000 * microtime(true);
 
