@@ -14,17 +14,6 @@ use OCI\OCITestCase;
 class DriverTest extends OCITestCase
 {
 
-    private $errors = [];
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        // for trigger_error capturing
-        set_error_handler(function () {
-            $this->errors[] = func_get_args();
-        });
-    }
-
     public static function setUpBeforeClass(): void
     {
         $driver = Provider::getDriver();
