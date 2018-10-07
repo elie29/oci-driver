@@ -20,8 +20,7 @@
       "process-timeout": 9000
    },
    "require": {
-      "php": "^7.1",
-      "roave/security-advisories": "dev-master"
+      "php": "^7.1"
    },
    "require-dev": {
       "hamcrest/hamcrest-php": "^2.0",
