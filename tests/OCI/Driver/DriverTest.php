@@ -16,7 +16,7 @@ class DriverTest extends OCITestCase
 
     private $errors = [];
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         // for trigger_error capturing
@@ -25,19 +25,19 @@ class DriverTest extends OCITestCase
         });
     }
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $driver = Provider::getDriver();
         $driver->executeUpdate('TRUNCATE TABLE A1');
         $driver->executeUpdate('TRUNCATE TABLE A2');
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         self::setUpBeforeClass();
     }
 
-    public function testCreateInstanceWithMock()
+    public function testCreateInstanceWithMock(): void
     {
         $debugger = Mockery::mock(DebuggerInterface::class);
         $driver = new Driver('test', $debugger);
@@ -48,7 +48,7 @@ class DriverTest extends OCITestCase
     /**
      * @expectedException OCI\Driver\DriverException
      */
-    public function testExecuteWithException()
+    public function testExecuteWithException(): void
     {
         $driver = Provider::getDriver();
         $sql = 'Select FROM A1';
@@ -58,7 +58,7 @@ class DriverTest extends OCITestCase
     /**
      * @expectedException OCI\Driver\DriverException
      */
-    public function testExecuteTransactionWithException()
+    public function testExecuteTransactionWithException(): void
     {
         $driver = Provider::getDriver();
         $driver->beginTransaction();
@@ -69,7 +69,7 @@ class DriverTest extends OCITestCase
     /**
      * @dataProvider OCI\Helper\Provider::dataWithNoBind
      */
-    public function testExecuteUpdateWithoutBindNorTransaction($num, $num3, $ts, $long)
+    public function testExecuteUpdateWithoutBindNorTransaction($num, $num3, $ts, $long): void
     {
         $driver = Provider::getDriver();
 
@@ -83,7 +83,7 @@ class DriverTest extends OCITestCase
     /**
      * @dataProvider OCI\Helper\Provider::dataWithNoBind
      */
-    public function testExecuteUpdateWithoutBindWithTransactionRollback($num, $num3, $ts, $long)
+    public function testExecuteUpdateWithoutBindWithTransactionRollback($num, $num3, $ts, $long): void
     {
         $driver = Provider::getDriver();
         $sql = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
@@ -98,7 +98,7 @@ class DriverTest extends OCITestCase
     /**
      * @dataProvider OCI\Helper\Provider::dataWithNoBind
      */
-    public function testExecuteUpdateWithoutBindAndTransactionCommit($num, $num3, $ts, $long)
+    public function testExecuteUpdateWithoutBindAndTransactionCommit($num, $num3, $ts, $long): void
     {
         $driver = Provider::getDriver();
         $sql = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
@@ -110,7 +110,7 @@ class DriverTest extends OCITestCase
         assertThat($res, is(1));
     }
 
-    public function testExecuteUpdateWithBindAndTransactionRollback()
+    public function testExecuteUpdateWithBindAndTransactionRollback(): void
     {
         $driver = Provider::getDriver();
         $sql = 'INSERT INTO A1 (N_CHAR, N_NUM, N_NUM_3, N_VAR, N_DATE, N_TS, N_LONG) VALUES '
@@ -135,7 +135,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testFetchAssocWithBind()
+    public function testFetchAssocWithBind(): void
     {
         $driver = Provider::getDriver();
         $sql = 'SELECT N_NUM FROM A1 WHERE N_NUM = :N1 AND N_NUM_3 = :N2';
@@ -152,7 +152,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testFetchAllAssocWithBind()
+    public function testFetchAllAssocWithBind(): void
     {
         $driver = Provider::getDriver();
         $sql = 'SELECT N_NUM FROM A1 WHERE N_NUM = :N1 AND N_NUM_3 = :N2';
@@ -169,7 +169,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testFetchAssocWithoutBind()
+    public function testFetchAssocWithoutBind(): void
     {
         $driver = Provider::getDriver();
         $sql = 'SELECT * FROM A1 WHERE N_NUM = 2';
@@ -182,7 +182,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testFetchAllAssocWithoutBind()
+    public function testFetchAllAssocWithoutBind(): void
     {
         $driver = Provider::getDriver();
         $sql = 'SELECT * FROM A1';
@@ -195,7 +195,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testFetchSimpleCount()
+    public function testFetchSimpleCount(): void
     {
         $driver = Provider::getDriver();
         $sql = 'SELECT count(*) NB FROM A1';
@@ -210,7 +210,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testFetchCountWithUnion()
+    public function testFetchCountWithUnion(): void
     {
         $driver = Provider::getDriver();
         $sql = 'SELECT count(*) NB FROM A1 '
@@ -227,7 +227,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testUpdateDataWithClobBind()
+    public function testUpdateDataWithClobBind(): void
     {
         $driver = Provider::getDriver();
         $sql = 'Update A1 SET N_CLOB = :LOB WHERE N_NUM = :NUM';
@@ -250,7 +250,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testUpdateDataWithClobBind
      */
-    public function testFetchDataWithClob()
+    public function testFetchDataWithClob(): void
     {
         $driver = Provider::getDriver();
         $sql = 'SELECT N_CLOB FROM A1 WHERE N_CLOB IS NOT NULL';
@@ -264,7 +264,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testReadDataWithClob()
+    public function testReadDataWithClob(): void
     {
         $driver = Provider::getDriver();
 
@@ -292,7 +292,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testReadDataWithClobAndFuctionCall()
+    public function testReadDataWithClobAndFuctionCall(): void
     {
         $driver = Provider::getDriver();
 
@@ -318,7 +318,7 @@ class DriverTest extends OCITestCase
         assertThat($row, nonEmptyString());
     }
 
-    public function testInsertDataWithNoBindingOfLongRaw()
+    public function testInsertDataWithNoBindingOfLongRaw(): void
     {
         $driver = Provider::getDriver();
 
@@ -330,7 +330,7 @@ class DriverTest extends OCITestCase
         assertThat($res, is(1));
     }
 
-    public function testInsertDataWithLongRawBinding()
+    public function testInsertDataWithLongRawBinding(): void
     {
         $driver = Provider::getDriver();
 

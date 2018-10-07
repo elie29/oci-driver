@@ -6,6 +6,7 @@ namespace OCI\Helper;
 
 use Generator;
 use OCI\Debugger\DebuggerDumb;
+use OCI\Driver\Connection;
 use OCI\Driver\Driver;
 use OCI\Driver\DriverInterface;
 
@@ -41,6 +42,8 @@ class Provider
     {
         require_once 'config-connection.php';
 
-        return oci_pconnect(USERNAME, PASSWORD, SCHEMA, 'UTF8');
+        $connection = new Connection(USERNAME, PASSWORD, SCHEMA);
+
+        return $connection->connect();
     }
 }
