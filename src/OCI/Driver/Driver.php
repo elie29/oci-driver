@@ -140,6 +140,6 @@ class Driver implements DriverInterface
             trigger_error(sprintf('SQL error: %s, SQL: %s', $ociError['message'], $sql), E_USER_WARNING);
         }
 
-        throw new DriverException('OCIDriver error');
+        throw new DriverException('OCI Driver error');
     }
 }

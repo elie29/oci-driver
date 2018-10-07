@@ -43,7 +43,7 @@ class Parameter
      *
      * @return self
      */
-    public function addForLRaw(string $column, $variable): self
+    public function addForLongRaw(string $column, $variable): self
     {
         return $this->genericAdd($column, $variable, self::DEFAULT_MAX_LEN, SQLT_LBI);
     }

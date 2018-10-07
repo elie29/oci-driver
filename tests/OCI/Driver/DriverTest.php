@@ -19,7 +19,7 @@ class DriverTest extends OCITestCase
     protected function setUp()
     {
         parent::setUp();
-        // for trigger_error capture
+        // for trigger_error capturing
         set_error_handler(function () {
             $this->errors[] = func_get_args();
         });
@@ -29,6 +29,7 @@ class DriverTest extends OCITestCase
     {
         $driver = Provider::getDriver();
         $driver->executeUpdate('TRUNCATE TABLE A1');
+        $driver->executeUpdate('TRUNCATE TABLE A2');
     }
 
     public static function tearDownAfterClass()
@@ -304,5 +305,31 @@ class DriverTest extends OCITestCase
         oci_free_statement($statement);
 
         assertThat($row, nonEmptyString());
+    }
+
+    public function testInsertDataWithNoBindingOfLongRaw()
+    {
+        $driver = Provider::getDriver();
+
+        $value = bin2hex('Any long raw as hex value');
+        $sql = "INSERT INTO A2 (N_LONG_RAW) VALUES ('$value')";
+
+        $res = $driver->executeUpdate($sql);
+
+        assertThat($res, is(1));
+    }
+
+    public function testInsertDataWithLongRawBinding()
+    {
+        $driver = Provider::getDriver();
+
+        $sql = 'INSERT INTO A2 (N_LONG_RAW) VALUES (:VAL)';
+
+        $bind = new Parameter();
+        $bind->addForLongRaw(':VAL', bin2hex('Any long raw as hex value'));
+
+        $res = $driver->executeUpdate($sql, $bind);
+
+        assertThat($res, is(1));
     }
 }
