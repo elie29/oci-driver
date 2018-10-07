@@ -5,6 +5,9 @@ declare(strict_types = 1);
 namespace OCI\Helper;
 
 use Generator;
+use OCI\Debugger\DebuggerDumb;
+use OCI\Driver\Driver;
+use OCI\Driver\DriverInterface;
 
 class Provider
 {
@@ -24,5 +27,20 @@ class Provider
             // 0.2364 inserted 0.236 because scale is 3
             'null', 0.2364, 'CURRENT_TIMESTAMP', 'null'
         ];
+    }
+
+    public static function getDriver(): DriverInterface
+    {
+        return new Driver(self::getConnection(), new DebuggerDumb());
+    }
+
+    /**
+     * @return resource
+     */
+    public static function getConnection()
+    {
+        require_once 'config-connection.php';
+
+        return oci_pconnect(USERNAME, PASSWORD, SCHEMA, 'UTF8');
     }
 }

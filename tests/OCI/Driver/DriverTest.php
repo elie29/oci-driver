@@ -5,13 +5,13 @@ declare(strict_types = 1);
 namespace OCI\Driver;
 
 use Mockery;
-use OCI\Debugger\DebuggerDumb;
 use OCI\Debugger\DebuggerInterface;
 use OCI\Driver\Driver;
 use OCI\Driver\Parameter\Parameter;
-use PHPUnit\Framework\TestCase;
+use OCI\Helper\Provider;
+use OCI\OCITestCase;
 
-class DriverTest extends TestCase
+class DriverTest extends OCITestCase
 {
 
     private $errors = [];
@@ -19,6 +19,7 @@ class DriverTest extends TestCase
     protected function setUp()
     {
         parent::setUp();
+        // for trigger_error capture
         set_error_handler(function () {
             $this->errors[] = func_get_args();
         });
@@ -26,7 +27,7 @@ class DriverTest extends TestCase
 
     public static function setUpBeforeClass()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $driver->executeUpdate('TRUNCATE TABLE A1');
     }
 
@@ -48,9 +49,7 @@ class DriverTest extends TestCase
      */
     public function testExecuteWithExpcetion()
     {
-        $debugger = Mockery::mock(DebuggerInterface::class);
-
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'Select FROM A1';
         $driver->executeQuery($sql);
     }
@@ -60,7 +59,7 @@ class DriverTest extends TestCase
      */
     public function testExecuteUpdateWithoutBindNorTransaction($num, $num3, $ts, $long)
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
 
         $sql = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
 
@@ -74,7 +73,7 @@ class DriverTest extends TestCase
      */
     public function testExecuteUpdateWithoutBindWithTransactionRollback($num, $num3, $ts, $long)
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
 
         $driver->beginTransaction();
@@ -89,7 +88,7 @@ class DriverTest extends TestCase
      */
     public function testExecuteUpdateWithoutBindAndTransactionCommit($num, $num3, $ts, $long)
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
 
         $driver->beginTransaction();
@@ -101,7 +100,7 @@ class DriverTest extends TestCase
 
     public function testExecuteUpdateWithBindAndTransactionRollback()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'INSERT INTO A1 (N_CHAR, N_NUM, N_NUM_3, N_VAR, N_DATE, N_TS, N_LONG) VALUES '
              . '(:N1, :N2, :N3, :N4, TO_DATE(:N5, \'YYYY-MM-DD\'), TO_TIMESTAMP(:N6, \'YYYY-MM-DD HH24:MI:SS\'), :N7)';
 
@@ -126,7 +125,7 @@ class DriverTest extends TestCase
      */
     public function testFetchAssocWithBind()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'SELECT N_NUM FROM A1 WHERE N_NUM = :N1 AND N_NUM_3 = :N2';
 
         $bind = new Parameter();
@@ -143,7 +142,7 @@ class DriverTest extends TestCase
      */
     public function testFetchAllAssocWithBind()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'SELECT N_NUM FROM A1 WHERE N_NUM = :N1 AND N_NUM_3 = :N2';
 
         $bind = new Parameter();
@@ -160,7 +159,7 @@ class DriverTest extends TestCase
      */
     public function testFetchAssocWithoutBind()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'SELECT * FROM A1 WHERE N_NUM = 2';
 
         $row = $driver->fetchAssoc($sql);
@@ -173,7 +172,7 @@ class DriverTest extends TestCase
      */
     public function testFetchAllAssocWithoutBind()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'SELECT * FROM A1';
 
         $row = $driver->fetchAllAssoc($sql);
@@ -186,7 +185,7 @@ class DriverTest extends TestCase
      */
     public function testFetchSimpleCount()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'SELECT count(*) NB FROM A1';
 
         $row = $driver->fetchAssoc($sql);
@@ -201,7 +200,7 @@ class DriverTest extends TestCase
      */
     public function testFetchCountWithUnion()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'SELECT count(*) NB FROM A1 '
              . 'UNION '
              . 'SELECT count(*) NB FROM dual';
@@ -218,7 +217,7 @@ class DriverTest extends TestCase
      */
     public function testUpdateDataWithClobBind()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'Update A1 SET N_CLOB = :LOB WHERE N_NUM = :NUM';
 
         $bind = new Parameter();
@@ -241,7 +240,7 @@ class DriverTest extends TestCase
      */
     public function testFetchDataWithClob()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
         $sql = 'SELECT N_CLOB FROM A1 WHERE N_CLOB IS NOT NULL';
 
         $row = $driver->fetchAssoc($sql);
@@ -255,7 +254,7 @@ class DriverTest extends TestCase
      */
     public function testReadDataWithClob()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
 
         $sql = 'INSERT INTO A1 (N_NUM, N_CLOB) VALUES (:N1, EMPTY_CLOB()) RETURNING N_CLOB INTO :myLob';
 
@@ -283,7 +282,7 @@ class DriverTest extends TestCase
      */
     public function testReadDataWithClobAndFuctionCall()
     {
-        $driver = self::getDriver();
+        $driver = Provider::getDriver();
 
         // TESTCLOB is a Function already created
         $sql = 'BEGIN :myLob := TESTCLOB(:N1); END;';
@@ -305,14 +304,5 @@ class DriverTest extends TestCase
         oci_free_statement($statement);
 
         assertThat($row, nonEmptyString());
-    }
-
-    private static function getDriver(): DriverInterface
-    {
-        require_once 'config-connection.php';
-
-        $connection = oci_pconnect(USERNAME, PASSWORD, SCHEMA, 'UTF8');
-
-        return new Driver($connection, new DebuggerDumb());
     }
 }
