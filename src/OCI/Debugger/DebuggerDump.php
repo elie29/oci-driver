@@ -29,11 +29,15 @@ class DebuggerDump implements DebuggerInterface
      */
     public function end(string $query, array $parameters): void
     {
-        $duration = 1000 * microtime(true);
+        $endTime = 1000 * microtime(true);
 
-        dump(compact($query, $parameters, $duration));
+        dump([
+            'query' => $query,
+            'parameters' => $parameters,
+            'duration(ms)' => round($endTime - $this->startTime, 1)
+        ]);
 
         // keep chaining
-        $this->startTime = $duration;
+        $this->startTime = $endTime;
     }
 }
