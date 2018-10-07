@@ -6,17 +6,12 @@ namespace Common\Db;
 
 use Mockery;
 use OCI\Driver\DriverInterface;
+use OCI\Helper\Provider;
 use OCI\Helper\SessionInit;
-use PHPUnit\Framework\TestCase;
+use OCI\OCITestCase;
 
-class SessionInitTest extends TestCase
+class SessionInitTest extends OCITestCase
 {
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
 
     /**
      * @doesNotPerformAssertions
@@ -35,5 +30,16 @@ class SessionInitTest extends TestCase
 
         $init = new SessionInit();
         $init->alterSession($driver);
+    }
+
+    /**
+     * @doesNotPerformAssertions
+     */
+    public function testSessionInitWithARealInstanceDriver()
+    {
+        $driver = Provider::getDriver();
+
+        $session = new SessionInit();
+        $session->alterSession($driver);
     }
 }
