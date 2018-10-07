@@ -49,18 +49,18 @@ class Factory
     }
 
     /**
-     * @param resource $connexion
+     * @param resource $connection
      * @param string $env dev|prod for DebuggerInterface
      *
      * @return A new instance of OCI Driver service.
      */
-    public static function create($connexion, string $env): DriverInterface
+    public static function create($connection, string $env): DriverInterface
     {
         $debugger = $env === 'dev'
             ? new DebuggerDump()
             : new DebuggerDumb();
 
-        $db = new Driver($connexion, $debugger);
+        $db = new Driver($connection, $debugger);
 
         // Init Oracle session
         $init = new SessionInit();
