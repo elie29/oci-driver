@@ -18,6 +18,9 @@ class SessionInitTest extends TestCase
         parent::tearDown();
     }
 
+    /**
+     * @doesNotPerformAssertions
+     */
     public function testAlterSession()
     {
         $sql = "ALTER SESSION SET NLS_TIME_FORMAT='HH24:MI:SS' "
@@ -28,11 +31,9 @@ class SessionInitTest extends TestCase
 
         $driver = Mockery::mock(DriverInterface::class);
         $driver->shouldReceive('executeUpdate')
-            ->with($sql)->once()->andReturn(1);
+            ->with($sql)->once();
 
         $init = new SessionInit();
-        $res = $init->alterSession($driver);
-
-        assertThat($res, is(true));
+        $init->alterSession($driver);
     }
 }

@@ -30,19 +30,15 @@ class SessionInit
 
     /**
      * @param DriverInterface $driver
-     *
-     * @return bool true session is initialised.
      */
-    public function alterSession(DriverInterface $driver): bool
+    public function alterSession(DriverInterface $driver): void
     {
         $vars = [];
-        $sep = "'";
 
         foreach ($this->defaultSessionVars as $option => $value) {
-            // option='value'
-            $vars[] = sprintf('%s=%s%s%s', $option, $sep, $value, $sep);
+            $vars[] = $option . "='" . $value . "'";
         }
 
-        return 1 === $driver->executeUpdate('ALTER SESSION SET ' . implode(' ', $vars));
+        $driver->executeUpdate('ALTER SESSION SET ' . implode(' ', $vars));
     }
 }
