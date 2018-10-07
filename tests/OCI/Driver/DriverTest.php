@@ -48,9 +48,20 @@ class DriverTest extends OCITestCase
     /**
      * @expectedException OCI\Driver\DriverException
      */
-    public function testExecuteWithExpcetion()
+    public function testExecuteWithException()
     {
         $driver = Provider::getDriver();
+        $sql = 'Select FROM A1';
+        $driver->executeQuery($sql);
+    }
+
+    /**
+     * @expectedException OCI\Driver\DriverException
+     */
+    public function testExecuteTransactionWithException()
+    {
+        $driver = Provider::getDriver();
+        $driver->beginTransaction();
         $sql = 'Select FROM A1';
         $driver->executeQuery($sql);
     }

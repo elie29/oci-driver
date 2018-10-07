@@ -140,6 +140,10 @@ class Driver implements DriverInterface
             trigger_error(sprintf('SQL error: %s, SQL: %s', $ociError['message'], $sql), E_USER_WARNING);
         }
 
+        if (OCI_NO_AUTO_COMMIT === $this->commitOption) {
+            $this->rollbackTransaction();
+        }
+
         throw new DriverException('OCI Driver error');
     }
 }
