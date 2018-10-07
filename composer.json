@@ -13,7 +13,7 @@
       "issues": "https://github.com/elie29/oci-driver/issues",
       "source": "https://github.com/elie29/oci-driver"
    },
-   "type": "project",
+   "type": "library",
    "minimum-stability": "stable",
    "config": {
       "sort-packages": true,
@@ -50,7 +50,6 @@
       }
    },
    "scripts": {
-      "serve": "php -S localhost:5000 -d display_errors=1 -t public",
       "cover": [
          "@test",
          "php -S localhost:5000 -d display_errors=1 -t build/coverage"
