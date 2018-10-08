@@ -147,7 +147,7 @@
 
    <target name="phpstan" unless="phpstan.done" depends="prepare" description="PHP Static Analysis Tool - discover bugs in your code without running it">
       <exec executable="${phpstan}" taskname="phpstan">
-         <arg line="analyse ${basedir}/src ${basedir}/tests> ${basedir}/build/logs/phpstan.xml"/>
+         <arg line="analyse ${basedir}/src ${basedir}/tests --error-format=checkstyle > ${basedir}/build/logs/phpstan.xml"/>
       </exec>
 
       <property name="phpstan.done" value="true" />
