@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Common\Db;
+namespace OCI\Helper;
 
 use Mockery;
 use OCI\Driver\DriverInterface;

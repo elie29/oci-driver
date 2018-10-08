@@ -34,7 +34,7 @@ class Factory
     }
 
     /**
-     * @return A singleton OCI Driver service
+     * @return DriverInterface A singleton OCI Driver service
      *  based on a previous call to self::init.
      */
     public static function get(): DriverInterface
@@ -52,7 +52,7 @@ class Factory
      * @param resource $connection
      * @param string $env dev|prod for DebuggerInterface
      *
-     * @return A new instance of OCI Driver service.
+     * @return DriverInterface A new instance of OCI Driver service.
      */
     public static function create($connection, string $env): DriverInterface
     {

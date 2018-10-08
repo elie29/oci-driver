@@ -51,7 +51,7 @@ interface DriverInterface
      * Fetch all data.
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $binds Optional for bound parameters.
+     * @param Parameter $bind Optional for bound parameters.
      *
      *  @return array
      */
@@ -61,7 +61,7 @@ interface DriverInterface
      * Fetch one row.
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $binds Optional for bound parameters.
+     * @param Parameter $bind Optional for bound parameters.
      *
      *  @return array
      */
@@ -71,7 +71,7 @@ interface DriverInterface
      * Executes only the query. Useful when dealing with CLob.
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $binds Optional for bound parameters.
+     * @param Parameter $bind Optional for bound parameters.
      *
      * @return resource
      */

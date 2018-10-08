@@ -28,8 +28,9 @@ class DriverTest extends OCITestCase
 
     public function testCreateInstanceWithMock(): void
     {
+        $connection = Provider::getConnection();
         $debugger = Mockery::mock(DebuggerInterface::class);
-        $driver = new Driver('test', $debugger);
+        $driver = new Driver($connection, $debugger);
 
         assertThat($driver, anInstanceOf(DriverInterface::class));
     }

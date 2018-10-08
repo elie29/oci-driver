@@ -31,7 +31,7 @@ class Driver implements DriverInterface
 
     /**
      * @param resource $connection
-     * @param DebuggerInterface $debuger
+     * @param DebuggerInterface $debugger
      */
     public function __construct($connection, DebuggerInterface $debugger)
     {
@@ -107,7 +107,7 @@ class Driver implements DriverInterface
         $statement = oci_parse($this->connection, $sql);
 
         if ($statement === false) {
-            $this->error($this->connection);
+            $this->error($sql, $this->connection);
         }
 
         $this->ociExecuteAndDebug($statement, $sql, $bind);
@@ -129,7 +129,7 @@ class Driver implements DriverInterface
             $this->error($sql, $statement);
         }
 
-        $this->debugger->end($sql, $attributes, $this);
+        $this->debugger->end($sql, $attributes);
     }
 
     private function error(string $sql, $resource = null): void

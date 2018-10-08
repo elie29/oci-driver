@@ -100,7 +100,7 @@ class Parameter
      * @param int $maxlength Data maxlength.
      * @param int $type Supported types SQLT_CHR.
      *
-     * @return OCIDriverParameterBind
+     * @return Parameter
      */
     private function genericAdd(string $column, $variable, int $maxlength, int $type): self
     {
