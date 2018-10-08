@@ -8,5 +8,6 @@
 /composer.lock export-ignore
 /phpcs.xml export-ignore
 /phpmd.xml export-ignore
+/phpstan.neon export-ignore
 /phpunit.xml.dist export-ignore
 /tests/ export-ignore
