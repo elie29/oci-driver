@@ -10,8 +10,9 @@
    <property name="phpunit" value="${basedir}/vendor/bin/phpunit.bat" />
    <property name="phpcb" value="${basedir}/vendor/bin/phpcb.bat" />
    <property name="phpmetrics" value="${basedir}/vendor/bin/phpmetrics.bat" />
+   <property name="phpstan" value="${basedir}/vendor/bin/phpstan.bat" />
 
-   <target name="build" depends="static-analysis,phpunit,phpcb,phpmetrics,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation" />
+   <target name="build" depends="static-analysis,phpunit,phpcb,phpmetrics,phpstan,-check-failure" description="Performs static analysis, runs the tests, and generates project documentation" />
 
    <target name="static-analysis" depends="lint,pdepend,phploc,phpmd,phpcs,phpcpd" description="Performs static analysis" />
 
@@ -143,6 +144,15 @@
 
       <property name="phpmetrics.done" value="true" />
    </target>
+
+   <target name="phpstan" unless="phpstan.done" depends="prepare" description="PHP Static Analysis Tool - discover bugs in your code without running it">
+      <exec executable="${phpstan}" taskname="phpstan">
+         <arg line="analyse ${basedir}/src ${basedir}/tests> ${basedir}/build/logs/phpstan.xml"/>
+      </exec>
+
+      <property name="phpstan.done" value="true" />
+   </target>
+
 
    <target name="-check-failure">
       <fail message="PHPUnit did not finish successfully">
