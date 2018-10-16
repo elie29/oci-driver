@@ -36,8 +36,8 @@ class Connection
         $connection = @oci_pconnect($this->user, $this->password, $this->dbname, $this->charset);
 
         if (! $connection) {
-            trigger_error(sprintf('Connection error %s, %s', $this->user, $this->dbname), E_USER_WARNING);
-            throw new DriverException('OCI Connection error');
+            $message = sprintf('Connection error %s, %s', $this->user, $this->dbname);
+            throw new DriverException($message);
         }
 
         return $connection;

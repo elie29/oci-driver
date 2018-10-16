@@ -6,7 +6,7 @@
    backupStaticAttributes="false"
    beStrictAboutTestsThatDoNotTestAnything="false"
    beStrictAboutTodoAnnotatedTests="true"
-   convertWarningsToExceptions="false"
+   convertWarningsToExceptions="true"
    stopOnFailure="false"
    verbose="true" 
    colors="true">

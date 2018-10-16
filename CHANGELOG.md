@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#22](https://github.com/elie29/oci-driver/issues/22) Delete trigger_error.
 
 ### Deprecated
 

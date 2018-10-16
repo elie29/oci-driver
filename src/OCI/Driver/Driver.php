@@ -125,7 +125,7 @@ class Driver implements DriverInterface
             oci_bind_by_name($statement, $column, $params->variable, $params->length, $params->type);
         }
 
-        if (! oci_execute($statement, $this->commitOption)) {
+        if (! @oci_execute($statement, $this->commitOption)) {
             $this->error($sql, $statement);
         }
 
@@ -136,14 +136,15 @@ class Driver implements DriverInterface
     {
         $ociError = oci_error($resource);
 
+        $message = 'OCI Driver error';
         if ($ociError) {
-            trigger_error(sprintf('SQL error: %s, SQL: %s', $ociError['message'], $sql), E_USER_WARNING);
+            $message = sprintf('SQL error: %s, SQL: %s', $ociError['message'], $sql);
         }
 
         if (OCI_NO_AUTO_COMMIT === $this->commitOption) {
             $this->rollbackTransaction();
         }
 
-        throw new DriverException('OCI Driver error');
+        throw new DriverException($message);
     }
 }
