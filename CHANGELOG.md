@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#24](https://github.com/elie29/oci-driver/issues/24) Create a light query builder.
 
 ### Changed
 
