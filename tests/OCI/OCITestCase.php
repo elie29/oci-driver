@@ -10,11 +10,6 @@ use PHPUnit\Framework\TestCase;
 class OCITestCase extends TestCase
 {
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-    }
-
     protected function tearDown(): void
     {
         Mockery::close();
