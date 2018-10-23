@@ -216,7 +216,7 @@ class Select extends AbstractCommonBuilder
      */
     public function andHaving(string $having): self
     {
-        return $this->having('AND ' . $having);
+        return $this->add(self::HAVING, 'AND ' . $having);
     }
 
     /**
@@ -241,7 +241,7 @@ class Select extends AbstractCommonBuilder
      */
     public function orHaving(string $having): self
     {
-        return $this->having('OR ' . $having);
+        return $this->add(self::HAVING, 'OR ' . $having);
     }
 
     /**
