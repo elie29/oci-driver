@@ -11,7 +11,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#25](https://github.com/elie29/oci-driver/issues/25) Call immediate function with andHaving.
+- [#24](https://github.com/elie29/oci-driver/issues/24) Call immediate function with andWhere.
 
 ### Deprecated
 
@@ -29,7 +30,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- [#24](https://github.com/elie29/oci-driver/issues/24) Create a light query builder.
+- [#23](https://github.com/elie29/oci-driver/issues/23) Create a light query builder.
 
 ### Changed
 
