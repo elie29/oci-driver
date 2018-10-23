@@ -27,6 +27,53 @@
 
 Run `composer install`
 
+## Using OCI Query Builder
+OCI Query Builder provides a light builder class to dynamically create SQL queries.
+It **does not** validate the query at all.
+
+### Select builder
+```php
+// SELECT * FROM params ORDER BY name ASC
+$sql = Select::start() // aka (new Select)
+    ->column('*')
+    ->from('params')
+    ->orderBy('name')
+    ->build();
+```
+
+### Delete builder
+```php
+// DELETE FROM params WHERE id = 2
+$sql = Delete::start() // aka (new Delete)
+    ->from('params')
+    ->where('id = 2')
+    ->build();
+```
+
+### Update builder
+```php
+// UPDATE users u SET u.name = 'O''neil' WHERE u.user_id = 1
+$sql = Update::start() // aka (new Update)
+    ->table('users', 'u')
+    ->set('u.name', Update::quote("O'neil"))
+    ->where('u.user_id = 1')
+    ->build();
+```
+
+### Insert builder
+```php
+// INSERT INTO params (user_id, name) VALUES (:id, :name)
+$sql = Insert::start() // aka (new Insert)
+    ->into('params')
+    ->values([
+        'user_id' => ':id',
+        'name'    => ':name',
+    ])
+    ->build();
+```
+
+> More examples are found in tests/OCI/Query/Builder folder.
+
 ## Using OCI Driver Class
 
 ### Insert/Update Example
