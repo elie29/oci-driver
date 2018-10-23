@@ -51,7 +51,7 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      */
     public function andWhere(string $condition): self
     {
-        return $this->where('AND ' . $condition);
+        return $this->add(self::WHERE, 'AND ' . $condition);
     }
 
     /**
@@ -75,7 +75,7 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      */
     public function orWhere(string $condition): self
     {
-        return $this->where('OR ' . $condition);
+        return $this->add(self::WHERE, 'OR ' . $condition);
     }
 
     /**
