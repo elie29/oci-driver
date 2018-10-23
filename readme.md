@@ -28,7 +28,7 @@
 Run `composer install`
 
 ## Using OCI Query Builder
-OCI Query Builder provides a light builder class to dynamically create SQL queries.
+OCI Query Builder provides a lightweight builder to dynamically create SQL queries.
 It **does not** validate the query at all.
 
 ### Select builder
