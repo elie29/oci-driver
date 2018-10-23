@@ -14,7 +14,7 @@ class Select extends AbstractCommonBuilder
     /**
      * Add a column to the select.
      * <code>
-     *    // SELECT p.id, p.name FROM params p
+     *    // SELECT p.id, p.name FROM params p<br/>
      *    $sql = Select::start()
      *        ->column('id', 'p')
      *        ->column('name', 'p')
@@ -37,7 +37,7 @@ class Select extends AbstractCommonBuilder
      * Add a list of columns to the select.
      *
      * <code>
-     *    // SELECT p.id, p.name, p.active FROM params p
+     *    // SELECT p.id, p.name, p.active FROM params p<br/>
      *    $sql = Select::start()
      *        ->column('id', 'p')
      *        ->columns(['name', 'active'], 'p')
@@ -61,7 +61,7 @@ class Select extends AbstractCommonBuilder
      * Adds table name to the query structure.
      *
      * <code>
-     *    // SELECT p.id from params p, users u where p.user_id = u.user_id
+     *    // SELECT p.id from params p, users u where p.user_id = u.user_id<br/>
      *    $sql = Select::start()
      *        ->column('id', 'p')
      *        ->from('params', 'p')
@@ -86,7 +86,7 @@ class Select extends AbstractCommonBuilder
     /**
      * Adds an inner join in the query structure.
      * <code>
-     *    // SELECT p.* FROM params p INNER JOIN users u ON u.user_id = p.user_id
+     *    // SELECT p.* FROM params p INNER JOIN users u ON u.user_id = p.user_id<br/>
      *    $sql = Select::start()
      *        ->column('*', 'p')
      *        ->from('params', 'p')
@@ -108,7 +108,7 @@ class Select extends AbstractCommonBuilder
     /**
      * Adds a left join in the query structure.
      * <code>
-     *    // SELECT p.* FROM params p LEFT JOIN users u ON u.user_id = p.user_id
+     *    // SELECT p.* FROM params p LEFT JOIN users u ON u.user_id = p.user_id<br/>
      *    $sql = Select::start()
      *        ->column('*', 'p')
      *        ->from('params', 'p')
@@ -131,7 +131,7 @@ class Select extends AbstractCommonBuilder
      * Adds a right join in the query structure.
      *
      * <code>
-     *    // SELECT u.* FROM params p RIGHT JOIN users u ON u.user_id = p.user_id
+     *    // SELECT u.* FROM params p RIGHT JOIN users u ON u.user_id = p.user_id<br/>
      *    $sql = Select::start()
      *        ->column('*', 'u')
      *        ->from('params', 'p')
@@ -154,7 +154,7 @@ class Select extends AbstractCommonBuilder
      * Adds a group by in the query structure.
      *
      * <code>
-     *    // SELECT MAX(p.id) FROM params p GROUP BY p.user_id, p.name
+     *    // SELECT MAX(p.id) FROM params p GROUP BY p.user_id, p.name<br/>
      *    $sql = Select::start()
      *        ->column('MAX(p.id)')
      *        ->from('params', 'p')
@@ -176,7 +176,7 @@ class Select extends AbstractCommonBuilder
      * Adds predicate having to the query.
      *
      * <code>
-     *    // SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3
+     *    // SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3<br/>
      *    $sql = Select::start()
      *        ->columns(['name', 'MAX(user_id)'])
      *        ->from('params')
@@ -199,7 +199,7 @@ class Select extends AbstractCommonBuilder
      * Should be added after a having.
      *
      * <code>
-     *    // SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 AND name = :name
+     *    // SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 AND name = :name<br/>
      *    $sql = Select::start()
      *        ->columns(['name', 'MAX(user_id)'])
      *        ->from('params')
@@ -224,7 +224,7 @@ class Select extends AbstractCommonBuilder
      * Should be added after a having.
      *
      * <code>
-     *    // SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 OR name = :name
+     *    // SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 OR name = :name<br/>
      *    $sql = Select::start()
      *        ->columns(['name', 'MAX(user_id)'])
      *        ->from('params')
@@ -248,7 +248,7 @@ class Select extends AbstractCommonBuilder
      * Append a union to the query structure.
      *
      * <code>
-     *    // SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC
+     *    // SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC<br/>
      *    $sql = Select::start()
      *        ->column('p.id')
      *        ->from('params', 'p')

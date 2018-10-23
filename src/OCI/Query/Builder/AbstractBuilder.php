@@ -20,7 +20,7 @@ abstract class AbstractBuilder implements BuilderInterface
     /**
      * Shortcut to start building the query.
      * <code>
-     *    // SELECT u.name FROM users u
+     *    // SELECT u.name FROM users u<br/>
      *    $sql = Select::start()
      *        ->column('name', 'u')
      *        ->from('users', 'u')

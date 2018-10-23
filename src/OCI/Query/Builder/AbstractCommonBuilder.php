@@ -14,7 +14,7 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      * Adds predicate to the query.
      *
      * <code>
-     *     // DELETE FROM params p WHERE (p.name = :name AND p.id = :id) OR p.active = :active
+     *     // DELETE FROM params p WHERE (p.name = :name AND p.id = :id) OR p.active = :active<br/>
      *     $sql = Delete::start()
      *         ->from('params', 'p')
      *         ->where('(p.name = :name AND p.id = :id) OR p.active = :active')
@@ -35,7 +35,7 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      * Should be added after a where.
      *
      * <code>
-     *     // UPDATE params p SET p.id = :id WHERE p.name = :name AND (p.id = :id OR p.active = :active)
+     *     // UPDATE params p SET p.id = :id WHERE p.name = :name AND (p.id = :id OR p.active = :active)<br/>
      *     $sql = Update::start()
      *         ->table('params', 'p')
      *         ->set('p.id', ':id')
@@ -59,7 +59,7 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      * Should be added after a where.
      *
      * <code>
-     *     // SELECT p.* FROM params p WHERE p.name = :name OR (p.id = :id AND p.active = :active)
+     *     // SELECT p.* FROM params p WHERE p.name = :name OR (p.id = :id AND p.active = :active)<br/>
      *     $sql = Select::start()
      *         ->column('p.*)
      *         ->from('params', 'p')
