@@ -40,33 +40,20 @@ class UpdateTest extends TestCase
      * UPDATE params p1
      * SET p1.name = :name
      * WHERE p1.id = :id
-     * AND EXISTS ( -- outer
+     * AND EXISTS (
      *    SELECT 1
-     *    FROM (SELECT id FROM params WHERE active = :active ORDER BY name DESC) p2 -- inner
+     *    FROM (SELECT id FROM params WHERE active = :active ORDER BY name DESC) p2
      *    WHERE p2.id = p1.id
      *    AND ROWNUM  = 1
      * );
      */
     public function testUpdateUsingSelect(): void
     {
-        $inner = Select::start()
-            ->column('id')
-            ->from('params')
-            ->where('active = :active')
-            ->orderBy('name', 'DESC');
-
-        $outer = Select::start()
-            ->column('1')
-            ->from($inner, 'p2')
-            ->where('p2.id = p1.id')
-            ->andWhere('ROWNUM = 1')
-            ->build();
-
         $update = Update::start()
             ->table('params', 'p1')
             ->set('p1.name', ':name')
             ->where('p1.id = :id')
-            ->andWhere("EXISTS ($outer)")
+            ->andWhere("EXISTS ({$this->lastParam()})")
             ->build();
 
         $expected = 'UPDATE params p1 SET p1.name = :name WHERE '
@@ -75,5 +62,21 @@ class UpdateTest extends TestCase
                   . 'WHERE p2.id = p1.id AND ROWNUM = 1)';
 
         assertThat($update, is($expected));
+    }
+
+    private function lastParam(): string
+    {
+        $lastParamId = Select::start()
+            ->column('id')
+            ->from('params')
+            ->where('active = :active')
+            ->orderBy('name', 'DESC'); // if build is called, parentheses become required
+
+        return Select::start()
+            ->column('1')
+            ->from($lastParamId, 'p2')
+            ->where('p2.id = p1.id')
+            ->andWhere('ROWNUM = 1')
+            ->build();
     }
 }

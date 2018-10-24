@@ -59,6 +59,8 @@ class Select extends AbstractCommonBuilder
 
     /**
      * Adds table name to the query structure.
+     * When Select instance is passed, build is encompassed in parentheses.
+     *
      *
      * <code>
      *    // SELECT p.id from params p, users u where p.user_id = u.user_id<br/>
