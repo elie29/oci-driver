@@ -93,4 +93,12 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
         $this->query[$part][] = $sqlPart;
         return $this;
     }
+
+    /**
+     * @param string $alias Empty string or an alias.
+     */
+    protected function getTableAlias(string $alias): string
+    {
+        return $alias ? self::SPACE . $alias : self::EMPTY;
+    }
 }

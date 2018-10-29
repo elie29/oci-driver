@@ -17,7 +17,7 @@ class Update extends AbstractCommonBuilder
      */
     public function table(string $table, string $alias = self::EMPTY): self
     {
-        $this->query[self::TABLE] = $table . ($alias ? ' ' . $alias : self::EMPTY);
+        $this->query[self::TABLE] = $table . $this->getTableAlias($alias);
         return $this;
     }
 

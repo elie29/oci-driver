@@ -82,7 +82,7 @@ class Select extends AbstractCommonBuilder
         if ($table instanceof Select) {
             $table = '(' . $table->build() . ')';
         }
-        return $this->add(self::FROM, $table . ($alias ? ' ' . $alias : self::EMPTY));
+        return $this->add(self::FROM, $table . $this->getTableAlias($alias));
     }
 
     /**
@@ -104,7 +104,7 @@ class Select extends AbstractCommonBuilder
      */
     public function join(string $table, string $alias, string $condition): self
     {
-        return $this->add(self::JOIN, 'INNER JOIN ' . $table . self::SPACE . $alias . ' ON ' . $condition);
+        return $this->forJoin('INNER JOIN', $table, $alias, $condition);
     }
 
     /**
@@ -126,7 +126,7 @@ class Select extends AbstractCommonBuilder
      */
     public function leftJoin(string $table, string $alias, string $condition): self
     {
-        return $this->add(self::JOIN, 'LEFT JOIN ' . $table . self::SPACE . $alias . ' ON ' . $condition);
+        return $this->forJoin('LEFT JOIN', $table, $alias, $condition);
     }
 
     /**
@@ -149,7 +149,7 @@ class Select extends AbstractCommonBuilder
      */
     public function rightJoin(string $table, string $alias, string $condition): self
     {
-        return $this->add(self::JOIN, 'RIGHT JOIN ' . $table . self::SPACE . $alias . ' ON ' . $condition);
+        return $this->forJoin('RIGHT JOIN', $table, $alias, $condition);
     }
 
     /**
@@ -281,7 +281,7 @@ class Select extends AbstractCommonBuilder
      */
     public function orderBy(string $sort, string $order = 'ASC'): self
     {
-        return $this->add(self::ORDERBY, $sort . ' ' . $order);
+        return $this->add(self::ORDERBY, $sort . self::SPACE . $order);
     }
 
     /**
@@ -374,5 +374,13 @@ class Select extends AbstractCommonBuilder
         }
 
         return $query;
+    }
+
+    /**
+     * @param string $join INNER JOIN, LEFT JOIN or RIGHT JOIN
+     */
+    protected function forJoin(string $join, string $table, string $alias, string $condition): self
+    {
+        return $this->add(self::JOIN, $join . self::SPACE . $table . self::SPACE . $alias . ' ON ' . $condition);
     }
 }
