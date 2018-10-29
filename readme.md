@@ -43,7 +43,7 @@ $sql = Select::start() // aka (new Select)
 
 ### Select builder with union
 ```php
-// SELECT p.id FROM params p UNION select p.id from params_his p ORDER BY id ASC
+// SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC
 $sql = Select::start() // aka (new Select)
     ->column('p.id')
     ->from('params', 'p')
