@@ -41,6 +41,19 @@ $sql = Select::start() // aka (new Select)
     ->build();
 ```
 
+### Select builder with union
+```php
+// SELECT p.id FROM params p UNION select p.id from params_his p ORDER BY id ASC
+$sql = Select::start() // aka (new Select)
+    ->column('p.id')
+    ->from('params', 'p')
+    ->union()
+    ->column('p.id')
+    ->from('params_his', 'p')
+    ->orderBy('id')
+    ->build();
+```
+
 ### Delete builder
 ```php
 // DELETE FROM params WHERE id = 2
