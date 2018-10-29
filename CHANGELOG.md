@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file, in reverse 
 ### Changed
 
 - [#26](https://github.com/elie29/oci-driver/issues/26) Code refactoring.
+- [#27](https://github.com/elie29/oci-driver/issues/27) Indicate visibility of constants.
 
 ### Deprecated
 

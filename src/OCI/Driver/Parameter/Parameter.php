@@ -10,7 +10,7 @@ namespace OCI\Driver\Parameter;
 class Parameter
 {
 
-    const DEFAULT_MAX_LEN = -1;
+    public const DEFAULT_MAX_LEN = -1;
 
     /**
      * @var array
