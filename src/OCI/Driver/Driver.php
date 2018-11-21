@@ -39,7 +39,7 @@ class Driver implements DriverInterface
         $this->debugger = $debugger;
     }
 
-    public function getConnexion()
+    public function getConnection()
     {
         return $this->connection;
     }

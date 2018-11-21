@@ -24,11 +24,11 @@ interface DriverInterface
     public function commitTransaction();
 
     /**
-     * Returns current connexion.
+     * Returns current connection.
      *
      * @return resource
      */
-    public function getConnexion();
+    public function getConnection();
 
     /**
      * Rollabck ends current transaction.

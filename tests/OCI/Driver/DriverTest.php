@@ -226,7 +226,7 @@ class DriverTest extends OCITestCase
         $bind->add(':NUM', 2);
 
         // Write mode
-        $bind->addForCLob($driver->getConnexion(), ':LOB', file_get_contents(__FILE__));
+        $bind->addForCLob($driver->getConnection(), ':LOB', file_get_contents(__FILE__));
 
         $count = $driver->executeUpdate($sql, $bind);
 
@@ -264,7 +264,7 @@ class DriverTest extends OCITestCase
         $bind->add(':N1', 5);
 
         // Read mode
-        $bind->addForCLob($driver->getConnexion(), ':myLob');
+        $bind->addForCLob($driver->getConnection(), ':myLob');
 
         $driver->beginTransaction();
 
@@ -293,7 +293,7 @@ class DriverTest extends OCITestCase
         $bind->add(':N1', 2);
 
         // Read mode
-        $bind->addForCLob($driver->getConnexion(), ':myLob');
+        $bind->addForCLob($driver->getConnection(), ':myLob');
 
         $statement = $driver->executeQuery($sql, $bind);
 
