@@ -12,7 +12,7 @@ use Debugger;
 class DebuggerDump implements DebuggerInterface
 {
 
-    private $startTime = 0;
+    protected $startTime = 0;
 
     /**
      * {@inheritDoc}

@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
+- [#30](https://github.com/elie29/oci-driver/issues/30) Change visibility.
 - [#29](https://github.com/elie29/oci-driver/issues/29) Comment changes.
 
 ### Deprecated
