@@ -23,14 +23,14 @@ class Select extends AbstractCommonBuilder
      * </code>
      *
      * @param string $name Column name.
-     * @param string $alias Optional column alias.
+     * @param string $prefix Optional column prefix.
      *
      * @return self
      */
-    public function column(string $name, string $alias = self::EMPTY): self
+    public function column(string $name, string $prefix = self::EMPTY): self
     {
-        $alias .= ($alias ? '.' : self::EMPTY);
-        return $this->add(self::COLUMNS, $alias . $name);
+        $prefix .= ($prefix ? '.' : self::EMPTY);
+        return $this->add(self::COLUMNS, $prefix . $name);
     }
 
     /**
@@ -46,15 +46,15 @@ class Select extends AbstractCommonBuilder
      * </code>
      *
      * @param array $list List of columns.
-     * @param string $alias Optional columns alias.
+     * @param string $prefix Optional column prefix.
      *
      * @return self
      */
-    public function columns(array $list, string $alias = self::EMPTY): self
+    public function columns(array $list, string $prefix = self::EMPTY): self
     {
-        $alias .= ($alias ? '.' : self::EMPTY);
+        $prefix .= ($prefix ? '.' : self::EMPTY);
 
-        return $this->add(self::COLUMNS, $alias . implode(self::COMMA . $alias, $list));
+        return $this->add(self::COLUMNS, $prefix . implode(self::COMMA . $prefix, $list));
     }
 
     /**
