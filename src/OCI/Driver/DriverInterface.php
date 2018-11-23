@@ -45,7 +45,27 @@ interface DriverInterface
      *
      *  @return int
      */
-    public function executeUpdate($sql, Parameter $bind = null);
+    public function executeUpdate($sql, Parameter $bind = null): int;
+
+    /**
+     * Fetch all data by column (indexed array).
+     *
+     * @param string $sql Query could be bound.
+     * @param Parameter $bind Optional for bound parameters.
+     *
+     *  @return array
+     */
+    public function fetchColumns($sql, Parameter $bind = null): array;
+
+    /**
+     * Fetch one column (indexed array).
+     *
+     * @param string $sql Query could be bound.
+     * @param Parameter $bind Optional for bound parameters.
+     *
+     *  @return array
+     */
+    public function fetchColumn($sql, Parameter $bind = null): array;
 
     /**
      * Fetch all data.
@@ -55,7 +75,7 @@ interface DriverInterface
      *
      *  @return array
      */
-    public function fetchAllAssoc($sql, Parameter $bind = null);
+    public function fetchAllAssoc($sql, Parameter $bind = null): array;
 
     /**
      * Fetch one row.
@@ -65,7 +85,7 @@ interface DriverInterface
      *
      *  @return array
      */
-    public function fetchAssoc($sql, Parameter $bind = null);
+    public function fetchAssoc($sql, Parameter $bind = null): array;
 
     /**
      * Executes only the query. Useful when dealing with CLob.

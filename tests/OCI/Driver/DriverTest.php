@@ -125,6 +125,30 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
+    public function testFetchColumns()
+    {
+        $driver = Provider::getDriver();
+        $sql = 'SELECT N_NUM, N_NUM_3 FROM A1';
+
+        $cols = $driver->fetchColumns($sql);
+        assertThat($cols, arrayWithSize(2));
+    }
+
+    /**
+     * @depends testExecuteUpdateWithoutBindNorTransaction
+     */
+    public function testFetchColumn()
+    {
+        $driver = Provider::getDriver();
+        $sql = 'SELECT N_NUM, N_NUM_3 FROM A1';
+
+        $cols = $driver->fetchColumn($sql);
+        assertThat($cols, nonEmptyArray());
+    }
+
+    /**
+     * @depends testExecuteUpdateWithoutBindNorTransaction
+     */
     public function testFetchAssocWithBind(): void
     {
         $driver = Provider::getDriver();

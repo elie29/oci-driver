@@ -13,6 +13,7 @@ class Driver implements DriverInterface
     /** OPTIONS pour oci_fetch */
     public const FETCH_ALL_OPT = OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
     public const FETCH_ARRAY_OPT = OCI_ASSOC + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
+    public const FETCH_ONE_COL = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
 
     /**
      * @var resource
@@ -73,6 +74,26 @@ class Driver implements DriverInterface
         oci_free_statement($statement);
 
         return (int) $count;
+    }
+
+    public function fetchColumns($sql, Parameter $bind = null): array
+    {
+        $statement = $this->executeQuery($sql, $bind);
+
+        $data = [];
+
+        oci_fetch_all($statement, $data, 0, -1, self::FETCH_ONE_COL);
+
+        oci_free_statement($statement);
+
+        return $data ?: [];
+    }
+
+    public function fetchColumn($sql, Parameter $bind = null): array
+    {
+        $data = $this->fetchColumns($sql, $bind);
+
+        return $data[0] ?? [];
     }
 
     public function fetchAllAssoc($sql, Parameter $bind = null): array
