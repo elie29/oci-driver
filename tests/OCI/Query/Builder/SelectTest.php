@@ -62,6 +62,19 @@ class SelectTest extends TestCase
         assertThat($sql, is($expected));
     }
 
+    public function testSelectWhereOnly(): void
+    {
+        $sql = Select::start()
+            ->column('p.*')
+            ->from('params', 'p')
+            ->where('p.id = 1')
+            ->Where('(p.id = 5 OR p.id = 3)')
+            ->build();
+
+        $expected = 'SELECT p.* FROM params p WHERE p.id = 1 AND (p.id = 5 OR p.id = 3)';
+        assertThat($sql, is($expected));
+    }
+
     public function testSelectWhereAnd(): void
     {
         $sql = Select::start()
@@ -72,6 +85,19 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.* FROM params p WHERE p.id = 1 AND (p.id = 5 OR p.id = 3)';
+        assertThat($sql, is($expected));
+    }
+
+    public function testSelectWhereAndReversed(): void
+    {
+        $sql = Select::start()
+            ->column('p.*')
+            ->from('params', 'p')
+            ->andWhere('(p.id = 5 OR p.id = 3)')
+            ->where('p.id = 1')
+            ->build();
+
+        $expected = 'SELECT p.* FROM params p WHERE (p.id = 5 OR p.id = 3) AND p.id = 1';
         assertThat($sql, is($expected));
     }
 

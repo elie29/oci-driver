@@ -12,6 +12,7 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
 
     /**
      * Adds predicate to the query.
+     * Alias of andWhere
      *
      * <code>
      *     // DELETE FROM params p WHERE (p.name = :name AND p.id = :id) OR p.active = :active<br/>
@@ -27,12 +28,11 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      */
     public function where(string $condition): self
     {
-        return $this->add(self::WHERE, $condition);
+        return $this->andWhere($condition);
     }
 
     /**
      * Adds predicate "and" to the query.
-     * Should be added after a where.
      *
      * <code>
      *     // UPDATE params p SET p.id = :id WHERE p.name = :name AND (p.id = :id OR p.active = :active)<br/>
@@ -42,16 +42,27 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      *         ->where('p.name = :name')
      *         ->andWhere('(p.id = :id OR p.active = :active)')
      *         ->build();
+     *
+     *     // UPDATE params p SET p.id = :id WHERE (p.id = :id OR p.active = :active) AND p.name = :name<br/>
+     *     $sql = Update::start()
+     *         ->table('params', 'p')
+     *         ->set('p.id', ':id')
+     *         ->andWhere('(p.id = :id OR p.active = :active)')
+     *         ->where('p.name = :name')
+     *         ->build();
      * </code>
      *
      * @param string $condition Simple where condition.
      *  <b>Parentheses are required when mixing or/and conditions.</b>
-     *
+     *  <b>If no where exists, the andWhere is considered as a simple where.
      * @return self
      */
     public function andWhere(string $condition): self
     {
-        return $this->add(self::WHERE, 'AND ' . $condition);
+        if ($this->query[self::WHERE]) {
+            $condition = 'AND ' . $condition;
+        }
+        return $this->add(self::WHERE, $condition);
     }
 
     /**
