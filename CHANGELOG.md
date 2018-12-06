@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
+- [#32](https://github.com/elie29/oci-driver/issues/32) Oracle and IN limit 1000 units.
 - [#33](https://github.com/elie29/oci-driver/issues/33) andWhere method enhancement.
 
 ### Deprecated
