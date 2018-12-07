@@ -54,7 +54,7 @@ class ClauseInParamsHelper
     protected static function assertMax(array $values): void
     {
         if (count($values) > self::MAX_AUTHORISED_IN_VALUES) {
-            throw new DriverException(self::MAX_AUTHORISED_IN_VALUES . ' is only authorised with oci');
+            throw new DriverException(self::MAX_AUTHORISED_IN_VALUES . ' only allowed with oci');
         }
     }
 }
