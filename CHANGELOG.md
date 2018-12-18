@@ -3,7 +3,7 @@ Changelog
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## V1.0.8 - TBD
+## V1.0.8 - 2018-12-18
 
 ### Added
 
