@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#34](https://github.com/elie29/oci-driver/issues/34) Ignore the join when the same table/alias is used.
 
 ### Changed
 

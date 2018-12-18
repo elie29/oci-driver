@@ -10,6 +10,8 @@ class Select extends AbstractCommonBuilder
     protected $limit  = 0;
     protected $offset = 0;
     protected $sql    = '';
+    // Preserves tables with aliases used in join syntax.
+    protected $joins = [];
 
     /**
      * Add a column to the select.
@@ -87,6 +89,7 @@ class Select extends AbstractCommonBuilder
 
     /**
      * Adds an inner join in the query structure.
+     * If the table with the same alias exists already, we ignore the join.
      * <code>
      *    // SELECT p.* FROM params p INNER JOIN users u ON u.user_id = p.user_id<br/>
      *    $sql = Select::start()
@@ -109,6 +112,7 @@ class Select extends AbstractCommonBuilder
 
     /**
      * Adds a left join in the query structure.
+     * If the table with the same alias exists already, we ignore the join.
      * <code>
      *    // SELECT p.* FROM params p LEFT JOIN users u ON u.user_id = p.user_id<br/>
      *    $sql = Select::start()
@@ -131,7 +135,7 @@ class Select extends AbstractCommonBuilder
 
     /**
      * Adds a right join in the query structure.
-     *
+     * If the table with the same alias exists already, we ignore the join.
      * <code>
      *    // SELECT u.* FROM params p RIGHT JOIN users u ON u.user_id = p.user_id<br/>
      *    $sql = Select::start()
@@ -268,6 +272,8 @@ class Select extends AbstractCommonBuilder
         $this->sql .= $this->buildPartial();
         $this->sql .= ' UNION ';
 
+        $this->joins = [];
+
         return $this->reset();
     }
 
@@ -317,7 +323,11 @@ class Select extends AbstractCommonBuilder
         }
 
         $this->reset();
+
+        $this->limit = 0;
+        $this->offset = 0;
         $this->sql = '';
+        $this->joins = [];
 
         return $res;
     }
@@ -381,6 +391,14 @@ class Select extends AbstractCommonBuilder
      */
     protected function forJoin(string $join, string $table, string $alias, string $condition): self
     {
+        $key = $alias . $table;
+
+        if (isset($this->joins[$key])) {
+            return $this;
+        }
+
+        $this->joins[$key] = true;
+
         return $this->add(self::JOIN, $join . self::SPACE . $table . self::SPACE . $alias . ' ON ' . $condition);
     }
 }
