@@ -252,9 +252,11 @@ class Select extends AbstractCommonBuilder
 
     /**
      * Append a union to the query structure.
+     * It resets current order by.
      *
      * <code>
      *    // SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC<br/>
+     *    // orderBy must be at the end<br/>
      *    $sql = Select::start()
      *        ->column('p.id')
      *        ->from('params', 'p')
@@ -275,6 +277,37 @@ class Select extends AbstractCommonBuilder
         $this->joins = [];
 
         return $this->reset();
+    }
+
+    /**
+     * Append a union to the current Select with another Select.
+     * It resets current order by.
+     *
+     * <code>
+     *    // SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC<br/>
+     *    // orderBy must be at the end and not within unionWith<br/>
+     *    $sql = Select::start()
+     *        ->column('p.id')
+     *        ->from('params', 'p')
+     *        ->unionWith(
+     *          Select::start()
+     *           ->column('p.id')
+     *           ->from('params_his', 'p')
+     *        )
+     *        ->build();
+     * </code>
+     *
+     * @param Select $select Select Object without orderBy.
+     *
+     * @return self
+     */
+    public function unionWith(Select $select): self
+    {
+        $this->union();
+
+        $this->sql .= $select->build();
+
+        return $this;
     }
 
     /**
@@ -339,6 +372,11 @@ class Select extends AbstractCommonBuilder
      */
     protected function buildPartial(): string
     {
+        // Columns are required to build the query
+        if (! $this->query[self::COLUMNS]) {
+            return '';
+        }
+
         $res  = 'SELECT ' . $this->implode(self::COLUMNS);
         $res .= ' FROM ' .  $this->implode(self::FROM);
 

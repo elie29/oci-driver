@@ -143,6 +143,22 @@ class SelectTest extends TestCase
         assertThat($sql, is($expected));
     }
 
+    public function testSelectUnionWithOrderBy(): void
+    {
+        $sql = Select::start()
+            ->column('p.id')
+            ->from('params', 'p')
+            ->unionWith(Select::start()
+                ->column('p.id')
+                ->from('params_his', 'p')
+            )
+            ->orderBy('id')
+            ->build();
+
+        $expected = 'SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC';
+        assertThat($sql, is($expected));
+    }
+
     public function testSelectWithLimit(): void
     {
         $sql = Select::start()

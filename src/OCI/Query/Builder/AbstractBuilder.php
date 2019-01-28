@@ -55,16 +55,16 @@ abstract class AbstractBuilder implements BuilderInterface
     protected function reset(): self
     {
         $this->query = [
-            'columns' => [], // select
-            'from'    => [], // select
-            'table'   => '', // insert, update, delete
-            'join'    => [], // select
-            'where'   => [], // select, update, delete
-            'groupBy' => [], // select
-            'having'  => [], // select
-            'orderBy' => [], // select
-            'values'  => [], // insert
-            'set'     => [], // update
+            self::COLUMNS => [], // select
+            self::FROM    => [], // select
+            self::TABLE   => '', // insert, update, delete
+            self::JOIN    => [], // select
+            self::WHERE   => [], // select, update, delete
+            self::GROUPBY => [], // select
+            self::HAVING  => [], // select
+            self::ORDERBY => [], // select
+            self::VALUES  => [], // insert
+            self::SET     => [], // update
         ];
         return $this;
     }
