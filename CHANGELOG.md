@@ -3,6 +3,28 @@ Changelog
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
+## V1.0.10 - TBD
+
+### Added
+
+- Nothing.
+
+### Changed
+
+- Nothing.
+
+### Deprecated
+
+- Nothing.
+
+### Removed
+
+- Nothing.
+
+### Fixed
+
+- Nothing.
+
 ## V1.0.9 - 2019-01-29
 
 ### Added
