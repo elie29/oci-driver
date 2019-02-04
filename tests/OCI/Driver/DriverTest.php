@@ -56,6 +56,17 @@ class DriverTest extends OCITestCase
         $driver->executeQuery($sql);
     }
 
+    public function testBeginRollbackInAutoCommitMode(): void
+    {
+        $driver = Provider::getDriver();
+
+        $res = $driver->commitTransaction();
+        assertThat($res, is($driver));
+
+        $res = $driver->rollbackTransaction();
+        assertThat($res, is($driver));
+    }
+
     /**
      * @dataProvider OCI\Helper\Provider::dataWithNoBind
      */

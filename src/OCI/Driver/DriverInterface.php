@@ -10,20 +10,6 @@ interface DriverInterface
 {
 
     /**
-     * Swicth to no auto commit transaction.
-     *
-     * @return self
-     */
-    public function beginTransaction();
-
-    /**
-     * Commit ends current transaction.
-     *
-     * @return self
-     */
-    public function commitTransaction();
-
-    /**
      * Returns current connection.
      *
      * @return resource
@@ -31,7 +17,23 @@ interface DriverInterface
     public function getConnection();
 
     /**
-     * Rollabck ends current transaction.
+     * Swicth to no auto commit transaction.
+     *
+     * @return self
+     */
+    public function beginTransaction();
+
+    /**
+     * Commit ends current transaction if connection is set and
+     * transaction mode is not autocommit.
+     *
+     * @return self
+     */
+    public function commitTransaction();
+
+    /**
+     * Rollabck ends current transaction if connection is set and
+     * transaction mode is not autocommit.
      *
      * @return self
      */

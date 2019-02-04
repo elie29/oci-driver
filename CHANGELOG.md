@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#36](https://github.com/elie29/oci-driver/issues/36) Check connection before commit/rollback.
 
 ### Deprecated
 

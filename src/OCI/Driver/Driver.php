@@ -53,14 +53,18 @@ class Driver implements DriverInterface
 
     public function commitTransaction(): self
     {
-        oci_commit($this->connection);
+        if ($this->connection && OCI_NO_AUTO_COMMIT === $this->commitOption) {
+            oci_commit($this->connection);
+        }
         $this->commitOption = OCI_COMMIT_ON_SUCCESS;
         return $this;
     }
 
     public function rollbackTransaction(): self
     {
-        oci_rollback($this->connection);
+        if ($this->connection && OCI_NO_AUTO_COMMIT === $this->commitOption) {
+            oci_rollback($this->connection);
+        }
         $this->commitOption = OCI_COMMIT_ON_SUCCESS;
         return $this;
     }
