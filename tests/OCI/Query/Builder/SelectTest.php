@@ -150,8 +150,7 @@ class SelectTest extends TestCase
             ->from('params', 'p')
             ->unionWith(Select::start()
                 ->column('p.id')
-                ->from('params_his', 'p')
-            )
+                ->from('params_his', 'p'))
             ->orderBy('id')
             ->build();
 

@@ -13,7 +13,7 @@ class Driver implements DriverInterface
     /** OPTIONS pour oci_fetch */
     public const FETCH_ALL_OPT = OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
     public const FETCH_ARRAY_OPT = OCI_ASSOC + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
-    public const FETCH_ONE_COL = OCI_NUM+OCI_RETURN_NULLS+OCI_RETURN_LOBS;
+    public const FETCH_ONE_COL = OCI_NUM + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
 
     /**
      * @var resource

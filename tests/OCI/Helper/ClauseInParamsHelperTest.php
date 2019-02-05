@@ -32,4 +32,3 @@ class ClauseInParamsHelperTest extends OCITestCase
         assertThat($param->getAttributes(), arrayValue());
     }
 }
-
