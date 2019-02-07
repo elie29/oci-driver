@@ -25,7 +25,7 @@ class Insert extends AbstractBuilder
      * Values should be bound or quoted correctly.
      *
      * <code>
-     *    // INSERT INTO users (USER_ID, NAME) VALUES (3, 'O''neil')<br/>
+     *    // INSERT INTO users (USER_ID, NAME) VALUES (3, 'O''neil', '21/11/79')<br/>
      *    $sql = Insert::start()
      *        ->into('users')
      *        ->values([
@@ -39,7 +39,7 @@ class Insert extends AbstractBuilder
      *    $sql = Insert::start()
      *        ->into('users')
      *        ->values([
-     *            'USER_ID'    => ':ID',
+     *            'USER_ID' => ':ID',
      *        ])
      *        ->build();
      * </code>
