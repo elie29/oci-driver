@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace OCI\Debugger;
 
-use OCI\Driver\Parameter\Parameter;
-
 interface DebuggerInterface
 {
 
