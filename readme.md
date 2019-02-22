@@ -9,25 +9,15 @@
 
 - PSR-2
 
-## Structure
+## Installation ##
 
-- **src**: source code
+Run the command below to install via Composer:
 
-- **tests**: unit tests files
+```shell
+composer require elie29/validator
+```
 
-- **vendor**: Dependencies classes
-
-- **composer.json**: Dependencies configuration
-
-- **phpunit.xml**: Phpunit configuration
-
-## Install dependencies
-
-### For development mode
-
-Run `composer install`
-
-## Using OCI Query Builder
+## Getting Started ##
 OCI Query Builder provides a lightweight builder to dynamically create SQL queries.
 It **does not** validate the query at all.
 
@@ -200,10 +190,21 @@ Modify USERNAME, PASSWORD and SCHEMA according to your Oracle Database Informati
  - Use the following TNS :
    > (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DATABASE_IP)(PORT=DATABASE_PORT))(CONNECT_DATA=(SID=DATABASE_SCHEMA)(SERVER=DEDICATED|POOLED)))
 
-## Launch test
+## Development Prerequisites
 
-Run `composer test`
+### Code style formatter
+- Zend Framework coding standard
 
-## Launch code coverage
+### Composer commands
+   - `clean`: Cleans all generated files
+   - `test`: Launches unit test
+   - `cover`: Launches unit test and a local server
+   - `cs-check`: For code sniffer check
+   - `cs-fix`: For code sniffer fix
+   - `check`: Launches `clean`, `cs-check`, `test` and `phpstan`
 
-Run `composer cover`
+### Ant commands
+This project uses build.xml to perform static analysis and generate project documentation.
+
+You should have [apache-ant](https://ant.apache.org/) installed in order to launch `ant`.
+   - Run `ant -p` to print out default and main targets.

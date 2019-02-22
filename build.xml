@@ -54,7 +54,7 @@
       <property name="lint.done" value="true" />
    </target>
 
-   <target name="pdepend" unless="pdepend.done" depends="prepare" description="Calculate software metrics using PHP_Depend and log result in XML format. Intended for usage within a continuous integration environment.">
+   <target name="pdepend" unless="pdepend.done" depends="prepare" description="Calculate software metrics using PHP_Depend and log result in XML format.">
       <exec executable="${pdepend}" taskname="pdepend">
          <arg value="--jdepend-xml=${basedir}/build/logs/pdepend.xml" />
          <arg value="--summary-xml=${basedir}/build/logs/summary.xml" />
@@ -66,7 +66,7 @@
       <property name="pdepend.done" value="true" />
    </target>
 
-   <target name="phploc" unless="phploc.done" depends="prepare" description="Measure project size using PHPLOC and log result in CSV and XML format. Intended for usage within a continuous integration environment.">
+   <target name="phploc" unless="phploc.done" depends="prepare" description="Measure project size using PHPLOC and log result in CSV and XML format.">
       <exec executable="${phploc}" taskname="phploc">
          <arg value="--count-tests" />
          <arg value="--log-csv" />
@@ -90,7 +90,7 @@
       </exec>
    </target>
 
-   <target name="phpcs" unless="phpcs.done" depends="prepare" description="Find coding standard violations using PHP_CodeSniffer and log result in XML format. Intended for usage within a continuous integration environment.">
+   <target name="phpcs" unless="phpcs.done" depends="prepare" description="Find coding standard violations using PHP_CodeSniffer and log result in XML format.">
       <exec executable="${phpcs}" output="/dev/null" taskname="phpcs">
          <arg value="--report=checkstyle" />
          <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
@@ -104,7 +104,7 @@
       <property name="phpcs.done" value="true" />
    </target>
 
-   <target name="phpcpd" unless="phpcpd.done" depends="prepare" description="Find duplicate code using PHPCPD and log result in XML format. Intended for usage within a continuous integration environment.">
+   <target name="phpcpd" unless="phpcpd.done" depends="prepare" description="Find duplicate code using PHPCPD and log result in XML format.">
       <exec executable="${phpcpd}" taskname="phpcpd">
          <arg value="--log-pmd" />
          <arg path="${basedir}/build/logs/pmd-cpd.xml" />
