@@ -197,11 +197,11 @@ Modify USERNAME, PASSWORD and SCHEMA according to your Oracle Database Informati
 
 ### Composer commands
    - `clean`: Cleans all generated files
-   - `test`: Launches unit test
+   - `test`: Launches `clean` and php unit test
    - `cover`: Launches unit test and a local server
    - `cs-check`: For code sniffer check
    - `cs-fix`: For code sniffer fix
-   - `check`: Launches `clean`, `cs-check`, `test` and `phpstan`
+   - `check`: Launches `cs-check` and `test` 
 
 ### Ant commands
 This project uses build.xml to perform static analysis and generate project documentation.
