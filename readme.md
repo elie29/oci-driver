@@ -14,7 +14,7 @@
 Run the command below to install via Composer:
 
 ```shell
-composer require elie29/validator
+composer require elie29/oci-driver
 ```
 
 ## Getting Started ##
