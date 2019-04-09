@@ -10,6 +10,7 @@ use OCI\Driver\Driver;
 use OCI\Driver\Parameter\Parameter;
 use OCI\Helper\Provider;
 use OCI\OCITestCase;
+use OCI\Helper\SessionInit;
 
 class DriverTest extends OCITestCase
 {
@@ -106,7 +107,7 @@ class DriverTest extends OCITestCase
 
         $driver->beginTransaction();
         $res = $driver->executeUpdate($sql);
-        $driver->commitTransaction();
+        $driver->rollbackTransaction();
 
         assertThat($res, is(1));
     }
@@ -115,7 +116,7 @@ class DriverTest extends OCITestCase
     {
         $driver = Provider::getDriver();
         $sql = 'INSERT INTO A1 (N_CHAR, N_NUM, N_NUM_3, N_VAR, N_DATE, N_TS, N_LONG) VALUES '
-             . '(:N1, :N2, :N3, :N4, TO_DATE(:N5, \'YYYY-MM-DD\'), TO_TIMESTAMP(:N6, \'YYYY-MM-DD HH24:MI:SS\'), :N7)';
+             . '(:N1, :N2, :N3, :N4, TO_DATE(:N5, \'DD-MM-YYYY\'), TO_TIMESTAMP(:N6, \'DD-MM-YYYY HH24:MI:SS\'), :N7)';
 
         $driver->beginTransaction();
         $bind = new Parameter();
@@ -123,14 +124,39 @@ class DriverTest extends OCITestCase
             ->add(':N2', 1)
             ->add(':N3', 0.24)
             ->add(':N4', 'test')
-            ->add(':N5', '2018-08-08')
-            ->add(':N6', '2018-08-09 1235:36')
+            ->add(':N5', '08-12-2018') // should respect to_date fmt
+            ->add(':N6', '09-11-2016 12:35:36') // should respect to_timestamp fmt
             ->add(':N7', 18596);
 
         $res = $driver->executeUpdate($sql, $bind);
         $driver->rollbackTransaction();
 
         assertThat($res, is(1));
+    }
+
+    public function testExecuteUpdateWithBindAndSessionInit(): void
+    {
+        $driver = Provider::getDriver();
+        $session = new SessionInit();
+        $session->alterSession($driver);
+
+        $sql = 'INSERT INTO A1 (N_CHAR, N_NUM, N_NUM_3, N_VAR, N_DATE, N_TS, N_LONG) VALUES '
+            . '(:N1, :N2, :N3, :N4, :N5, :N6, :N7)';
+
+            $driver->beginTransaction();
+            $bind = new Parameter();
+            $bind->add(':N1', 'c')
+            ->add(':N2', 1)
+            ->add(':N3', 0.24)
+            ->add(':N4', 'test')
+            ->add(':N5', '2018-08-12') // ISO Format
+            ->add(':N6', '2018-11-09 12:35:36') // ISO Format
+            ->add(':N7', 18596);
+
+            $res = $driver->executeUpdate($sql, $bind);
+            $driver->rollbackTransaction();
+
+            assertThat($res, is(1));
     }
 
     /**
@@ -269,7 +295,7 @@ class DriverTest extends OCITestCase
         $lob->close();
         $lob->free();
 
-        assertThat($count, is(2));
+        assertThat($count, is(1));
     }
 
     /**
