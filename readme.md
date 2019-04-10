@@ -79,6 +79,23 @@ $sql = Insert::start() // aka (new Insert)
 
 ## Using OCI Driver Class
 
+### Using the factory
+Factory will automatically alter the session (@see OCI\Driver\Helper\SessionInit.php) in order to fix NLS_TIME_FORMAT 
+and NLS_NUMERIC_CHARACTERS. So we won't need to use to_char or to_date to convert the format, expecially, in comparing
+dates with a given date:
+
+```php
+$driver = Factory::create(Provider::getConnection(), 'test');
+
+$sql = 'SELECT * FROM A1 WHERE N_DATE BETWEEN :YESTERDAY AND :TOMORROW';
+
+$bind = (new Parameter())
+    ->add(':YESTERDAY', date(Format::PHP_DATE, time() - 86400)) // N_DATE type is DATE
+    ->add(':TOMORROW', date(Format::PHP_DATE, time() + 86400));
+
+$rows = $driver->fetchAllAssoc($sql, $bind);
+```
+
 ### Insert/Update Example
 
 #### With Autocommit
