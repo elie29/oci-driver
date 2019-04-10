@@ -8,9 +8,11 @@ use Mockery;
 use OCI\Debugger\DebuggerInterface;
 use OCI\Driver\Driver;
 use OCI\Driver\Parameter\Parameter;
+use OCI\Helper\Factory;
+use OCI\Helper\Format;
 use OCI\Helper\Provider;
-use OCI\OCITestCase;
 use OCI\Helper\SessionInit;
+use OCI\OCITestCase;
 
 class DriverTest extends OCITestCase
 {
@@ -124,12 +126,12 @@ class DriverTest extends OCITestCase
             ->add(':N2', 1)
             ->add(':N3', 0.24)
             ->add(':N4', 'test')
-            ->add(':N5', '08-12-2018') // should respect to_date fmt
-            ->add(':N6', '09-11-2016 12:35:36') // should respect to_timestamp fmt
+            ->add(':N5', date('d-m-Y')) // should respect to_date fmt
+            ->add(':N6', date('d-m-Y H:i:s')) // should respect to_timestamp fmt
             ->add(':N7', 18596);
 
         $res = $driver->executeUpdate($sql, $bind);
-        $driver->rollbackTransaction();
+        $driver->commitTransaction();
 
         assertThat($res, is(1));
     }
@@ -143,9 +145,9 @@ class DriverTest extends OCITestCase
         $sql = 'INSERT INTO A1 (N_CHAR, N_NUM, N_NUM_3, N_VAR, N_DATE, N_TS, N_LONG) VALUES '
             . '(:N1, :N2, :N3, :N4, :N5, :N6, :N7)';
 
-            $driver->beginTransaction();
-            $bind = new Parameter();
-            $bind->add(':N1', 'c')
+        $driver->beginTransaction();
+        $bind = new Parameter();
+        $bind->add(':N1', 'c')
             ->add(':N2', 1)
             ->add(':N3', 0.24)
             ->add(':N4', 'test')
@@ -153,10 +155,10 @@ class DriverTest extends OCITestCase
             ->add(':N6', '2018-11-09 12:35:36') // ISO Format
             ->add(':N7', 18596);
 
-            $res = $driver->executeUpdate($sql, $bind);
-            $driver->rollbackTransaction();
+        $res = $driver->executeUpdate($sql, $bind);
+        $driver->rollbackTransaction();
 
-            assertThat($res, is(1));
+        assertThat($res, is(1));
     }
 
     /**
@@ -241,6 +243,24 @@ class DriverTest extends OCITestCase
         $row = $driver->fetchAllAssoc($sql);
 
         assertThat($row, nonEmptyArray());
+    }
+
+    /**
+     * @depends testExecuteUpdateWithBindAndTransactionRollback
+     */
+    public function testFetchAllWithNlsSessionAndDateCompare(): void
+    {
+        $driver = Factory::create(Provider::getConnection(), 'test');
+
+        $sql = 'SELECT * FROM A1 WHERE N_DATE BETWEEN :YESTERDAY AND :TOMORROW';
+
+        $bind = (new Parameter())
+            ->add(':YESTERDAY', date(Format::PHP_DATE, time() - 86400)) // N_DATE type is DATE
+            ->add(':TOMORROW', date(Format::PHP_DATE, time() + 86400));
+
+        $rows = $driver->fetchAllAssoc($sql, $bind);
+
+        assertThat($rows, nonEmptyArray());
     }
 
     /**
