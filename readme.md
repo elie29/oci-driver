@@ -80,9 +80,8 @@ $sql = Insert::start() // aka (new Insert)
 ## Using OCI Driver Class
 
 ### Using the factory
-Factory will automatically alter the session (@see OCI\Driver\Helper\SessionInit.php) in order to fix NLS_TIME_FORMAT 
-and NLS_NUMERIC_CHARACTERS. So we won't need to use to_char or to_date to convert the format, expecially, in comparing
-dates with a given date:
+Factory will automatically alter the session (@see OCI\Driver\Helper\SessionInit.php) in order to fix NLS_TIME_FORMAT
+and NLS_NUMERIC_CHARACTERS. So we won't need to use to_char or to_date to convert the format, especially in comparing dates with a given date:
 
 ```php
 $driver = Factory::create(Provider::getConnection(), 'test');
@@ -218,7 +217,7 @@ Modify USERNAME, PASSWORD and SCHEMA according to your Oracle Database Informati
    - `cover`: Launches unit test and a local server
    - `cs-check`: For code sniffer check
    - `cs-fix`: For code sniffer fix
-   - `check`: Launches `cs-check` and `test` 
+   - `check`: Launches `cs-check` and `test`
 
 ### Ant commands
 This project uses build.xml to perform static analysis and generate project documentation.
