@@ -9,7 +9,7 @@
 
 - PSR-2
 
-## Installation ##
+## Installation
 
 Run the command below to install via Composer:
 
@@ -17,7 +17,7 @@ Run the command below to install via Composer:
 composer require elie29/oci-driver
 ```
 
-## Getting Started ##
+## Getting Started
 OCI Query Builder provides a lightweight builder to dynamically create SQL queries.
 It **does not** validate the query at all.
 
@@ -190,7 +190,7 @@ In order to launch tests, A1 and A2 tables should be created as follow:
 Rename config-connection.php.dist in ./tests/OCI/Helper to config-connection.php
 
 ```console
-    mv config-connection.php.dist config-connection.php
+   mv config-connection.php.dist config-connection.php
 ```
 
 ### Modify configuration
@@ -203,7 +203,7 @@ Modify USERNAME, PASSWORD and SCHEMA according to your Oracle Database Informati
 
 - IP:PORT/SID eg: 11.22.33.25:12005/HR
 
- - Use the following TNS :
+- Use the following TNS :
    > (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DATABASE_IP)(PORT=DATABASE_PORT))(CONNECT_DATA=(SID=DATABASE_SCHEMA)(SERVER=DEDICATED|POOLED)))
 
 ## Development Prerequisites
