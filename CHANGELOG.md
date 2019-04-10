@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#37](https://github.com/elie29/oci-driver/issues/37) Refactory SessionInit.
 
 ### Changed
 
