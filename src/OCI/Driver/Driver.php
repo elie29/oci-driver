@@ -132,7 +132,7 @@ class Driver implements DriverInterface
         $statement = oci_parse($this->connection, $sql);
 
         if ($statement === false) {
-            $this->error($sql, $this->connection);
+            $this->error($sql, $this->connection); // @codeCoverageIgnore
         }
 
         $this->ociExecuteAndDebug($statement, $sql, $bind);
