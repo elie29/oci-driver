@@ -38,11 +38,11 @@ class Update extends AbstractCommonBuilder
      * </code>
      *
      * @param string $key
-     * @param string $value
+     * @param mixed $value
      *
      * @return self
      */
-    public function set(string $key, string $value): self
+    public function set(string $key, $value): self
     {
         return $this->add(self::SET, $key .' = ' . $value);
     }
