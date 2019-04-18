@@ -3,7 +3,7 @@ Changelog
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## V1.0.13 - TBD
+## V1.0.13 - 2019-04-18
 
 ### Added
 
@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#38](https://github.com/elie29/oci-driver/issues/38) update set in query builder accepts only string value.
 
 ### Deprecated
 
