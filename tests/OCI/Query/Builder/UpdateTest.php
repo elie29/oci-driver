@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 class UpdateTest extends TestCase
 {
 
-    public function testSimpleUpdate(): void
+    public function testSimpleUpdateWithQuotedString(): void
     {
         $sql = Update::start()
             ->table('users', 'u')
@@ -19,6 +19,31 @@ class UpdateTest extends TestCase
 
         $expected = "UPDATE users u SET u.name = 'O''neil' WHERE u.id = 1";
 
+        assertThat($sql, is($expected));
+    }
+
+    public function testSimpleUpdateUnquotedString(): void
+    {
+        $sql = Update::start()
+            ->table('users', 'u')
+            ->set('u.name', Update::quote("Helmut")) // quote is still required for fixed value
+            ->where('u.id = 1')
+            ->build();
+
+        $expected = "UPDATE users u SET u.name = 'Helmut' WHERE u.id = 1";
+
+        assertThat($sql, is($expected));
+    }
+
+    public function testSimpleUpdateWithInt(): void
+    {
+        $sql = Update::start()
+            ->table('users', 'u')
+            ->set('u.visible', 1)
+            ->where('u.id = 10')
+            ->build();
+
+        $expected = "UPDATE users u SET u.visible = 1 WHERE u.id = 10";
         assertThat($sql, is($expected));
     }
 
