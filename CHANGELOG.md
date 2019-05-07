@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#39](https://github.com/elie29/oci-driver/issues/39) Add returning into to insert/update.
 
 ### Changed
 
