@@ -363,6 +363,31 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
+    public function testInsertWithReturning(): void
+    {
+        $driver = Provider::getDriver();
+
+        // useful with SEQ.nextval
+        $sql = 'INSERT INTO A1 (N_NUM) VALUES (:N1) RETURNING N_NUM INTO :myNum';
+
+        $bind = new Parameter();
+        $bind->add(':N1', 5);
+        $bind->add(':myNum', null);
+
+        $driver->beginTransaction();
+
+        $count = $driver->executeUpdate($sql, $bind);
+
+        $num = (int) $bind->getVariable(':myNum');
+
+        $driver->rollbackTransaction();
+
+        assertThat($num, is(identicalTo(5)));
+    }
+
+    /**
+     * @depends testExecuteUpdateWithoutBindNorTransaction
+     */
     public function testReadDataWithClobAndFuctionCall(): void
     {
         $driver = Provider::getDriver();
