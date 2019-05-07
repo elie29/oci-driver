@@ -61,6 +61,23 @@ class UpdateTest extends TestCase
         assertThat($sql, is($expected));
     }
 
+    public function testUpdateWithRetruning(): void
+    {
+        $sql = Update::start()
+            ->table('params', 'p')
+            ->set('p.id', ':id')
+            ->where('p.name = :name')
+            ->andWhere('(p.id = :id OR p.active = :active)')
+            ->returning('p.desc', ':myDesc')
+            ->returning('p.lib', ':myLib')
+            ->build();
+
+        $expected = 'UPDATE params p SET p.id = :id WHERE p.name = :name AND (p.id = :id OR p.active = :active) ' .
+            'RETURNING p.desc, p.lib INTO :myDesc, :myLib';
+
+        assertThat($sql, is($expected));
+    }
+
     /**
      * UPDATE params p1
      * SET p1.name = :name

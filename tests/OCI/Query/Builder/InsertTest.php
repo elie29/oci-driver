@@ -40,4 +40,23 @@ class InsertTest extends TestCase
 
         assertThat($sql, is($expected));
     }
+
+    public function testSimpleInsertWithReturning(): void
+    {
+        $sql = Insert::start()
+            ->into('users')
+            ->values([
+                'USER_ID'    => 3,
+                'NAME'       => Insert::quote("O'neil"),
+                'BIRTH_DATE' => Insert::quote('21/11/79'),
+            ])
+            ->returning('desc', ':myDesc')
+            ->returning('lib', ':myLib')
+            ->build();
+
+        $expected = "INSERT INTO users (USER_ID, NAME, BIRTH_DATE) VALUES (3, 'O''neil', '21/11/79') " .
+            'RETURNING desc, lib INTO :myDesc, :myLib';
+
+        assertThat($sql, is($expected));
+    }
 }

@@ -35,10 +35,10 @@ class SelectTest extends TestCase
     public function testFromtWithInnerSelect(): void
     {
         $sql = Select::start()
-        ->column('*')
-        ->from(Select::start()->column('*')->from('users'))
-        ->orderBy('name', 'DESC')
-        ->build();
+            ->column('*')
+            ->from(Select::start()->column('*')->from('users'))
+            ->orderBy('name', 'DESC')
+            ->build();
 
         assertThat($sql, is('SELECT * FROM (SELECT * FROM users) ORDER BY name DESC'));
     }
