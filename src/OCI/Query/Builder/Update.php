@@ -24,7 +24,7 @@ class Update extends AbstractCommonBuilder
     /**
      * Sets a value to a key.
      * <code>
-     *    // Update users set id = :id<br/>
+     *    // UPDATE users SET id = :id<br/>
      *    $sql = Update::start()
      *        ->table('users')
      *        ->set('id', ':id')
@@ -48,6 +48,27 @@ class Update extends AbstractCommonBuilder
     }
 
     /**
+     * Useful when we need to return values after update.
+     *
+     *    // UPDATE users SET id = :id RETURNING DESC INTO :DESC<br/>
+     *    $sql = Update::start()
+     *        ->table('users')
+     *        ->set('id', ':id')
+     *        ->returning('DESC', ':DESC')
+     *        ->build();
+     *
+     * @param string $colName Column Name.
+     * @param string $bind Binded key.
+     *
+     * @return self
+     */
+    public function returning(string $colName, string $bind): self
+    {
+        $this->returning[$colName] = $bind;
+        return $this;
+    }
+
+    /**
      * {@inheritDoc}
      * @see \OCI\Query\Builder\BuilderInterface::build()
      */
@@ -59,6 +80,8 @@ class Update extends AbstractCommonBuilder
         if ($this->query[self::WHERE]) {
             $res .= ' WHERE ' . $this->implode(self::WHERE, self::SPACE);
         }
+
+        $res .= $this->addReturning();
 
         $this->reset();
 

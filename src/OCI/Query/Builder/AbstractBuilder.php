@@ -9,6 +9,9 @@ abstract class AbstractBuilder implements BuilderInterface
 
     protected $query = [];
 
+    // Used in Isert/Update class
+    protected $returning = [];
+
     /**
      * Creates a default query array structure.
      */
@@ -66,6 +69,9 @@ abstract class AbstractBuilder implements BuilderInterface
             self::VALUES  => [], // insert
             self::SET     => [], // update
         ];
+
+        $this->returning = [];
+
         return $this;
     }
 
@@ -80,5 +86,20 @@ abstract class AbstractBuilder implements BuilderInterface
     protected function implode(string $part, string $separator = self::COMMA): string
     {
         return implode($separator, $this->query[$part]);
+    }
+
+    /**
+     * Used in Insert/Update class.
+     *
+     * @return string
+     */
+    protected function addReturning(): string
+    {
+        if (! $this->returning) {
+            return self::EMPTY;
+        }
+
+        return ' RETURNING ' . implode(array_keys($this->returning), self::COMMA) .
+            ' INTO ' . implode($this->returning, self::COMMA);
     }
 }

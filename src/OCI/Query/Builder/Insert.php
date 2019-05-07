@@ -25,7 +25,7 @@ class Insert extends AbstractBuilder
      * Values should be bound or quoted correctly.
      *
      * <code>
-     *    // INSERT INTO users (USER_ID, NAME) VALUES (3, 'O''neil', '21/11/79')<br/>
+     *    // INSERT INTO users (USER_ID, NAME, BIRTH_DATE) VALUES (3, 'O''neil', '21/11/79')<br/>
      *    $sql = Insert::start()
      *        ->into('users')
      *        ->values([
@@ -55,6 +55,34 @@ class Insert extends AbstractBuilder
     }
 
     /**
+     * Useful when we need to return values after insertion.
+     *
+     * <code>
+     *    // INSERT INTO users (USER_ID, NAME) VALUES (USER_SEQ.nextval, 'Elie') RETURNING USER_ID into :ID<br/>
+     *    $sql = Insert::start()
+     *        ->into('users')
+     *        ->values([
+     *            'USER_ID' => 'USER_SEQ.nextval',
+     *            'NAME'    => Insert::quote('Elie'),
+     *        ])
+     *        ->returning([
+     *            'USER_ID' => ':ID'
+     *        ])
+     *        ->build();
+     * </code>
+     *
+     * @param string $colName Column Name.
+     * @param string $bind Binded key.
+     *
+     * @return self
+     */
+    public function returning(string $colName, string $bind): self
+    {
+        $this->returning[$colName] = $bind;
+        return $this;
+    }
+
+    /**
      * {@inheritDoc}
      * @see \OCI\Query\Builder\BuilderInterface::build()
      */
@@ -62,7 +90,8 @@ class Insert extends AbstractBuilder
     {
         $res = 'INSERT INTO ' . $this->query[self::TABLE]
              . ' (' . implode(self::COMMA, array_keys($this->query[self::VALUES])) . ')'
-             . ' VALUES (' . $this->implode(self::VALUES) . ')';
+             . ' VALUES (' . $this->implode(self::VALUES) . ')'
+             . $this->addReturning();
 
         $this->reset();
 
