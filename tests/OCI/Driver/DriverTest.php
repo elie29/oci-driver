@@ -371,8 +371,8 @@ class DriverTest extends OCITestCase
         $sql = 'INSERT INTO A1 (N_NUM) VALUES (:N1) RETURNING N_NUM INTO :myNum';
 
         $bind = new Parameter();
-        $bind->add(':N1', 5);
-        $bind->add(':myNum', null);
+        $bind->add(':N1', 1258);
+        $bind->add(':myNum', null, 38); // maxlength for output variable is required
 
         $driver->beginTransaction();
 
@@ -382,7 +382,7 @@ class DriverTest extends OCITestCase
 
         $driver->rollbackTransaction();
 
-        assertThat($num, is(identicalTo(5)));
+        assertThat($num, is(identicalTo(1258)));
     }
 
     /**
