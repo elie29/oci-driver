@@ -180,6 +180,7 @@ class Select extends AbstractCommonBuilder
 
     /**
      * Adds predicate having to the query.
+     * Alias of andHaving
      *
      * <code>
      *    // SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3<br/>
@@ -197,12 +198,11 @@ class Select extends AbstractCommonBuilder
      */
     public function having(string $having): self
     {
-        return $this->add(self::HAVING, $having);
+        return $this->andHaving($having);
     }
 
     /**
      * Adds predicate and to the having part of the query.
-     * Should be added after a having.
      *
      * <code>
      *    // SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 AND name = :name<br/>
@@ -217,12 +217,15 @@ class Select extends AbstractCommonBuilder
      *
      * @param string $having having condition.
      *  <b>Parentheses are required when mixing or/and conditions.</b>
-     *
+     *  <b>If no having exists, the andHaving is considered as a simple having.
      * @return self
      */
     public function andHaving(string $having): self
     {
-        return $this->add(self::HAVING, 'AND ' . $having);
+        if ($this->query[self::HAVING]) {
+            $having = 'AND ' . $having;
+        }
+        return $this->add(self::HAVING, $having);
     }
 
     /**
@@ -294,6 +297,7 @@ class Select extends AbstractCommonBuilder
      *           ->column('p.id')
      *           ->from('params_his', 'p')
      *        )
+     *        ->orderBy('id')
      *        ->build();
      * </code>
      *
@@ -318,7 +322,7 @@ class Select extends AbstractCommonBuilder
      *
      * @return self.
      */
-    public function orderBy(string $sort, string $order = 'ASC'): self
+    public function orderBy(string $sort, string $order = self::ASC): self
     {
         return $this->add(self::ORDERBY, $sort . self::SPACE . $order);
     }

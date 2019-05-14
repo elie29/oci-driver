@@ -21,7 +21,7 @@ class Parameter
      * For number/char/varchar values purpose.
      *
      * oci_bind_by_name is called on each binding: maxlength is no longer useful
-     * unless for OUTPUT binding.
+     * <b>unless for OUTPUT binding</b>.
      *
      * @param string $column  Column to be bound.
      * @param mixed $variable Column value.

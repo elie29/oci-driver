@@ -20,6 +20,8 @@ interface BuilderInterface
     public const ORDERBY = 'orderBy';
     public const VALUES  = 'values';
     public const SET     = 'set';
+    public const ASC     = 'ASC';
+    public const DESC    = 'DESC';
 
     /**
      * Builds the complete SQL from the query parts.

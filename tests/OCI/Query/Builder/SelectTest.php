@@ -242,6 +242,20 @@ class SelectTest extends TestCase
         assertThat($sql, is($expected));
     }
 
+    public function testSelectWithGroupByMultiHaving(): void
+    {
+        $sql = Select::start()
+            ->columns(['name', 'MAX(user_id)'])
+            ->from('params')
+            ->groupBy('name')
+            ->having('MAX(user_id) > 3')
+            ->having('name = :name')
+            ->build();
+
+        $expected = 'SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 AND name = :name';
+        assertThat($sql, is($expected));
+    }
+
     public function testSelectWithGroupByOrHaving(): void
     {
         $sql = Select::start()
