@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#40](https://github.com/elie29/oci-driver/issues/40) Change having to be alias for andHaving.
 
 ### Deprecated
 
