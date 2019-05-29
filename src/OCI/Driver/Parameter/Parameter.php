@@ -4,6 +4,8 @@ declare(strict_types = 1);
 
 namespace OCI\Driver\Parameter;
 
+use OCI\Helper\FloatUtils;
+
 /**
  * Binds query parameters correctly.
  */
@@ -31,6 +33,10 @@ class Parameter
      */
     public function add(string $column, $variable, int $maxlength = self::DEFAULT_MAX_LEN): self
     {
+        if (is_float($variable)) {
+            // float is inserted with SQL_CHR and should ALWAYS contain . as decimal separator
+            $variable = FloatUtils::convert($variable);
+        }
         // Use SQLT_CHR for most types...
         return $this->genericAdd($column, $variable, $maxlength, SQLT_CHR);
     }

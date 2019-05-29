@@ -23,7 +23,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#41](https://github.com/elie29/oci-driver/issues/41) Enhance binding when comma is a decimal separator.
 
 ## V1.0.14 - 2019-05-07
 
