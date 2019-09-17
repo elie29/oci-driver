@@ -13,6 +13,7 @@ interface BuilderInterface
     public const COLUMNS = 'columns';
     public const FROM    = 'from';
     public const TABLE   = 'table';
+    public const SELECT  = 'select';
     public const JOIN    = 'join';
     public const WHERE   = 'where';
     public const GROUPBY = 'groupBy';

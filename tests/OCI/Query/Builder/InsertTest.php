@@ -59,4 +59,21 @@ class InsertTest extends TestCase
 
         assertThat($sql, is($expected));
     }
+
+    public function testInsertSelect(): void
+    {
+        $select = Select::start()
+            ->columns(["'test'", 1])
+            ->from('DUAL');
+
+        $sql = Insert::start()
+            ->into('A1')
+            ->columns(['N_CHAR', 'N_NUM'])
+            ->select($select)
+            ->build();
+
+        $expected = "INSERT INTO A1 (N_CHAR, N_NUM) SELECT 'test', 1 FROM DUAL";
+
+        assertThat($sql, is($expected));
+    }
 }

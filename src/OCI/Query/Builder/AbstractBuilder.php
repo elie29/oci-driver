@@ -61,6 +61,7 @@ abstract class AbstractBuilder implements BuilderInterface
             self::COLUMNS => [], // select
             self::FROM    => [], // select
             self::TABLE   => '', // insert, update, delete
+            self::SELECT  => '', // insert
             self::JOIN    => [], // select
             self::WHERE   => [], // select, update, delete
             self::GROUPBY => [], // select

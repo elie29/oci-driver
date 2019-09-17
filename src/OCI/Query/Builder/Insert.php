@@ -55,6 +55,45 @@ class Insert extends AbstractBuilder
     }
 
     /**
+     * Add a list of columns to the insert. Used in conjoction with the select.
+     *
+     * @param array $list List of columns.
+     *
+     * @return self
+     */
+    public function columns(array $list): self
+    {
+        $this->query[self::COLUMNS][] = implode(self::COMMA, $list);
+        return $this;
+    }
+
+    /**
+     * Add a select builder to the insert.
+     *
+     * <code>
+     *    // INSERT INTO A1 (N_CHAR, N_NUM) SELECT 'test', 1 FROM DUAL<br/>
+     *    $sql = Insert::start()
+     *      ->into('A1)
+     *      ->columns(['N_CHAR', 'N_NUM']) // use columns and not values
+     *      ->select(
+     *          Select::start()
+     *             ->columns(["'test'", 1])
+     *             ->from('DUAL')
+     *      )
+     *      ->build();
+     * </code>
+     *
+     * @param Select $select A select builder.
+     *
+     * @return self
+     */
+    public function select(Select $select): self
+    {
+        $this->query[self::SELECT] = $select->build();
+        return $this;
+    }
+
+    /**
      * Useful when we need to return values after insertion.
      *
      * <code>
@@ -88,13 +127,20 @@ class Insert extends AbstractBuilder
      */
     public function build(): string
     {
-        $res = 'INSERT INTO ' . $this->query[self::TABLE]
-             . ' (' . implode(self::COMMA, array_keys($this->query[self::VALUES])) . ')'
-             . ' VALUES (' . $this->implode(self::VALUES) . ')'
-             . $this->addReturning();
+        $res = 'INSERT INTO ' . $this->query[self::TABLE] . $this->buildPartial();
 
         $this->reset();
 
         return $res;
+    }
+
+    protected function buildPartial(): string
+    {
+        if ($this->query[self::SELECT]) {
+            return ' (' . $this->implode(self::COLUMNS) . ') ' . $this->query[self::SELECT];
+        }
+
+        return ' (' . implode(self::COMMA, array_keys($this->query[self::VALUES])) . ')'
+            . ' VALUES (' . $this->implode(self::VALUES) . ')' . $this->addReturning();
     }
 }
