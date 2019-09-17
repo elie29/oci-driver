@@ -3,11 +3,11 @@ Changelog
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## V1.0.16 - TBD
+## V1.0.16 - 2019-09-17
 
 ### Added
 
-- Nothing.
+- [#42](https://github.com/elie29/oci-driver/issues/42) Ajouter insert_select.
 
 ### Changed
 
