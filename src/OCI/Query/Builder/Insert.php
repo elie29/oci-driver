@@ -55,7 +55,7 @@ class Insert extends AbstractBuilder
     }
 
     /**
-     * Add a list of columns to the insert. Used in conjoction with the select.
+     * Add a list of columns to the insert. Used in conjunction with the select.
      *
      * @param array $list List of columns.
      *
