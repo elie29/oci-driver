@@ -5,6 +5,7 @@
 /build.xml export-ignore
 /CODE_OF_CONDUCT.md export-ignore
 /CONTRIBUTING.md export-ignore
+/composer export-ignore
 /composer.lock export-ignore
 /phpcs.xml export-ignore
 /phpmd.xml export-ignore
