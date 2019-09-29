@@ -61,7 +61,7 @@ class UpdateTest extends TestCase
         assertThat($sql, is($expected));
     }
 
-    public function testUpdateWithRetruning(): void
+    public function testUpdateWithReturning(): void
     {
         $sql = Update::start()
             ->table('params', 'p')

@@ -20,7 +20,8 @@
       "process-timeout": 9000
    },
    "require": {
-      "php": "^7.1"
+      "php": "^7.1",
+     "ext-oci8": "*"
    },
    "require-dev": {
       "hamcrest/hamcrest-php": "^2.0",

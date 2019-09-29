@@ -32,7 +32,7 @@ class SelectTest extends TestCase
         assertThat($sql, is('SELECT active, u.* FROM params, users u'));
     }
 
-    public function testFromtWithInnerSelect(): void
+    public function testFromWithInnerSelect(): void
     {
         $sql = Select::start()
             ->column('*')

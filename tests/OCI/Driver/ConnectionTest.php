@@ -9,11 +9,9 @@ use OCI\OCITestCase;
 class ConnectionTest extends OCITestCase
 {
 
-    /**
-     * @expectedException OCI\Driver\DriverException
-     */
     public function testConnectionThrowException(): void
     {
+        $this->expectException(DriverException::class);
         $connection = new Connection('username', '1230', 'schema');
         $connection->connect();
     }

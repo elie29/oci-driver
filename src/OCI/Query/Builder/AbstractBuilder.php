@@ -9,7 +9,7 @@ abstract class AbstractBuilder implements BuilderInterface
 
     protected $query = [];
 
-    // Used in Isert/Update class
+    // Used in Insert/Update class
     protected $returning = [];
 
     /**

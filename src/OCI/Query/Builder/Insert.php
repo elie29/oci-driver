@@ -111,7 +111,7 @@ class Insert extends AbstractBuilder
      * </code>
      *
      * @param string $colName Column Name.
-     * @param string $bind Binded key.
+     * @param string $bind Bound key.
      *
      * @return self
      */

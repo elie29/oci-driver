@@ -97,5 +97,5 @@ interface DriverInterface
      *
      * @return resource
      */
-    public function executeQuery($sql, Parameter $bind = null);
+    public function executeQuery(string $sql, Parameter $bind = null);
 }

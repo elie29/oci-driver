@@ -29,7 +29,7 @@ class DeleteTest extends TestCase
         assertThat($sql, is("DELETE FROM users WHERE name = 'O''neil'"));
     }
 
-    public function testDeleteWintOneWhereCondition(): void
+    public function testDeleteWithOneWhereCondition(): void
     {
         $sql = Delete::start()
             ->from('params', 'p')

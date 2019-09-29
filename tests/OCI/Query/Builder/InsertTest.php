@@ -25,7 +25,7 @@ class InsertTest extends TestCase
         assertThat($sql, is($expected));
     }
 
-    public function testSimpleInsertWithoudBinding(): void
+    public function testSimpleInsertWithoutBinding(): void
     {
         $sql = Insert::start()
             ->into('users')

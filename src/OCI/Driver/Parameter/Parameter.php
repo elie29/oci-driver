@@ -101,7 +101,7 @@ class Parameter
     /**
      * Keep it private to mastering supported types.
      *
-     * @param string $column Column name prefexied by colon :
+     * @param string $column Column name prefixed by colon :
      * @param mixed $variable Data to be bound to.
      * @param int $maxlength Data maxlength.
      * @param int $type Supported types SQLT_CHR.

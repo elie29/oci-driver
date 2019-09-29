@@ -34,6 +34,7 @@ class ClauseInParamsHelper
      * @param Parameter $param Parameter instance for values bound purpose.
      *
      * @return string
+     * @throws DriverException
      */
     public static function getBoundParams(array $values, string $prefix, Parameter $param): string
     {

@@ -124,10 +124,8 @@ class Driver implements DriverInterface
         return $data ?: [];
     }
 
-    /**
-     * <b>YOU SHOULD MANUALLY CALL oci_free_statement!</b>
-     */
-    public function executeQuery($sql, Parameter $bind = null)
+    // <b>YOU SHOULD MANUALLY CALL oci_free_statement!</b>
+    public function executeQuery(string $sql, Parameter $bind = null)
     {
         $statement = oci_parse($this->connection, $sql);
 

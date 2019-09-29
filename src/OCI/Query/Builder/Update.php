@@ -58,7 +58,7 @@ class Update extends AbstractCommonBuilder
      *        ->build();
      *
      * @param string $colName Column Name.
-     * @param string $bind Binded key.
+     * @param string $bind Bound key.
      *
      * @return self
      */
