@@ -51,6 +51,17 @@ class DriverTest extends OCITestCase
     /**
      * @expectedException OCI\Driver\DriverException
      */
+    public function testBoundExecuteWithException(): void
+    {
+        $driver = Provider::getDriver();
+        $sql = 'Select FROM A1 WHERE N_NUM = :N_NUM';
+        $param = new Parameter();
+        $driver->executeQuery($sql, $param->add(':N_NUM', 5));
+    }
+
+    /**
+     * @expectedException OCI\Driver\DriverException
+     */
     public function testExecuteTransactionWithException(): void
     {
         $driver = Provider::getDriver();
@@ -388,7 +399,7 @@ class DriverTest extends OCITestCase
     /**
      * @depends testExecuteUpdateWithoutBindNorTransaction
      */
-    public function testReadDataWithClobAndFuctionCall(): void
+    public function testReadDataWithClobAndFunctionCall(): void
     {
         $driver = Provider::getDriver();
 
