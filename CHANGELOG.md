@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#44](https://github.com/elie29/oci-driver/issues/44) Enhance error log.
 
 ### Deprecated
 
