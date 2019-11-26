@@ -130,7 +130,7 @@ class Driver implements DriverInterface
         $statement = oci_parse($this->connection, $sql);
 
         if ($statement === false) {
-            $this->error($sql, $this->connection); // @codeCoverageIgnore
+            $this->error($sql, $bind, $this->connection); // @codeCoverageIgnore
         }
 
         $this->ociExecuteAndDebug($statement, $sql, $bind);
@@ -149,20 +149,23 @@ class Driver implements DriverInterface
         }
 
         if (! @oci_execute($statement, $this->commitOption)) {
-            $this->error($sql, $statement);
+            $this->error($sql, $bind, $statement);
         }
 
         $this->debugger->end($sql, $attributes);
     }
 
-    private function error(string $sql, $resource = null): void
+    private function error(string $sql, Parameter $bind = null, $resource = null): void
     {
-        $ociError = oci_error($resource);
+        $ociError   = oci_error($resource) ?: ['message' => 'OCI Driver unknown error'];
+        $attributes = $bind ? $bind->getAttributes() : [];
 
-        $message = 'OCI Driver error';
-        if ($ociError) {
-            $message = sprintf('SQL error: %s, SQL: %s', $ociError['message'], $sql);
-        }
+        $message = sprintf(
+            'SQL error: %s, SQL: %s, BIND: %s',
+            $ociError['message'],
+            $sql,
+            var_export($attributes, true)
+        );
 
         if (OCI_NO_AUTO_COMMIT === $this->commitOption) {
             $this->rollbackTransaction();
