@@ -164,7 +164,7 @@ class Driver implements DriverInterface
             'SQL error: %s, SQL: %s, BIND: %s',
             $ociError['message'],
             $sql,
-            var_export($attributes, true)
+            json_encode($attributes)
         );
 
         if (OCI_NO_AUTO_COMMIT === $this->commitOption) {

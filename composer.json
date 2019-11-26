@@ -21,7 +21,8 @@
    },
    "require": {
       "php": "^7.1",
-     "ext-oci8": "*"
+     "ext-oci8": "*",
+     "ext-json": "*"
    },
    "require-dev": {
       "hamcrest/hamcrest-php": "^2.0",
