@@ -10,6 +10,7 @@ class Select extends AbstractCommonBuilder
     protected $limit  = 0;
     protected $offset = 0;
     protected $sql    = '';
+    protected $distinct = false;
     // Preserves tables with aliases used in join syntax.
     protected $joins = [];
 
@@ -33,6 +34,26 @@ class Select extends AbstractCommonBuilder
     {
         $prefix .= ($prefix ? '.' : self::EMPTY);
         return $this->add(self::COLUMNS, $prefix . $name);
+    }
+
+    /**
+     * Add DISTINCT to the select.
+     * <code>
+     *    // SELECT DISTINCT p.id, p.name FROM params p<br/>
+     *    $sql = Select::start()
+     *        ->distinct()
+     *        ->column('id', 'p')
+     *        ->column('name', 'p')
+     *        ->from('params', 'p')
+     *        ->build();
+     * </code>
+     *
+     * @return self
+     */
+    public function distinct(): self
+    {
+        $this->distinct = true;
+        return $this;
     }
 
     /**
@@ -365,6 +386,7 @@ class Select extends AbstractCommonBuilder
         $this->offset = 0;
         $this->sql = '';
         $this->joins = [];
+        $this->distinct = false;
 
         return $res;
     }
@@ -381,7 +403,8 @@ class Select extends AbstractCommonBuilder
             return '';
         }
 
-        $res  = 'SELECT ' . $this->implode(self::COLUMNS);
+        $select = $this->distinct ? 'SELECT DISTINCT ' : 'SELECT ';
+        $res  = $select . $this->implode(self::COLUMNS);
         $res .= ' FROM ' .  $this->implode(self::FROM);
 
         if ($this->query[self::JOIN]) {

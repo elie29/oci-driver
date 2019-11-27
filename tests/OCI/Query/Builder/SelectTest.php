@@ -43,6 +43,18 @@ class SelectTest extends TestCase
         assertThat($sql, is('SELECT * FROM (SELECT * FROM users) ORDER BY name DESC'));
     }
 
+    public function testDistinctWithInnerSelect(): void
+    {
+        $sql = Select::start()
+            ->distinct()
+            ->column('name')
+            ->from(Select::start()->column('*')->from('users'))
+            ->orderBy('name', 'DESC')
+            ->build();
+
+        assertThat($sql, is('SELECT DISTINCT name FROM (SELECT * FROM users) ORDER BY name DESC'));
+    }
+
     public function testColumnFromJoinSelect(): void
     {
         $sql = Select::start()
