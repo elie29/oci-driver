@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
-- Nothing.
+- [#45](https://github.com/elie29/oci-driver/issues/45) Add distinct to the Select.
 
 ### Changed
 
