@@ -11,7 +11,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#46](https://github.com/elie29/oci-driver/issues/46) No need to check twice for rollback.
 
 ### Deprecated
 

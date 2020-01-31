@@ -167,9 +167,7 @@ class Driver implements DriverInterface
             json_encode($attributes)
         );
 
-        if (OCI_NO_AUTO_COMMIT === $this->commitOption) {
-            $this->rollbackTransaction();
-        }
+        $this->rollbackTransaction();
 
         throw new DriverException($message);
     }
