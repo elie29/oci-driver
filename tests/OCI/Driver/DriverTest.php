@@ -6,7 +6,6 @@ namespace OCI\Driver;
 
 use Mockery;
 use OCI\Debugger\DebuggerInterface;
-use OCI\Driver\Driver;
 use OCI\Driver\Parameter\Parameter;
 use OCI\Helper\Factory;
 use OCI\Helper\Format;
