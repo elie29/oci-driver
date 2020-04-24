@@ -62,7 +62,7 @@ class SelectTest extends TestCase
             ->from('params')
             ->from('params', 'p')
             ->join('users', 'u', 'u.user_id = p.user_id')
-            ->join('users', 'u', 'u.user_id = p.user_id') // should not be added twice
+            ->join('users', 'u', 'u.user_id = p.user_id') // won't be added twice
             ->leftJoin('users', 'u2', 'u2.user_id = p.user_id')
             ->rightJoin('params', 'p2', 'p2.user_id = p.user_id')
             ->build();
