@@ -1,9 +1,8 @@
-Changelog
-=========
+# Changelog
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## V1.0.19 - TBD
+## V1.0.19 - 2021-01-18
 
 ### Added
 
@@ -23,7 +22,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#4](https://github.com/elie29/oci-driver/issues/46) implode(): Passing glue string after array is deprecated. Swap the parameters
 
 ## V1.0.18 - 2019-11-07
 
