@@ -100,7 +100,7 @@ abstract class AbstractBuilder implements BuilderInterface
             return self::EMPTY;
         }
 
-        return ' RETURNING ' . implode(array_keys($this->returning), self::COMMA) .
-            ' INTO ' . implode($this->returning, self::COMMA);
+        return ' RETURNING ' . implode(self::COMMA, array_keys($this->returning)) .
+            ' INTO ' . implode(self::COMMA, $this->returning);
     }
 }
