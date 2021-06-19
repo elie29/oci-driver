@@ -75,6 +75,26 @@ class SelectTest extends TestCase
         assertThat($sql, is($expected));
     }
 
+    public function testColumnFromJoinSelect2(): void
+    {
+        $sql = Select::start()
+            ->column('p.*')
+            ->from('params')
+            ->from('params', 'p')
+            ->join(Select::start()->column('*')->from('users'), 'u', 'u.user_id = p.user_id')
+            ->join(Select::start()->column('*')->from('users'), 'u', 'u.user_id = p.user_id') // won't be added twice
+            ->leftJoin(Select::start()->column('*')->from('users'), 'u2', 'u2.user_id = p.user_id')
+            ->rightJoin('params', 'p2', 'p2.user_id = p.user_id')
+            ->build();
+
+        $expected = 'SELECT p.* FROM params, params p '
+                  . 'INNER JOIN (SELECT * FROM users) u ON u.user_id = p.user_id '
+                  . 'LEFT JOIN (SELECT * FROM users) u2 ON u2.user_id = p.user_id '
+                  . 'RIGHT JOIN params p2 ON p2.user_id = p.user_id';
+
+        assertThat($sql, is($expected));
+    }
+
     public function testSelectWhereOnly(): void
     {
         $sql = Select::start()
