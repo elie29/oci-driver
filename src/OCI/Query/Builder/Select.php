@@ -120,13 +120,13 @@ class Select extends AbstractCommonBuilder
      *        ->build();
      * </code>
      *
-     * @param string $table $table Table name.
+     * @param string|Select $table Table name.
      * @param string $alias Alias name.
      * @param string $condition Join condition.
      *
      * @return self
      */
-    public function join(string $table, string $alias, string $condition): self
+    public function join($table, string $alias, string $condition): self
     {
         return $this->forJoin('INNER JOIN', $table, $alias, $condition);
     }
@@ -143,13 +143,13 @@ class Select extends AbstractCommonBuilder
      *        ->build();
      * </code>
      *
-     * @param string $table $table Table name.
+     * @param string|Select $table Table name.
      * @param string $alias Alias name.
      * @param string $condition Join condition.
      *
      * @return self
      */
-    public function leftJoin(string $table, string $alias, string $condition): self
+    public function leftJoin($table, string $alias, string $condition): self
     {
         return $this->forJoin('LEFT JOIN', $table, $alias, $condition);
     }
@@ -166,13 +166,13 @@ class Select extends AbstractCommonBuilder
      *        ->build();
      * </code>
      *
-     * @param string $table $table Table name.
+     * @param string|Select $table Table name.
      * @param string $alias Alias name.
      * @param string $condition Join condition.
      *
      * @return self
      */
-    public function rightJoin(string $table, string $alias, string $condition): self
+    public function rightJoin($table, string $alias, string $condition): self
     {
         return $this->forJoin('RIGHT JOIN', $table, $alias, $condition);
     }
@@ -454,9 +454,13 @@ class Select extends AbstractCommonBuilder
     /**
      * @param string $join INNER JOIN, LEFT JOIN or RIGHT JOIN
      */
-    protected function forJoin(string $join, string $table, string $alias, string $condition): self
+    protected function forJoin(string $join, $table, string $alias, string $condition): self
     {
-        $key = $alias . $table;
+        if ($table instanceof Select) {
+            $table = '(' . $table->build() . ')';
+        }
+        
+        $key = md5($alias . $table);
 
         if (isset($this->joins[$key])) {
             return $this;
