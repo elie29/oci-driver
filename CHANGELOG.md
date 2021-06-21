@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## V1.0.20 - TBD
+## V1.0.20 - 2021-06-21
 
 ### Added
 
@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#47](https://github.com/elie29/oci-driver/issues/47) accept a SELECT type in Join.
 
 ### Deprecated
 
