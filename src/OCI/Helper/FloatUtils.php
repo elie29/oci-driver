@@ -1,21 +1,22 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Helper;
 
 class FloatUtils
 {
-
-    // Converts a float value to a string by keeping "." as decimal separator.
+    /**
+     * Converts a float to a string with a dot as a decimal separator.
+     */
     public static function convert(float $variable): string
     {
-        $commaIsDecimalSeparator = (string) 1.5 === '1,5';
+        $commaIsDecimalSeparator = (string)1.5 === '1,5';
 
         if ($commaIsDecimalSeparator) {
-            return str_replace(',', '.', (string) $variable);
+            return str_replace(',', '.', (string)$variable);
         }
 
-        return (string) $variable;
+        return (string)$variable;
     }
 }

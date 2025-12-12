@@ -1,21 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Query\Builder;
 
 class Update extends AbstractCommonBuilder
 {
-
     /**
      * Adds one table name to the query structure.
      *
      * @param string $table Table name.
      * @param string $alias Alias name.
-     *
-     * @return self
      */
-    public function table(string $table, string $alias = self::EMPTY): self
+    public function table(string $table, string $alias = self::EMPTY): static
     {
         $this->query[self::TABLE] = $table . $this->getTableAlias($alias);
         return $this;
@@ -39,12 +36,11 @@ class Update extends AbstractCommonBuilder
      *
      * @param string $key
      * @param mixed $value
-     *
-     * @return self
+     * @return Update
      */
-    public function set(string $key, $value): self
+    public function set(string $key, mixed $value): static
     {
-        return $this->add(self::SET, $key .' = ' . $value);
+        return $this->add(self::SET, $key . ' = ' . $value);
     }
 
     /**
@@ -59,22 +55,16 @@ class Update extends AbstractCommonBuilder
      *
      * @param string $colName Column Name.
      * @param string $bind Bound key.
-     *
-     * @return self
      */
-    public function returning(string $colName, string $bind): self
+    public function returning(string $colName, string $bind): static
     {
         $this->returning[$colName] = $bind;
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \OCI\Query\Builder\BuilderInterface::build()
-     */
     public function build(): string
     {
-        $res  = 'UPDATE ' . $this->query[self::TABLE];
+        $res = 'UPDATE ' . $this->query[self::TABLE];
         $res .= ' SET ' . $this->implode(self::SET);
 
         if ($this->query[self::WHERE]) {

@@ -1,37 +1,32 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Driver\Parameter;
 
 use OCI\Helper\FloatUtils;
+use stdClass;
 
 /**
  * Binds query parameters correctly.
  */
 class Parameter
 {
-
     public const DEFAULT_MAX_LEN = -1;
 
-    /**
-     * @var array
-     */
-    private $attributes = [];
+    private array $attributes = [];
 
     /**
      * For number/char/varchar values purpose.
      *
-     * oci_bind_by_name is called on each binding: maxlength is no longer useful
-     * <b>unless for OUTPUT binding</b>.
+     * `oci_bind_by_name` is called on each binding: maxlength is no longer useful
+     * unless for OUTPUT binding.
      *
-     * @param string $column  Column to be bound.
+     * @param string $column Column to be bound.
      * @param mixed $variable Column value.
-     * @param int $maxlength Mostly with default value.
-     *
-     * @return self
+     * @param int $maxlength Mostly with a default value.
      */
-    public function add(string $column, $variable, int $maxlength = self::DEFAULT_MAX_LEN): self
+    public function add(string $column, mixed $variable, int $maxlength = self::DEFAULT_MAX_LEN): static
     {
         if (is_float($variable)) {
             // float is inserted with SQL_CHR and should ALWAYS contain . as decimal separator
@@ -44,12 +39,10 @@ class Parameter
     /**
      * For LONG_RAW values purpose.
      *
-     * @param string $column  Column to be bound.
+     * @param string $column Column to be bound.
      * @param mixed $variable Column value.
-     *
-     * @return self
      */
-    public function addForLongRaw(string $column, $variable): self
+    public function addForLongRaw(string $column, mixed $variable): self
     {
         return $this->genericAdd($column, $variable, self::DEFAULT_MAX_LEN, SQLT_LBI);
     }
@@ -60,13 +53,10 @@ class Parameter
      *
      * @param resource $connexion Current OCI8 resource.
      * @param string $column CLob Column name.
-     * @param mixed $data Null when reading from database.
-     *
-     * @return self
+     * @param mixed|null $data Null when reading from a database.
      */
-    public function addForCLob($connexion, string $column, $data = null): self
+    public function addForCLob($connexion, string $column, mixed $data = null): static
     {
-        /*@var \OCI_Lob $lob */
         $lob = oci_new_descriptor($connexion, OCI_D_LOB);
 
         if ($data) {
@@ -79,19 +69,18 @@ class Parameter
     }
 
     /**
-     * Get the value of a bound column in OUT mode
+     * Get the value of a bound column in `OUT` mode
      *
      * @param string $column The bound column.
-     *
      * @return mixed
      */
-    public function getVariable(string $column)
+    public function getVariable(string $column): mixed
     {
         return $this->attributes[$column]->variable;
     }
 
     /**
-     * @return \stdClass[] Arrays of column, variable, length, type.
+     * @return stdClass[] Arrays of column, variable, length, type.
      */
     public function getAttributes(): array
     {
@@ -105,15 +94,14 @@ class Parameter
      * @param mixed $variable Data to be bound to.
      * @param int $maxlength Data maxlength.
      * @param int $type Supported types SQLT_CHR.
-     *
      * @return Parameter
      */
-    private function genericAdd(string $column, $variable, int $maxlength, int $type): self
+    private function genericAdd(string $column, mixed $variable, int $maxlength, int $type): static
     {
-        $this->attributes[$column] = (object) [
+        $this->attributes[$column] = (object)[
             'variable' => $variable,
-            'length'   => $maxlength,
-            'type'     => $type,
+            'length' => $maxlength,
+            'type' => $type,
         ];
 
         return $this;

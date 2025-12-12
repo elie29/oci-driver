@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Helper;
 
@@ -8,12 +8,15 @@ use Mockery;
 use OCI\OCITestCase;
 use Symfony\Component\VarDumper\VarDumper;
 
+use function assertThat;
+use function not;
+use function sameInstance;
+
 /**
  * @runTestsInSeparateProcesses because Factory::get is based on static members.
  */
 class FactoryTest extends OCITestCase
 {
-
     public function testDevCreation()
     {
         // Mock dump in order not to print out data
@@ -32,7 +35,7 @@ class FactoryTest extends OCITestCase
 
     public function testCreationNewInstance()
     {
-        $first = Factory::create(Provider::getConnection(), 'prod');
+        $first  = Factory::create(Provider::getConnection(), 'prod');
         $second = Factory::create(Provider::getConnection(), 'prod');
         assertThat($first, not(sameInstance($second)));
     }

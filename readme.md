@@ -3,6 +3,7 @@
 ## Documentation
 
 ## Text file encoding
+
 - UTF-8
 
 ## Code style formatter
@@ -18,10 +19,12 @@ composer require elie29/oci-driver
 ```
 
 ## Getting Started
+
 OCI Query Builder provides a lightweight builder to dynamically create SQL queries.
 It **does not** validate the query at all.
 
 ### Select builder
+
 ```php
 // SELECT * FROM params ORDER BY name ASC
 $sql = Select::start() // aka (new Select)
@@ -32,6 +35,7 @@ $sql = Select::start() // aka (new Select)
 ```
 
 ### Select builder with union
+
 ```php
 // SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC
 $sql = Select::start() // aka (new Select)
@@ -45,6 +49,7 @@ $sql = Select::start() // aka (new Select)
 ```
 
 ### Delete builder
+
 ```php
 // DELETE FROM params WHERE id = 2
 $sql = Delete::start() // aka (new Delete)
@@ -54,6 +59,7 @@ $sql = Delete::start() // aka (new Delete)
 ```
 
 ### Update builder
+
 ```php
 // UPDATE users u SET u.name = 'O''neil' WHERE u.user_id = 1
 $sql = Update::start() // aka (new Update)
@@ -64,6 +70,7 @@ $sql = Update::start() // aka (new Update)
 ```
 
 ### Insert builder
+
 ```php
 // INSERT INTO params (user_id, name) VALUES (:id, :name)
 $sql = Insert::start() // aka (new Insert)
@@ -80,8 +87,10 @@ $sql = Insert::start() // aka (new Insert)
 ## Using OCI Driver Class
 
 ### Using the factory
+
 Factory will automatically alter the session (@see OCI\Driver\Helper\SessionInit.php) in order to fix NLS_TIME_FORMAT
-and NLS_NUMERIC_CHARACTERS. So we won't need to use to_char or to_date to convert the format, especially in comparing dates with a given date:
+and NLS_NUMERIC_CHARACTERS. So we won't need to use to_char or to_date to convert the format, especially in comparing
+dates with a given date:
 
 ```php
 $driver = Factory::create(Provider::getConnection(), 'test');
@@ -98,7 +107,9 @@ $rows = $driver->fetchAllAssoc($sql, $bind);
 ### Insert/Update Example
 
 #### With Autocommit
+
 Autocommit is the default behaviour of OCI Driver:
+
 ```php
 $connection = oci_pconnect('username', 'pass', 'schema', 'UTF8');
 $driver = Factory::create($connection, 'dev');
@@ -109,7 +120,9 @@ echo $count; // displays 1
 ```
 
 #### With Transaction
+
 In order to start a transaction, you should use beginTransaction as follow:
+
 ```php
 $connection = oci_pconnect('username', 'pass', 'schema', 'UTF8');
 $driver = Factory::create($connection, 'dev');
@@ -124,9 +137,11 @@ try {
    echo $e->getMessage();
 }
 ```
+
 **N.B.**: When an error occurred using a transaction, rollback is called automatically.
 
 #### Bind parameters
+
 ```php
 $connection = oci_pconnect('username', 'pass', 'schema', 'UTF8');
 $driver = Factory::create($connection, 'dev');
@@ -143,6 +158,7 @@ echo $count; // displays 1
 ```
 
 ### Fetch one row
+
 ```php
 $connection = oci_pconnect('username', 'pass', 'schema', 'UTF8');
 $driver = Factory::create($connection, 'dev');
@@ -151,9 +167,11 @@ $sql = 'SELECT * FROM A1 WHERE N_NUM = 2';
 
 $row = $driver->fetchAssoc($sql);
 ```
+
 **N.B.**: For binding parameters, follow the same insertion example above.
 
 ### Fetch many rows
+
 ```php
 $connection = oci_pconnect('username', 'pass', 'schema', 'UTF8');
 $driver = Factory::create($connection, 'dev');
@@ -162,6 +180,7 @@ $sql = 'SELECT * FROM A1';
 
 $rows = $driver->fetchAllAssoc($sql);
 ```
+
 **N.B.**: For binding parameters, follow the same insertion example above.
 
 ## Prepare for test
@@ -169,11 +188,14 @@ $rows = $driver->fetchAllAssoc($sql);
 Before launching unit tests, you should follow these steps:
 
 ### Create A1 and A2 tables
-In order to launch tests, A1 and A2 tables should be created as follow:
+
+To launch tests, A1 and A2 tables should be created as follows:
 
 ```sql
     CREATE TABLE A1
-    ("N_CHAR" CHAR(5 BYTE),
+    (
+        "N_CHAR" CHAR(5 BYTE
+    ) ,
      "N_NUM" NUMBER,
      "N_NUM_3" NUMBER(6,3),
      "N_VAR" VARCHAR2,
@@ -182,11 +204,14 @@ In order to launch tests, A1 and A2 tables should be created as follow:
      "N_TS" TIMESTAMP,
      "N_LONG" LONG);
 
-    CREATE TABLE A2
-    ("N_LONG_RAW" LONG RAW);
+CREATE TABLE A2
+(
+    "N_LONG_RAW" LONG RAW
+);
 ```
 
 ### Rename config file
+
 Rename config-connection.php.dist in ./tests/OCI/Helper to config-connection.php
 
 ```console
@@ -194,33 +219,24 @@ Rename config-connection.php.dist in ./tests/OCI/Helper to config-connection.php
 ```
 
 ### Modify configuration
+
 Modify USERNAME, PASSWORD and SCHEMA according to your Oracle Database Information
 
-   > SCHEMA could be one of the following:
+> SCHEMA could be one of the following:
 
- - SID name if you are executing the tests on the same database server
-   or if you have a configured SID in tnsnames.ora
+- SID name if you are executing the tests on the same database server
+  or if you have a configured SID in tnsnames.ora
 
 - IP:PORT/SID eg: 11.22.33.25:12005/HR
 
 - Use the following TNS :
-   > (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DATABASE_IP)(PORT=DATABASE_PORT))(CONNECT_DATA=(SID=DATABASE_SCHEMA)(SERVER=DEDICATED|POOLED)))
+  > (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DATABASE_IP)(PORT=DATABASE_PORT))(CONNECT_DATA=(SID=DATABASE_SCHEMA)(
+  SERVER=DEDICATED|POOLED)))
 
 ## Development Prerequisites
 
-### Code style formatter
-- Zend Framework coding standard
-
 ### Composer commands
-   - `clean`: Cleans all generated files
-   - `test`: Launches `clean` and php unit test
-   - `cover`: Launches unit test and a local server
-   - `cs-check`: For code sniffer check
-   - `cs-fix`: For code sniffer fix
-   - `check`: Launches `cs-check` and `test`
 
-### Ant commands
-This project uses build.xml to perform static analysis and generate project documentation.
-
-You should have [apache-ant](https://ant.apache.org/) installed in order to launch `ant`.
-   - Run `ant -p` to print out default and main targets.
+- `test`: Runs PHPUnit tests without coverage
+- `test-coverage`: Runs PHPUnit tests with code coverage
+- `cover`: Runs tests with coverage and starts a local server at http://localhost:5001

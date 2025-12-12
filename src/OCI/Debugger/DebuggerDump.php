@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Debugger;
 
@@ -9,8 +9,8 @@ namespace OCI\Debugger;
  */
 class DebuggerDump implements DebuggerInterface
 {
-
-    protected $startTime = 0;
+    /** @var float */
+    protected float $startTime;
 
     public function start(): void
     {
@@ -24,7 +24,7 @@ class DebuggerDump implements DebuggerInterface
         dump([
             'query' => $query,
             'parameters' => $parameters,
-            'duration(ms)' => round($endTime - $this->startTime, 1)
+            'duration(ms)' => round($endTime - $this->startTime, 1),
         ]);
 
         // keep chaining

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Query\Builder;
 
@@ -9,7 +9,6 @@ namespace OCI\Query\Builder;
  */
 abstract class AbstractCommonBuilder extends AbstractBuilder
 {
-
     /**
      * Adds predicate to the query.
      * Alias of andWhere
@@ -23,8 +22,6 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      * </code>
      *
      * @param string $condition where condition.
-     *
-     * @return self
      */
     public function where(string $condition): self
     {
@@ -55,9 +52,8 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      * @param string $condition Simple where condition.
      *  <b>Parentheses are required when mixing or/and conditions.</b>
      *  <b>If no where exists, the andWhere is considered as a simple where.
-     * @return self
      */
-    public function andWhere(string $condition): self
+    public function andWhere(string $condition): static
     {
         if ($this->query[self::WHERE]) {
             $condition = 'AND ' . $condition;
@@ -81,10 +77,8 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      *
      * @param string $condition Simple where condition.
      *  <b>Parentheses are required when mixing or/and conditions.</b>
-     *
-     * @return self
      */
-    public function orWhere(string $condition): self
+    public function orWhere(string $condition): static
     {
         return $this->add(self::WHERE, 'OR ' . $condition);
     }
@@ -94,12 +88,8 @@ abstract class AbstractCommonBuilder extends AbstractBuilder
      *
      * @param string $part Available parts are: 'columns', 'from', 'join', 'set', 'where',
      *  'groupBy', 'having' and 'orderBy'.
-     *
-     * @param string $sqlPart
-     *
-     * @return self
      */
-    protected function add(string $part, string $sqlPart): self
+    protected function add(string $part, string $sqlPart): static
     {
         $this->query[$part][] = $sqlPart;
         return $this;

@@ -1,14 +1,16 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Query\Builder;
 
 use PHPUnit\Framework\TestCase;
 
+use function assertThat;
+use function is;
+
 class InsertTest extends TestCase
 {
-
     public function testSimpleInsert(): void
     {
         $sql = Insert::start()
@@ -28,13 +30,13 @@ class InsertTest extends TestCase
     public function testSimpleInsertWithoutBinding(): void
     {
         $sql = Insert::start()
-            ->into('users')
-            ->values([
-                'USER_ID'    => 3,
-                'NAME'       => Insert::quote("O'neil"),
-                'BIRTH_DATE' => Insert::quote('21/11/79'),
-            ])
-            ->build();
+        ->into('users')
+        ->values([
+            'USER_ID'    => 3,
+            'NAME'       => Insert::quote("O'neil"),
+            'BIRTH_DATE' => Insert::quote('21/11/79'),
+        ])
+        ->build();
 
         $expected = "INSERT INTO users (USER_ID, NAME, BIRTH_DATE) VALUES (3, 'O''neil', '21/11/79')";
 
@@ -44,18 +46,18 @@ class InsertTest extends TestCase
     public function testSimpleInsertWithReturning(): void
     {
         $sql = Insert::start()
-            ->into('users')
-            ->values([
-                'USER_ID'    => 3,
-                'NAME'       => Insert::quote("O'neil"),
-                'BIRTH_DATE' => Insert::quote('21/11/79'),
-            ])
-            ->returning('desc', ':myDesc')
-            ->returning('lib', ':myLib')
-            ->build();
+        ->into('users')
+        ->values([
+            'USER_ID'    => 3,
+            'NAME'       => Insert::quote("O'neil"),
+            'BIRTH_DATE' => Insert::quote('21/11/79'),
+        ])
+        ->returning('desc', ':myDesc')
+        ->returning('lib', ':myLib')
+        ->build();
 
-        $expected = "INSERT INTO users (USER_ID, NAME, BIRTH_DATE) VALUES (3, 'O''neil', '21/11/79') " .
-            'RETURNING desc, lib INTO :myDesc, :myLib';
+        $expected = "INSERT INTO users (USER_ID, NAME, BIRTH_DATE) VALUES (3, 'O''neil', '21/11/79') "
+        . 'RETURNING desc, lib INTO :myDesc, :myLib';
 
         assertThat($sql, is($expected));
     }
@@ -63,14 +65,14 @@ class InsertTest extends TestCase
     public function testInsertSelect(): void
     {
         $select = Select::start()
-            ->columns(["'test'", 1])
-            ->from('DUAL');
+        ->columns(["'test'", 1])
+        ->from('DUAL');
 
         $sql = Insert::start()
-            ->into('A1')
-            ->columns(['N_CHAR', 'N_NUM'])
-            ->select($select)
-            ->build();
+        ->into('A1')
+        ->columns(['N_CHAR', 'N_NUM'])
+        ->select($select)
+        ->build();
 
         $expected = "INSERT INTO A1 (N_CHAR, N_NUM) SELECT 'test', 1 FROM DUAL";
 

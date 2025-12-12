@@ -1,14 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Helper;
 
 use OCI\OCITestCase;
 
+use function assertThat;
+use function setlocale;
+
+use const LC_ALL;
+
 class FloatUtilsTest extends OCITestCase
 {
-
     public function testConvertWithFr(): void
     {
         $locale = setlocale(LC_ALL, 0);

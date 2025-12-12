@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Driver;
 
@@ -9,38 +9,29 @@ use OCI\Driver\Parameter\Parameter;
 
 class Driver implements DriverInterface
 {
-
     /** OPTIONS pour oci_fetch */
     public const FETCH_ALL_OPT = OCI_FETCHSTATEMENT_BY_ROW + OCI_ASSOC + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
     public const FETCH_ARRAY_OPT = OCI_ASSOC + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
     public const FETCH_ONE_COL = OCI_NUM + OCI_RETURN_NULLS + OCI_RETURN_LOBS;
 
-    /**
-     * @var resource
-     */
-    protected $connection;
+    /** @var resource */
+    protected mixed $connection;
 
-    /**
-     * @var DebuggerInterface
-     */
-    protected $debugger;
+    protected DebuggerInterface $debugger;
 
-    /**
-     * @var int Autocommit by default
-     */
-    protected $commitOption = OCI_COMMIT_ON_SUCCESS;
+    /** @var int Autocommit by default */
+    protected int $commitOption = OCI_COMMIT_ON_SUCCESS;
 
     /**
      * @param resource $connection
-     * @param DebuggerInterface $debugger
      */
-    public function __construct($connection, DebuggerInterface $debugger)
+    public function __construct(mixed $connection, DebuggerInterface $debugger)
     {
         $this->connection = $connection;
         $this->debugger = $debugger;
     }
 
-    public function getConnection()
+    public function getConnection(): mixed
     {
         return $this->connection;
     }
@@ -69,7 +60,10 @@ class Driver implements DriverInterface
         return $this;
     }
 
-    public function executeUpdate($sql, Parameter $bind = null): int
+    /**
+     * @throws DriverException
+     */
+    public function executeUpdate(string $sql, ?Parameter $bind = null): int
     {
         $statement = $this->executeQuery($sql, $bind);
 
@@ -77,10 +71,13 @@ class Driver implements DriverInterface
 
         oci_free_statement($statement);
 
-        return (int) $count;
+        return (int)$count;
     }
 
-    public function fetchColumns($sql, Parameter $bind = null): array
+    /**
+     * @throws DriverException
+     */
+    public function fetchColumns(string $sql, ?Parameter $bind = null): array
     {
         $statement = $this->executeQuery($sql, $bind);
 
@@ -93,14 +90,20 @@ class Driver implements DriverInterface
         return $data ?: [];
     }
 
-    public function fetchColumn($sql, Parameter $bind = null): array
+    /**
+     * @throws DriverException
+     */
+    public function fetchColumn(string $sql, ?Parameter $bind = null): array
     {
         $data = $this->fetchColumns($sql, $bind);
 
         return $data[0] ?? [];
     }
 
-    public function fetchAllAssoc($sql, Parameter $bind = null): array
+    /**
+     * @throws DriverException
+     */
+    public function fetchAllAssoc(string $sql, ?Parameter $bind = null): array
     {
         $statement = $this->executeQuery($sql, $bind);
 
@@ -113,7 +116,10 @@ class Driver implements DriverInterface
         return $data ?: [];
     }
 
-    public function fetchAssoc($sql, Parameter $bind = null): array
+    /**
+     * @throws DriverException
+     */
+    public function fetchAssoc(string $sql, ?Parameter $bind = null): array
     {
         $statement = $this->executeQuery($sql, $bind);
 
@@ -124,8 +130,11 @@ class Driver implements DriverInterface
         return $data ?: [];
     }
 
-    // <b>YOU SHOULD MANUALLY CALL oci_free_statement!</b>
-    public function executeQuery(string $sql, Parameter $bind = null)
+    /**
+     * YOU SHOULD MANUALLY CALL oci_free_statement!
+     * @throws DriverException
+     */
+    public function executeQuery(string $sql, ?Parameter $bind = null): mixed
     {
         $statement = oci_parse($this->connection, $sql);
 
@@ -138,6 +147,12 @@ class Driver implements DriverInterface
         return $statement;
     }
 
+    /**
+     * @param resource $statement
+     * @param string $sql
+     * @param Parameter|null $bind
+     * @throws DriverException
+     */
     private function ociExecuteAndDebug($statement, string $sql, Parameter $bind = null): void
     {
         $this->debugger->start();
@@ -148,16 +163,22 @@ class Driver implements DriverInterface
             oci_bind_by_name($statement, $column, $params->variable, $params->length, $params->type);
         }
 
-        if (! @oci_execute($statement, $this->commitOption)) {
+        if (!@oci_execute($statement, $this->commitOption)) {
             $this->error($sql, $bind, $statement);
         }
 
         $this->debugger->end($sql, $attributes);
     }
 
+    /**
+     * @param string $sql
+     * @param Parameter|null $bind
+     * @param resource|null $resource
+     * @throws DriverException
+     */
     private function error(string $sql, Parameter $bind = null, $resource = null): void
     {
-        $ociError   = oci_error($resource) ?: ['message' => 'OCI Driver unknown error'];
+        $ociError = oci_error($resource) ?: ['message' => 'OCI Driver unknown error'];
         $attributes = $bind ? $bind->getAttributes() : [];
 
         $message = sprintf(

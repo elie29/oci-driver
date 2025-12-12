@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Driver;
 
@@ -13,9 +13,25 @@ use OCI\Helper\Provider;
 use OCI\Helper\SessionInit;
 use OCI\OCITestCase;
 
+use function anInstanceOf;
+use function array_column;
+use function array_sum;
+use function arrayWithSize;
+use function assertThat;
+use function bin2hex;
+use function date;
+use function emptyArray;
+use function file_get_contents;
+use function greaterThan;
+use function identicalTo;
+use function is;
+use function nonEmptyArray;
+use function nonEmptyString;
+use function oci_free_statement;
+use function time;
+
 class DriverTest extends OCITestCase
 {
-
     public static function setUpBeforeClass(): void
     {
         $driver = Provider::getDriver();
@@ -31,36 +47,27 @@ class DriverTest extends OCITestCase
     public function testCreateInstanceWithMock(): void
     {
         $connection = Provider::getConnection();
-        $debugger = Mockery::mock(DebuggerInterface::class);
-        $driver = new Driver($connection, $debugger);
+        $debugger   = Mockery::mock(DebuggerInterface::class);
+        $driver     = new Driver($connection, $debugger);
 
         assertThat($driver, anInstanceOf(DriverInterface::class));
     }
 
-    /**
-     * @expectedException OCI\Driver\DriverException
-     */
     public function testExecuteWithException(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'Select FROM A1';
+        $sql    = 'Select FROM A1';
         $driver->executeQuery($sql);
     }
 
-    /**
-     * @expectedException OCI\Driver\DriverException
-     */
     public function testBoundExecuteWithException(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'Select FROM A1 WHERE N_NUM = :N_NUM';
-        $param = new Parameter();
+        $sql    = 'Select FROM A1 WHERE N_NUM = :N_NUM';
+        $param  = new Parameter();
         $driver->executeQuery($sql, $param->add(':N_NUM', 5));
     }
 
-    /**
-     * @expectedException OCI\Driver\DriverException
-     */
     public function testExecuteTransactionWithException(): void
     {
         $driver = Provider::getDriver();
@@ -100,7 +107,7 @@ class DriverTest extends OCITestCase
     public function testExecuteUpdateWithoutBindWithTransactionRollback($num, $num3, $ts, $long): void
     {
         $driver = Provider::getDriver();
-        $sql = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
+        $sql    = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
 
         $driver->beginTransaction();
         $res = $driver->executeUpdate($sql);
@@ -115,7 +122,7 @@ class DriverTest extends OCITestCase
     public function testExecuteUpdateWithoutBindAndTransactionCommit($num, $num3, $ts, $long): void
     {
         $driver = Provider::getDriver();
-        $sql = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
+        $sql    = "INSERT INTO A1 (N_NUM, N_NUM_3, N_TS, N_LONG) VALUES ($num, $num3, $ts, $long)";
 
         $driver->beginTransaction();
         $res = $driver->executeUpdate($sql);
@@ -127,18 +134,18 @@ class DriverTest extends OCITestCase
     public function testExecuteUpdateWithBindAndTransactionRollback(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'INSERT INTO A1 (N_CHAR, N_NUM, N_NUM_3, N_VAR, N_DATE, N_TS, N_LONG) VALUES '
-             . '(:N1, :N2, :N3, :N4, TO_DATE(:N5, \'DD-MM-YYYY\'), TO_TIMESTAMP(:N6, \'DD-MM-YYYY HH24:MI:SS\'), :N7)';
+        $sql    = 'INSERT INTO A1 (N_CHAR, N_NUM, N_NUM_3, N_VAR, N_DATE, N_TS, N_LONG) VALUES '
+         . '(:N1, :N2, :N3, :N4, TO_DATE(:N5, \'DD-MM-YYYY\'), TO_TIMESTAMP(:N6, \'DD-MM-YYYY HH24:MI:SS\'), :N7)';
 
         $driver->beginTransaction();
         $bind = new Parameter();
         $bind->add(':N1', 'c')
-            ->add(':N2', 1)
-            ->add(':N3', 0.24)
-            ->add(':N4', 'test')
-            ->add(':N5', date('d-m-Y')) // should respect to_date fmt
-            ->add(':N6', date('d-m-Y H:i:s')) // should respect to_timestamp fmt
-            ->add(':N7', 18596);
+        ->add(':N2', 1)
+        ->add(':N3', 0.24)
+        ->add(':N4', 'test')
+        ->add(':N5', date('d-m-Y')) // should respect to_date fmt
+        ->add(':N6', date('d-m-Y H:i:s')) // should respect to_timestamp fmt
+        ->add(':N7', 18596);
 
         $res = $driver->executeUpdate($sql, $bind);
         $driver->commitTransaction();
@@ -148,22 +155,22 @@ class DriverTest extends OCITestCase
 
     public function testExecuteUpdateWithBindAndSessionInit(): void
     {
-        $driver = Provider::getDriver();
+        $driver  = Provider::getDriver();
         $session = new SessionInit();
         $session->alterSession($driver);
 
         $sql = 'INSERT INTO A1 (N_CHAR, N_NUM, N_NUM_3, N_VAR, N_DATE, N_TS, N_LONG) VALUES '
-            . '(:N1, :N2, :N3, :N4, :N5, :N6, :N7)';
+        . '(:N1, :N2, :N3, :N4, :N5, :N6, :N7)';
 
         $driver->beginTransaction();
         $bind = new Parameter();
         $bind->add(':N1', 'c')
-            ->add(':N2', 1)
-            ->add(':N3', 0.24)
-            ->add(':N4', 'test')
-            ->add(':N5', '2018-08-12') // ISO Format
-            ->add(':N6', '2018-11-09 12:35:36') // ISO Format
-            ->add(':N7', 18596);
+        ->add(':N2', 1)
+        ->add(':N3', 0.24)
+        ->add(':N4', 'test')
+        ->add(':N5', '2018-08-12') // ISO Format
+        ->add(':N6', '2018-11-09 12:35:36') // ISO Format
+        ->add(':N7', 18596);
 
         $res = $driver->executeUpdate($sql, $bind);
         $driver->rollbackTransaction();
@@ -177,7 +184,7 @@ class DriverTest extends OCITestCase
     public function testFetchColumns()
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT N_NUM, N_NUM_3 FROM A1';
+        $sql    = 'SELECT N_NUM, N_NUM_3 FROM A1';
 
         $cols = $driver->fetchColumns($sql);
         assertThat($cols, arrayWithSize(2));
@@ -189,7 +196,7 @@ class DriverTest extends OCITestCase
     public function testFetchColumn()
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT N_NUM, N_NUM_3 FROM A1';
+        $sql    = 'SELECT N_NUM, N_NUM_3 FROM A1';
 
         $cols = $driver->fetchColumn($sql);
         assertThat($cols, nonEmptyArray());
@@ -201,11 +208,11 @@ class DriverTest extends OCITestCase
     public function testFetchAssocWithBind(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT N_NUM FROM A1 WHERE N_NUM = :N1 AND N_NUM_3 = :N2';
+        $sql    = 'SELECT N_NUM FROM A1 WHERE N_NUM = :N1 AND N_NUM_3 = :N2';
 
         $bind = new Parameter();
         $bind->add(':N1', 150)
-            ->add(':N2', 2.05);
+        ->add(':N2', 2.05);
 
         $row = $driver->fetchAssoc($sql, $bind);
 
@@ -218,11 +225,11 @@ class DriverTest extends OCITestCase
     public function testFetchAllAssocWithBind(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT N_NUM FROM A1 WHERE N_NUM = :N1 AND N_NUM_3 = :N2';
+        $sql    = 'SELECT N_NUM FROM A1 WHERE N_NUM = :N1 AND N_NUM_3 = :N2';
 
         $bind = new Parameter();
         $bind->add(':N1', 150)
-            ->add(':N2', 2.091);
+        ->add(':N2', 2.091);
 
         $row = $driver->fetchAllAssoc($sql, $bind);
 
@@ -235,7 +242,7 @@ class DriverTest extends OCITestCase
     public function testFetchAssocWithoutBind(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT * FROM A1 WHERE N_NUM = 2';
+        $sql    = 'SELECT * FROM A1 WHERE N_NUM = 2';
 
         $row = $driver->fetchAssoc($sql);
 
@@ -248,7 +255,7 @@ class DriverTest extends OCITestCase
     public function testFetchAllAssocWithoutBind(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT * FROM A1';
+        $sql    = 'SELECT * FROM A1';
 
         $row = $driver->fetchAllAssoc($sql);
 
@@ -265,8 +272,8 @@ class DriverTest extends OCITestCase
         $sql = 'SELECT * FROM A1 WHERE N_DATE BETWEEN :YESTERDAY AND :TOMORROW';
 
         $bind = (new Parameter())
-            ->add(':YESTERDAY', date(Format::PHP_DATE, time() - 86400)) // N_DATE type is DATE
-            ->add(':TOMORROW', date(Format::PHP_DATE, time() + 86400));
+        ->add(':YESTERDAY', date(Format::PHP_DATE, time() - 86400)) // N_DATE type is DATE
+        ->add(':TOMORROW', date(Format::PHP_DATE, time() + 86400));
 
         $rows = $driver->fetchAllAssoc($sql, $bind);
 
@@ -279,7 +286,7 @@ class DriverTest extends OCITestCase
     public function testFetchSimpleCount(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT count(*) NB FROM A1';
+        $sql    = 'SELECT count(*) NB FROM A1';
 
         $row = $driver->fetchAssoc($sql);
 
@@ -294,9 +301,9 @@ class DriverTest extends OCITestCase
     public function testFetchCountWithUnion(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT count(*) NB FROM A1 '
-             . 'UNION '
-             . 'SELECT count(*) NB FROM dual';
+        $sql    = 'SELECT count(*) NB FROM A1 '
+         . 'UNION '
+         . 'SELECT count(*) NB FROM dual';
 
         $cols = $driver->fetchAllAssoc($sql);
 
@@ -311,7 +318,7 @@ class DriverTest extends OCITestCase
     public function testUpdateDataWithClobBind(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'Update A1 SET N_CLOB = :LOB WHERE N_NUM = :NUM';
+        $sql    = 'Update A1 SET N_CLOB = :LOB WHERE N_NUM = :NUM';
 
         $bind = new Parameter();
         $bind->add(':NUM', 2);
@@ -334,7 +341,7 @@ class DriverTest extends OCITestCase
     public function testFetchDataWithClob(): void
     {
         $driver = Provider::getDriver();
-        $sql = 'SELECT N_CLOB FROM A1 WHERE N_CLOB IS NOT NULL';
+        $sql    = 'SELECT N_CLOB FROM A1 WHERE N_CLOB IS NOT NULL';
 
         $row = $driver->fetchAssoc($sql);
 
@@ -429,7 +436,7 @@ class DriverTest extends OCITestCase
         $driver = Provider::getDriver();
 
         $value = bin2hex('Any long raw as hex value');
-        $sql = "INSERT INTO A2 (N_LONG_RAW) VALUES ('$value')";
+        $sql   = "INSERT INTO A2 (N_LONG_RAW) VALUES ('$value')";
 
         $res = $driver->executeUpdate($sql);
 

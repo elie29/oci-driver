@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Helper;
 
@@ -12,7 +12,6 @@ use OCI\OCITestCase;
 
 class SessionInitTest extends OCITestCase
 {
-
     /**
      * @doesNotPerformAssertions
      */

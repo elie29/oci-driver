@@ -1,19 +1,18 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Driver;
 
 class Connection
 {
-
-    protected $user;
-    protected $password;
-    protected $dbname;
-    protected $charset;
+    protected string $user;
+    protected string $password;
+    protected string $dbname;
+    protected string $charset;
 
     /**
-     * @param string $user The Oracle user name.
+     * @param string $user The Oracle username.
      * @param string $password The password for username.
      * @param string $dbname Database connection string or name.
      * @param string $charset Database connection charset: default UTF8
@@ -28,14 +27,13 @@ class Connection
 
     /**
      * @return resource
-     *
      * @throws DriverException
      */
     public function connect()
     {
         $connection = @oci_pconnect($this->user, $this->password, $this->dbname, $this->charset);
 
-        if (! $connection) {
+        if (!$connection) {
             $message = sprintf('Connection error %s, %s', $this->user, $this->dbname);
             throw new DriverException($message);
         }

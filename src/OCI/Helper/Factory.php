@@ -1,15 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Helper;
 
 use OCI\Debugger\DebuggerDumb;
 use OCI\Debugger\DebuggerDump;
-use OCI\Debugger\DebuggerInterface;
 use OCI\Driver\Driver;
 use OCI\Driver\DriverInterface;
-use OCI\Helper\SessionInit;
 
 /**
  * Helper for creating new or one instance of an OCI Driver Service.
@@ -17,9 +15,10 @@ use OCI\Helper\SessionInit;
  */
 class Factory
 {
-
+    /** @var resource */
     private static $connection;
-    private static $env = 'dev';
+
+    private static string $env = 'dev';
 
     /**
      * <b>Initialize the factory with the main connection</b>
@@ -51,7 +50,6 @@ class Factory
     /**
      * @param resource $connection
      * @param string $env dev|prod for DebuggerInterface
-     *
      * @return DriverInterface A new instance of OCI Driver service.
      */
     public static function create($connection, string $env): DriverInterface

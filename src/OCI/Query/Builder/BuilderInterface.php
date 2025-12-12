@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Query\Builder;
 
 interface BuilderInterface
 {
-
     public const EMPTY   = '';
     public const COMMA   = ', ';
     public const SPACE   = ' ';
@@ -27,8 +26,6 @@ interface BuilderInterface
     /**
      * Builds the complete SQL from the query parts.
      * Reset the query structure once called.
-     *
-     * @return string
      */
     public function build(): string;
 }

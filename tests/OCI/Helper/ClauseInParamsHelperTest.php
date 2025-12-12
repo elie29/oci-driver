@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace OCI\Helper;
 
@@ -8,9 +8,13 @@ use OCI\Driver\DriverException;
 use OCI\Driver\Parameter\Parameter;
 use OCI\OCITestCase;
 
+use function array_fill;
+use function arrayValue;
+use function assertThat;
+use function startsWith;
+
 class ClauseInParamsHelperTest extends OCITestCase
 {
-
     public function testGetBoundParamsThrowsException(): void
     {
         $this->expectException(DriverException::class);
@@ -24,7 +28,7 @@ class ClauseInParamsHelperTest extends OCITestCase
     public function testGetBoundParamsWithValidValues(): void
     {
         $values = array_fill(0, 999, 1);
-        $param = new Parameter();
+        $param  = new Parameter();
 
         $key = ClauseInParamsHelper::getBoundParams($values, ':ID', $param);
 
