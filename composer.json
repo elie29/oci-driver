@@ -1,41 +1,44 @@
 {
-   "name": "elie29/oci-driver",
-   "description": "OCI Driver",
-   "license": "MIT",
-   "keywords": [],
-   "authors": [
-      {
-         "name": "Elie NEHME",
-         "email": "elie29@gmail.com"
-      }
-   ],
-   "support": {
-      "issues": "https://github.com/elie29/oci-driver/issues",
-      "source": "https://github.com/elie29/oci-driver"
-   },
-   "type": "library",
-   "minimum-stability": "stable",
-   "require": {
-      "php": "^8.2",
-      "ext-oci8": "*",
-      "ext-json": "*"
-   },
-   "require-dev": {
-      "mockery/mockery": "^1.5",
-      "phpunit/phpunit": "^11.5",
-      "symfony/var-dumper": "^6.0"
-   },
-   "autoload": {
-      "psr-4": {
-         "": "src/"
-      }
-   },
-   "autoload-dev": {
-      "psr-4": {
-         "": "tests/"
-      }
-   },
-   "config": {
+  "name": "elie29/oci-driver",
+  "description": "OCI Driver",
+  "license": "MIT",
+  "keywords": [],
+  "authors": [
+    {
+      "name": "Elie NEHME",
+      "email": "elie29@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/elie29/oci-driver/issues",
+    "source": "https://github.com/elie29/oci-driver"
+  },
+  "type": "library",
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^8.2",
+    "ext-oci8": "*",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.5",
+    "phpunit/phpunit": "^11.5",
+    "symfony/var-dumper": "^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "": [
+        "tests/units",
+        "tests/integration"
+      ]
+    }
+  },
+  "config": {
     "sort-packages": true,
     "allow-plugins": true,
     "optimize-autoloader": true,
@@ -45,7 +48,7 @@
   },
   "scripts": {
     "test": "phpunit --color=always --display-deprecations --display-errors --display-warnings --no-coverage",
-    "test-coverage": "@php -d xdebug.mode=coverage vendor/bin/phpunit --display-phpunit-deprecations --color=always",
+    "test-coverage": "@php -d xdebug.mode=coverage vendor/bin/phpunit --testsuite 'Integration Tests' --color=always",
     "cover": [
       "@test-coverage",
       "php -S localhost:5001 -t build/coverage"

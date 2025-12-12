@@ -6,14 +6,9 @@ namespace OCI\Helper;
 
 use OCI\Driver\DriverException;
 use OCI\Driver\Parameter\Parameter;
-use OCI\OCITestCase;
+use PHPUnit\Framework\TestCase;
 
-use function array_fill;
-use function arrayValue;
-use function assertThat;
-use function startsWith;
-
-class ClauseInParamsHelperTest extends OCITestCase
+class ClauseInParamsHelperTest extends TestCase
 {
     public function testGetBoundParamsThrowsException(): void
     {
@@ -25,14 +20,17 @@ class ClauseInParamsHelperTest extends OCITestCase
         ClauseInParamsHelper::getBoundParams($values, ':ID', $param);
     }
 
+    /**
+     * @throws DriverException
+     */
     public function testGetBoundParamsWithValidValues(): void
     {
         $values = array_fill(0, 999, 1);
-        $param  = new Parameter();
+        $param = new Parameter();
 
         $key = ClauseInParamsHelper::getBoundParams($values, ':ID', $param);
 
-        assertThat($key, startsWith(':ID'));
-        assertThat($param->getAttributes(), arrayValue());
+        $this->assertStringStartsWith(':ID', $key);
+        $this->assertIsArray($param->getAttributes());
     }
 }

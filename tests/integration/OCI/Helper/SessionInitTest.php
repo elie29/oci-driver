@@ -6,22 +6,19 @@ namespace OCI\Helper;
 
 use Mockery;
 use OCI\Driver\DriverInterface;
-use OCI\Helper\Provider;
-use OCI\Helper\SessionInit;
 use OCI\OCITestCase;
+use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 
 class SessionInitTest extends OCITestCase
 {
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testAlterSession()
     {
         $sql = "ALTER SESSION SET NLS_TIME_FORMAT='HH24:MI:SS' "
-             . "NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS' "
-             . "NLS_TIMESTAMP_FORMAT='YYYY-MM-DD HH24:MI:SS' "
-             . "NLS_TIMESTAMP_TZ_FORMAT='YYYY-MM-DD HH24:MI:SS TZH:TZM' "
-             . "NLS_NUMERIC_CHARACTERS='.,'";
+            . "NLS_DATE_FORMAT='YYYY-MM-DD HH24:MI:SS' "
+            . "NLS_TIMESTAMP_FORMAT='YYYY-MM-DD HH24:MI:SS' "
+            . "NLS_TIMESTAMP_TZ_FORMAT='YYYY-MM-DD HH24:MI:SS TZH:TZM' "
+            . "NLS_NUMERIC_CHARACTERS='.,'";
 
         $driver = Mockery::mock(DriverInterface::class);
         $driver->shouldReceive('executeUpdate')
@@ -31,9 +28,7 @@ class SessionInitTest extends OCITestCase
         $init->alterSession($driver);
     }
 
-    /**
-     * @doesNotPerformAssertions
-     */
+    #[DoesNotPerformAssertions]
     public function testSessionInitWithARealInstanceDriver()
     {
         $driver = Provider::getDriver();

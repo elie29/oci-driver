@@ -4,14 +4,9 @@ declare(strict_types=1);
 
 namespace OCI\Helper;
 
-use OCI\OCITestCase;
+use PHPUnit\Framework\TestCase;
 
-use function assertThat;
-use function setlocale;
-
-use const LC_ALL;
-
-class FloatUtilsTest extends OCITestCase
+class FloatUtilsTest extends TestCase
 {
     public function testConvertWithFr(): void
     {
@@ -19,13 +14,13 @@ class FloatUtilsTest extends OCITestCase
 
         setlocale(LC_ALL, 'fr_FR');
 
-        assertThat(FloatUtils::convert(5000.256), '5000.256');
+        $this->assertSame('5000.256', FloatUtils::convert(5000.256));
 
         setlocale(LC_ALL, $locale);
     }
 
     public function testDefaultConvert(): void
     {
-        assertThat(FloatUtils::convert(5000.256), '5000.256');
+        $this->assertSame('5000.256', FloatUtils::convert(5000.256));
     }
 }

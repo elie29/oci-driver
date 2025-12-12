@@ -8,6 +8,7 @@ use Generator;
 use OCI\Debugger\DebuggerDumb;
 use OCI\Driver\Connection;
 use OCI\Driver\Driver;
+use OCI\Driver\DriverException;
 use OCI\Driver\DriverInterface;
 
 class Provider
@@ -38,6 +39,9 @@ class Provider
         ];
     }
 
+    /**
+     * @throws DriverException
+     */
     public static function getDriver(): DriverInterface
     {
         return new Driver(self::getConnection(), new DebuggerDumb());
@@ -45,10 +49,11 @@ class Provider
 
     /**
      * @return resource
+     * @throws DriverException
      */
     public static function getConnection()
     {
-        require_once 'config-connection.php';
+        require_once '../../config-connection.php';
 
         $connection = new Connection(USERNAME, PASSWORD, SCHEMA);
 

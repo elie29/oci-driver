@@ -108,7 +108,7 @@ $rows = $driver->fetchAllAssoc($sql, $bind);
 
 #### With Autocommit
 
-Autocommit is the default behaviour of OCI Driver:
+Autocommit is the default behavior of OCI Driver:
 
 ```php
 $connection = oci_pconnect('username', 'pass', 'schema', 'UTF8');
@@ -121,7 +121,7 @@ echo $count; // displays 1
 
 #### With Transaction
 
-In order to start a transaction, you should use beginTransaction as follow:
+To start a transaction, you should use beginTransaction as follow:
 
 ```php
 $connection = oci_pconnect('username', 'pass', 'schema', 'UTF8');
@@ -196,13 +196,14 @@ To launch tests, A1 and A2 tables should be created as follows:
     (
         "N_CHAR" CHAR(5 BYTE
     ) ,
-     "N_NUM" NUMBER,
-     "N_NUM_3" NUMBER(6,3),
-     "N_VAR" VARCHAR2,
-     "N_CLOB" CLOB,
-     "N_DATE" DATE,
-     "N_TS" TIMESTAMP,
-     "N_LONG" LONG);
+    "N_NUM"    NUMBER,
+    "N_NUM_3"  NUMBER(6,3),
+    "N_VAR"    VARCHAR2(4000),
+    "N_CLOB"   CLOB,
+    "N_DATE"   DATE,
+    "N_TS"     TIMESTAMP,
+    "N_LONG"   LONG
+);
 
 CREATE TABLE A2
 (
@@ -212,7 +213,7 @@ CREATE TABLE A2
 
 ### Rename config file
 
-Rename config-connection.php.dist in ./tests/OCI/Helper to config-connection.php
+Rename `config-connection.php.dist` in `./tests/integration` to config-connection.php
 
 ```console
    mv config-connection.php.dist config-connection.php

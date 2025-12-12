@@ -7,9 +7,11 @@
         cacheResult="false"
 >
     <testsuites>
-        <!-- Tests unitaires -->
         <testsuite name="Unit Tests">
-            <directory suffix="Test.php">tests</directory>
+            <directory suffix="Test.php">tests/units</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory suffix="Test.php">tests/integration</directory>
         </testsuite>
     </testsuites>
 

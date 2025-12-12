@@ -8,8 +8,6 @@ use OCI\Driver\DriverInterface;
 
 /**
  * The following environment variables are required for the default date format:
- *
- * @see Format
  */
 class SessionInit
 {
