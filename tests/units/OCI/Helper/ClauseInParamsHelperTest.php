@@ -33,4 +33,21 @@ class ClauseInParamsHelperTest extends TestCase
         $this->assertStringStartsWith(':ID', $key);
         $this->assertIsArray($param->getAttributes());
     }
+
+    /**
+     * @throws DriverException
+     */
+    public function testGetBoundParamsWithFloatValidValues(): void
+    {
+        $values = [1.2, 3.6, 7.56];
+        $param = new Parameter();
+
+        $key = ClauseInParamsHelper::getBoundParams($values, ':ID', $param);
+
+        $this->assertStringStartsWith(':ID', $key);
+        $this->assertIsArray($param->getAttributes());
+
+        $param->addForLongRaw(':VAL', bin2hex('Any long raw as hex value'));
+        $this->assertNotEmpty($param->getVariable(':VAL'));
+    }
 }
