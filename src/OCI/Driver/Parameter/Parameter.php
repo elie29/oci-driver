@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Elie\OCI\Driver\Parameter;
 
 use Elie\OCI\Helper\FloatUtils;
+use stdClass;
 
 /**
  * Binds query parameters correctly.
