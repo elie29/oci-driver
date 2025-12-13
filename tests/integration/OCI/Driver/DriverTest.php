@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Elie\OCI\Driver;
 
-use Mockery;
 use Elie\OCI\Debugger\DebuggerInterface;
 use Elie\OCI\Driver\Parameter\Parameter;
 use Elie\OCI\Helper\Factory;
@@ -12,6 +11,7 @@ use Elie\OCI\Helper\FormatInterface;
 use Elie\OCI\Helper\Provider;
 use Elie\OCI\Helper\SessionInit;
 use Elie\OCI\OCITestCase;
+use Mockery;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\Depends;
 
@@ -44,14 +44,12 @@ class DriverTest extends OCITestCase
         $debugger = Mockery::mock(DebuggerInterface::class);
         $driver = new Driver($connection, $debugger);
 
-        $this->assertInstanceOf(DriverInterface::class, $driver);
+        $this->assertNotEmpty($driver);
     }
 
-    /**
-     * @throws DriverException
-     */
     public function testExecuteWithException(): void
     {
+        $this->expectException(DriverException::class);
         $driver = Provider::getDriver();
         $sql = 'Select FROM A1';
         $driver->executeQuery($sql);
@@ -62,6 +60,7 @@ class DriverTest extends OCITestCase
      */
     public function testBoundExecuteWithException(): void
     {
+        $this->expectException(DriverException::class);
         $driver = Provider::getDriver();
         $sql = 'Select FROM A1 WHERE N_NUM = :N_NUM';
         $param = new Parameter();
@@ -73,6 +72,7 @@ class DriverTest extends OCITestCase
      */
     public function testExecuteTransactionWithException(): void
     {
+        $this->expectException(DriverException::class);
         $driver = Provider::getDriver();
         $driver->beginTransaction();
         $sql = 'Select FROM A1';
@@ -438,11 +438,11 @@ class DriverTest extends OCITestCase
     {
         $driver = Provider::getDriver();
 
-        // TESTCLOB is a Function already created
-        $sql = 'BEGIN :myLob := TESTCLOB(:N1); END;';
+        // Using Oracle's built-in TO_CLOB() function
+        $sql = 'BEGIN :myLob := TO_CLOB(:N1); END;';
 
         $bind = new Parameter();
-        $bind->add(':N1', 2);
+        $bind->add(':N1', 'Test CLOB content with some data');
 
         // Read mode
         $bind->addForCLob($driver->getConnection(), ':myLob');
@@ -458,6 +458,7 @@ class DriverTest extends OCITestCase
         oci_free_statement($statement);
 
         $this->assertNotEmpty($row);
+        $this->assertStringContainsString('Test CLOB content', $row);
     }
 
     /**

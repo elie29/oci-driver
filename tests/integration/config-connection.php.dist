@@ -2,4 +2,5 @@
 
 define('USERNAME', '');
 define('PASSWORD', '');
+// Alias if tnsnames.ora is defined otherwise ip:port/service_name
 define('SCHEMA', '');

@@ -7,7 +7,7 @@ namespace Elie\OCI;
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-class OCITestCase extends TestCase
+abstract class OCITestCase extends TestCase
 {
     protected function tearDown(): void
     {

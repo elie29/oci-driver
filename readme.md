@@ -90,18 +90,41 @@ $sql = Insert::start() // aka (new Insert)
 
 ### Using the factory
 
-Factory will automatically alter the session (@see OCI\Driver\Helper\SessionInit.php) in order to fix NLS_TIME_FORMAT
-and NLS_NUMERIC_CHARACTERS. So we won't need to use to_char or to_date to convert the format, especially in comparing
-dates with a given date:
+The `Factory::create()` method is the recommended way to create a Driver instance. It provides several benefits:
+
+**Purpose:**
+
+- Automatically configures the Oracle session with proper NLS settings
+- Sets up the appropriate debugger based on the environment
+- Ensures consistent date/time and numeric formats across all queries
+
+**Environment Parameter (`$env`):**
+
+The second parameter defines the execution environment and controls debugging behavior:
+
+- `'prod'` or `'production'`: Production mode - uses DebuggerDumb (no output)
+- `'dev'` or `'development'` or `'test'`: Development mode - uses DebuggerDump (outputs debug information using
+  VarDumper)
+
+**Session Configuration:**
+
+Factory automatically alters the Oracle session to set:
+
+- `NLS_DATE_FORMAT`: 'YYYY-MM-DD' (ISO format)
+- `NLS_TIMESTAMP_FORMAT`: 'YYYY-MM-DD HH24:MI:SS' (ISO format)
+- `NLS_NUMERIC_CHARACTERS`: '.,' (dot as decimal separator, comma as thousand separator)
+
+This eliminates the need to use `TO_CHAR` or `TO_DATE` in your SQL queries:
 
 ```php
-$driver = Factory::create(Provider::getConnection(), 'test');
+// Create driver with development debugging
+$driver = Factory::create(Provider::getConnection(), 'dev');
 
 $sql = 'SELECT * FROM A1 WHERE N_DATE BETWEEN :YESTERDAY AND :TOMORROW';
 
 $bind = (new Parameter())
-    ->add(':YESTERDAY', date(Format::PHP_DATE, time() - 86400)) // N_DATE type is DATE
-    ->add(':TOMORROW', date(Format::PHP_DATE, time() + 86400));
+    ->add(':YESTERDAY', date('Y-m-d', time() - 86400)) // Direct ISO format
+    ->add(':TOMORROW', date('Y-m-d', time() + 86400));
 
 $rows = $driver->fetchAllAssoc($sql, $bind);
 ```
@@ -187,16 +210,61 @@ $rows = $driver->fetchAllAssoc($sql);
 
 ## Prepare for test
 
-Before launching unit tests, you should follow these steps:
+Before launching integration tests, you should follow these steps:
 
-### Create A1 and A2 tables
+### 1. Configure database connection
 
-To launch tests, A1 and A2 tables should be created as follows:
+Rename `config-connection.php.dist` in `./tests/integration` to `config-connection.php`:
+
+```bash
+cd tests/integration
+cp config-connection.php.dist config-connection.php
+```
+
+Modify `USERNAME`, `PASSWORD` and `SCHEMA` according to your Oracle Database Information.
+
+> SCHEMA could be one of the following:
+
+- IP:PORT/SID eg: `11.22.33.25:12005/HR`
+- SID name if you are executing the tests on the same database server or if you have a configured SID in tnsnames.ora
+  - Use the following TNS:
+
+      ```TNSNAMES
+      (DESCRIPTION = 
+        (ADDRESS = 
+          (PROTOCOL = TCP)(HOST = DATABASE_IP)(PORT=DATABASE_PORT)
+        )
+        (CONNECT_DATA = 
+          (SID=DATABASE_SCHEMA)(SERVER=DEDICATED|POOLED)
+        )
+      )
+      ```
+
+### 2. Create A1 and A2 tables
+
+**Option A: Using the automated setup script (Recommended)**
+
+Run the composer script to automatically create the required tables:
+
+```bash
+composer setup-tables
+```
+
+This will:
+
+- Drop existing A1 and A2 tables if they exist
+- Create fresh A1 and A2 tables with the correct structure
+- Verify the connection and provide helpful error messages
+
+**Option B: Manual SQL creation**
+
+Alternatively, you can manually create the tables:
 
 ```sql
 CREATE TABLE A1
 (
-    "N_CHAR"   CHAR(5 BYTE),
+    "N_CHAR" CHAR(5 BYTE
+) ,
     "N_NUM"    NUMBER,
     "N_NUM_3"  NUMBER(6,3),
     "N_VAR"    VARCHAR2(4000),
@@ -212,28 +280,13 @@ CREATE TABLE A2
 );
 ```
 
-### Rename config file
+### 3. Run tests
 
-Rename `config-connection.php.dist` in `./tests/integration` to config-connection.php
+Once the setup is complete, you can run the integration tests:
 
-```console
-   mv config-connection.php.dist config-connection.php
+```bash
+vendor/bin/phpunit --testsuite "Integration Tests"
 ```
-
-### Modify configuration
-
-Modify USERNAME, PASSWORD and SCHEMA according to your Oracle Database Information
-
-> SCHEMA could be one of the following:
-
-- SID name if you are executing the tests on the same database server
-  or if you have a configured SID in tnsnames.ora
-
-- IP:PORT/SID eg: 11.22.33.25:12005/HR
-
-- Use the following TNS :
-  > (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=DATABASE_IP)(PORT=DATABASE_PORT))(CONNECT_DATA=(SID=DATABASE_SCHEMA)(
-  SERVER=DEDICATED|POOLED)))
 
 ## Development Prerequisites
 
@@ -242,17 +295,18 @@ Modify USERNAME, PASSWORD and SCHEMA according to your Oracle Database Informati
 The project uses PHPUnit for testing with two test suites as configured in `phpunit.xml.dist`:
 
 - **Unit Tests** (`tests/units/`): Fast, isolated tests that don't require database connections
-  - Query Builder tests (Select, Insert, Update, Delete)
-  - Helper utility tests (FloatUtils, ClauseInParamsHelper)
+    - Query Builder tests (Select, Insert, Update, Delete)
+    - Helper utility tests (FloatUtils, ClauseInParamsHelper)
 
 - **Integration Tests** (`tests/integration/`): Tests that require Oracle database connection
-  - Driver tests (Connection, Query execution, Transaction management)
-  - Factory and SessionInit tests
+    - Driver tests (Connection, Query execution, Transaction management)
+    - Factory and SessionInit tests
 
 ### Composer commands
 
+- `setup-tables`: Creates A1 and A2 test tables in the Oracle database (required for integration tests)
 - `test`: Runs PHPUnit tests without coverage
-- `test-coverage`: Runs PHPUnit tests with code coverage
+- `test-coverage`: Runs PHPUnit unit tests with code coverage
 - `cover`: Runs tests with coverage and starts a local server at <http://localhost:5001>
 
 You can run specific test suites:

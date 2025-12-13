@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Elie\OCI\Helper;
 
-use Mockery;
+use Elie\OCI\Driver\DriverException;
 use Elie\OCI\Driver\DriverInterface;
 use Elie\OCI\OCITestCase;
+use Mockery;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 
 class SessionInitTest extends OCITestCase
@@ -28,6 +29,9 @@ class SessionInitTest extends OCITestCase
         $init->alterSession($driver);
     }
 
+    /**
+     * @throws DriverException
+     */
     #[DoesNotPerformAssertions]
     public function testSessionInitWithARealInstanceDriver()
     {

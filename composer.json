@@ -47,11 +47,16 @@
     }
   },
   "scripts": {
-    "test": "phpunit --color=always --display-deprecations --display-errors --display-warnings --no-coverage",
+    "test": [
+      "@setup-tables",
+      "phpunit --color=always --display-deprecations --display-errors --display-warnings --no-coverage"
+    ],
     "test-coverage": "@php -d xdebug.mode=coverage vendor/bin/phpunit --testsuite \"Unit Tests\" --color=always",
     "cover": [
-      "@test-coverage",
+      "@setup-tables",
+      "@php -d xdebug.mode=coverage vendor/bin/phpunit --color=always",
       "php -S localhost:5001 -t build/coverage"
-    ]
+    ],
+    "setup-tables": "php tests/integration/setup-tables.php"
   }
 }

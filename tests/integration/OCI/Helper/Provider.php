@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Elie\OCI\Helper;
 
-use Generator;
 use Elie\OCI\Debugger\DebuggerDumb;
 use Elie\OCI\Driver\Connection;
 use Elie\OCI\Driver\Driver;
 use Elie\OCI\Driver\DriverException;
 use Elie\OCI\Driver\DriverInterface;
+use Generator;
 
 class Provider
 {
@@ -53,7 +53,7 @@ class Provider
      */
     public static function getConnection()
     {
-        require_once '../../config-connection.php';
+        require_once dirname(__DIR__, 2) . '/config-connection.php';
 
         $connection = new Connection(USERNAME, PASSWORD, SCHEMA);
 
