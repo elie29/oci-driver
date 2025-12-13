@@ -22,6 +22,8 @@ class ConnectionTest extends OCITestCase
     {
         require_once dirname(__DIR__, 2) . '/config-connection.php';
         $connection = new Connection(USERNAME, PASSWORD, SCHEMA);
-        $connection->connect();
+        $resource = $connection->connect();
+
+        $this->assertIsResource($resource);
     }
 }

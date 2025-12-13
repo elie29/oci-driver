@@ -13,10 +13,12 @@ use Generator;
 
 class Provider
 {
+    private static ?Driver $driver = null;
+
     public static function dataWithNoBind(): Generator
     {
         yield 'simple-data' => [
-            // 2.3685 inserted 2.369 because scale is 3
+            // 2.3685 inserted 2.369 because a scale is 3
             2,
             2.3685,
             'CURRENT_TIMESTAMP',
@@ -31,7 +33,7 @@ class Provider
         ];
 
         yield 'simple-data-with-some-null' => [
-            // 0.2364 inserted 0.236 because scale is 3
+            // 0.2364 inserted 0.236 because the scale is 3
             'null',
             0.2364,
             'CURRENT_TIMESTAMP',
@@ -44,7 +46,10 @@ class Provider
      */
     public static function getDriver(): DriverInterface
     {
-        return new Driver(self::getConnection(), new DebuggerDumb());
+        if (self::$driver === null) {
+            self::$driver = new Driver(self::getConnection(), new DebuggerDumb());
+        }
+        return self::$driver;
     }
 
     /**

@@ -11,8 +11,7 @@ use Elie\OCI\Driver\DriverInterface;
  */
 class SessionInit
 {
-    /** @var array */
-    protected $defaultSessionVars = [
+    protected array $defaultSessionVars = [
         'NLS_TIME_FORMAT' => FormatInterface::NLS_TIME,
         'NLS_DATE_FORMAT' => FormatInterface::NLS_DATE,
         'NLS_TIMESTAMP_FORMAT' => FormatInterface::NLS_TIMESTAMP,
