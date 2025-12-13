@@ -192,10 +192,9 @@ Before launching unit tests, you should follow these steps:
 To launch tests, A1 and A2 tables should be created as follows:
 
 ```sql
-    CREATE TABLE A1
-    (
-        "N_CHAR" CHAR(5 BYTE
-    ) ,
+CREATE TABLE A1
+(
+    "N_CHAR"   CHAR(5 BYTE),
     "N_NUM"    NUMBER,
     "N_NUM_3"  NUMBER(6,3),
     "N_VAR"    VARCHAR2(4000),
@@ -236,8 +235,27 @@ Modify USERNAME, PASSWORD and SCHEMA according to your Oracle Database Informati
 
 ## Development Prerequisites
 
+### Test Structure
+
+The project uses PHPUnit for testing with two test suites as configured in `phpunit.xml.dist`:
+
+- **Unit Tests** (`tests/units/`): Fast, isolated tests that don't require database connections
+  - Query Builder tests (Select, Insert, Update, Delete)
+  - Helper utility tests (FloatUtils, ClauseInParamsHelper)
+
+- **Integration Tests** (`tests/integration/`): Tests that require Oracle database connection
+  - Driver tests (Connection, Query execution, Transaction management)
+  - Factory and SessionInit tests
+
 ### Composer commands
 
 - `test`: Runs PHPUnit tests without coverage
 - `test-coverage`: Runs PHPUnit tests with code coverage
-- `cover`: Runs tests with coverage and starts a local server at http://localhost:5001
+- `cover`: Runs tests with coverage and starts a local server at <http://localhost:5001>
+
+You can run specific test suites:
+
+```bash
+vendor/bin/phpunit --testsuite "Unit Tests"
+vendor/bin/phpunit --testsuite "Integration Tests"
+```

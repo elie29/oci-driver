@@ -48,7 +48,7 @@
   },
   "scripts": {
     "test": "phpunit --color=always --display-deprecations --display-errors --display-warnings --no-coverage",
-    "test-coverage": "@php -d xdebug.mode=coverage vendor/bin/phpunit --testsuite 'Integration Tests' --color=always",
+    "test-coverage": "@php -d xdebug.mode=coverage vendor/bin/phpunit --testsuite \"Unit Tests\" --color=always",
     "cover": [
       "@test-coverage",
       "php -S localhost:5001 -t build/coverage"

@@ -25,3 +25,4 @@ vendor/
 *.tmp
 .DS_Store
 Thumbs.db
+clover.xml
