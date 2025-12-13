@@ -12,6 +12,9 @@ class DebuggerDump implements DebuggerInterface
     /** @var float */
     protected float $startTime;
 
+    // Useful for testing
+    public array $data = [];
+
     public function start(): void
     {
         $this->startTime = 1000 * microtime(true);
@@ -21,11 +24,13 @@ class DebuggerDump implements DebuggerInterface
     {
         $endTime = 1000 * microtime(true);
 
-        dump([
+        $this->data = [
             'query' => $query,
             'parameters' => $parameters,
             'duration(ms)' => round($endTime - $this->startTime, 1),
-        ]);
+        ];
+
+        dump($this->data);
 
         // keep chaining
         $this->startTime = $endTime;

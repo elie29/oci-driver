@@ -214,7 +214,7 @@ class Select extends AbstractCommonBuilder
      *        ->groupBy('name')
      *        ->having('MAX(user_id) > 3')
      *        ->andHaving('name = :name')
-     *        ->build();;
+     *        ->build();
      * </code>
      *
      * @param string $having having condition.
@@ -241,7 +241,7 @@ class Select extends AbstractCommonBuilder
      *        ->groupBy('name')
      *        ->having('MAX(user_id) > 3')
      *        ->orHaving('name = :name')
-     *        ->build();;
+     *        ->build();
      * </code>
      *
      * @param string $having having condition.
