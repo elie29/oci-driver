@@ -10,7 +10,7 @@ class FloatUtilsTest extends TestCase
 {
     public function testConvertWithFr(): void
     {
-        $locale = setlocale(LC_ALL, 0);
+        $locale = setlocale(LC_ALL, [0]);
 
         setlocale(LC_ALL, 'fr_FR');
 
