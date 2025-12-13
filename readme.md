@@ -1,6 +1,8 @@
 # OCI Driver
 
-## Documentation
+[![build](https://github.com/elie29/oci-driver/actions/workflows/php-build.yml/badge.svg)](https://github.com/elie29/oci-driver/actions/workflows/php-build.yml)
+[![Coverage Status](https://coveralls.io/repos/github/elie29/oci-driver/badge.svg)](https://coveralls.io/github/elie29/oci-driver)
+[![PHP Version](https://img.shields.io/packagist/php-v/elie29/oci-driver.svg)](https://packagist.org/packages/elie29/oci-driver)
 
 ## Text file encoding
 
@@ -8,7 +10,7 @@
 
 ## Code style formatter
 
-- PSR-2
+- PSR-4
 
 ## Installation
 
