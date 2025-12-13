@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Query\Builder;
+namespace Elie\OCI\Query\Builder;
 
 use PHPUnit\Framework\TestCase;
 
 class SelectTest extends TestCase
 {
-
     public function testColumnSelect(): void
     {
         $sql = Select::start()
@@ -18,7 +17,7 @@ class SelectTest extends TestCase
             ->columns(['COL3', 'COL4'], 't2')
             ->build();
 
-        assertThat($sql, is('SELECT COL1, t2.COL2, COL1, COL2, t2.COL3, t2.COL4 FROM '));
+        $this->assertSame('SELECT COL1, t2.COL2, COL1, COL2, t2.COL3, t2.COL4 FROM ', $sql);
     }
 
     public function testColumnFromSelect(): void
@@ -29,7 +28,7 @@ class SelectTest extends TestCase
             ->from('users', 'u')
             ->build();
 
-        assertThat($sql, is('SELECT active, u.* FROM params, users u'));
+        $this->assertSame('SELECT active, u.* FROM params, users u', $sql);
     }
 
     public function testFromWithInnerSelect(): void
@@ -40,7 +39,7 @@ class SelectTest extends TestCase
             ->orderBy('name', 'DESC')
             ->build();
 
-        assertThat($sql, is('SELECT * FROM (SELECT * FROM users) ORDER BY name DESC'));
+        $this->assertSame('SELECT * FROM (SELECT * FROM users) ORDER BY name DESC', $sql);
     }
 
     public function testDistinctWithInnerSelect(): void
@@ -52,7 +51,7 @@ class SelectTest extends TestCase
             ->orderBy('name', 'DESC')
             ->build();
 
-        assertThat($sql, is('SELECT DISTINCT name FROM (SELECT * FROM users) ORDER BY name DESC'));
+        $this->assertSame('SELECT DISTINCT name FROM (SELECT * FROM users) ORDER BY name DESC', $sql);
     }
 
     public function testColumnFromJoinSelect(): void
@@ -68,11 +67,11 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.* FROM params, params p '
-                  . 'INNER JOIN users u ON u.user_id = p.user_id '
-                  . 'LEFT JOIN users u2 ON u2.user_id = p.user_id '
-                  . 'RIGHT JOIN params p2 ON p2.user_id = p.user_id';
+            . 'INNER JOIN users u ON u.user_id = p.user_id '
+            . 'LEFT JOIN users u2 ON u2.user_id = p.user_id '
+            . 'RIGHT JOIN params p2 ON p2.user_id = p.user_id';
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testColumnFromJoinSelect2(): void
@@ -88,11 +87,11 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.* FROM params, params p '
-                  . 'INNER JOIN (SELECT * FROM users) u ON u.user_id = p.user_id '
-                  . 'LEFT JOIN (SELECT * FROM users) u2 ON u2.user_id = p.user_id '
-                  . 'RIGHT JOIN params p2 ON p2.user_id = p.user_id';
+            . 'INNER JOIN (SELECT * FROM users) u ON u.user_id = p.user_id '
+            . 'LEFT JOIN (SELECT * FROM users) u2 ON u2.user_id = p.user_id '
+            . 'RIGHT JOIN params p2 ON p2.user_id = p.user_id';
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWhereOnly(): void
@@ -105,7 +104,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.* FROM params p WHERE p.id = 1 AND (p.id = 5 OR p.id = 3)';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWhereAnd(): void
@@ -118,7 +117,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.* FROM params p WHERE p.id = 1 AND (p.id = 5 OR p.id = 3)';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWhereAndReversed(): void
@@ -131,7 +130,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.* FROM params p WHERE (p.id = 5 OR p.id = 3) AND p.id = 1';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWhereOr(): void
@@ -144,7 +143,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.* FROM params p WHERE p.id = 1 OR (p.id = 5 AND p.id = 3)';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectOrderBy(): void
@@ -157,7 +156,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.id, p.name, p.active FROM params p ORDER BY p.id DESC NULLS FIRST';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectUnionOrderBy(): void
@@ -172,7 +171,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectUnionWithOrderBy(): void
@@ -187,7 +186,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT p.id FROM params p UNION SELECT p.id FROM params_his p ORDER BY id ASC';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWithLimit(): void
@@ -200,7 +199,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT a.* FROM (SELECT * FROM params p ORDER BY p.name ASC) a WHERE ROWNUM <= 3';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWithLimitAndOffset(): void
@@ -212,14 +211,14 @@ class SelectTest extends TestCase
             ->orderBy('p.name')
             ->build();
 
-        $expected = 'SELECT * ' .
-                    'FROM (' .
-                        'SELECT a.*, ROWNUM AS row_number ' .
-                        'FROM (SELECT * FROM params p ORDER BY p.name ASC) a ' .
-                        'WHERE ROWNUM <= 4) ' .
-                    'WHERE row_number >= 2';
+        $expected = 'SELECT * '
+            . 'FROM ('
+            . 'SELECT a.*, ROWNUM AS row_number '
+            . 'FROM (SELECT * FROM params p ORDER BY p.name ASC) a '
+            . 'WHERE ROWNUM <= 4) '
+            . 'WHERE row_number >= 2';
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWithGroupBy(): void
@@ -231,7 +230,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT MAX(p.id) FROM params p GROUP BY p.user_id';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWithTwoGroupBy(): void
@@ -244,7 +243,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT MAX(p.id) FROM params p GROUP BY p.user_id, p.name';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWithGroupByHaving(): void
@@ -257,7 +256,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWithGroupByAndHaving(): void
@@ -271,7 +270,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 AND name = :name';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWithGroupByMultiHaving(): void
@@ -285,7 +284,7 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 AND name = :name';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSelectWithGroupByOrHaving(): void
@@ -299,6 +298,6 @@ class SelectTest extends TestCase
             ->build();
 
         $expected = 'SELECT name, MAX(user_id) FROM params GROUP BY name HAVING MAX(user_id) > 3 OR name = :name';
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 }

@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Query\Builder;
+namespace Elie\OCI\Query\Builder;
 
 use PHPUnit\Framework\TestCase;
 
 class DeleteTest extends TestCase
 {
-
     public function testSimpleDelete(): void
     {
         $sql = Delete::start()
@@ -16,7 +15,7 @@ class DeleteTest extends TestCase
             ->where('id > 1')
             ->build();
 
-        assertThat($sql, is('DELETE FROM params WHERE id > 1'));
+        $this->assertSame('DELETE FROM params WHERE id > 1', $sql);
     }
 
     public function testSimpleDeleteWithQuotedValue(): void
@@ -26,7 +25,7 @@ class DeleteTest extends TestCase
             ->where('name = ' . Delete::quote("O'neil"))
             ->build();
 
-        assertThat($sql, is("DELETE FROM users WHERE name = 'O''neil'"));
+        $this->assertSame("DELETE FROM users WHERE name = 'O''neil'", $sql);
     }
 
     public function testDeleteWithOneWhereCondition(): void
@@ -37,7 +36,7 @@ class DeleteTest extends TestCase
             ->build();
 
         $expected = 'DELETE FROM params p WHERE (p.name = :name AND p.id = :id) OR p.active = :active';
-        assertThat($sql, $expected);
+        $this->assertSame($expected, $sql);
     }
 
     public function testDeleteWithAndWhereCondition(): void
@@ -50,7 +49,7 @@ class DeleteTest extends TestCase
 
         $expected = 'DELETE FROM params p WHERE p.id > 1 AND (p.name = :name OR p.active = :active)';
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testDeleteWithOrWhereCondition(): void
@@ -63,6 +62,6 @@ class DeleteTest extends TestCase
 
         $expected = 'DELETE FROM params p WHERE p.active = :active OR (p.name = :name AND p.id = :id)';
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 }

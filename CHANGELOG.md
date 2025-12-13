@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## V1.0.21 - TBD
+## V2.0.0 - 2025-12-13
 
 ### Added
 
@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Changed
 
-- Nothing.
+- [#50](https://github.com/elie29/oci-driver/issues/50) Update project to support PHP 8.2+
 
 ### Deprecated
 

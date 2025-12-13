@@ -1,14 +1,13 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Query\Builder;
+namespace Elie\OCI\Query\Builder;
 
 use PHPUnit\Framework\TestCase;
 
 class UpdateTest extends TestCase
 {
-
     public function testSimpleUpdateWithQuotedString(): void
     {
         $sql = Update::start()
@@ -19,7 +18,7 @@ class UpdateTest extends TestCase
 
         $expected = "UPDATE users u SET u.name = 'O''neil' WHERE u.id = 1";
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSimpleUpdateUnquotedString(): void
@@ -32,7 +31,7 @@ class UpdateTest extends TestCase
 
         $expected = "UPDATE users u SET u.name = 'Helmut' WHERE u.id = 1";
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testSimpleUpdateWithInt(): void
@@ -44,7 +43,7 @@ class UpdateTest extends TestCase
             ->build();
 
         $expected = "UPDATE users u SET u.visible = 1 WHERE u.id = 10";
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testUpdateWithAndWhere(): void
@@ -58,7 +57,7 @@ class UpdateTest extends TestCase
 
         $expected = 'UPDATE params p SET p.id = :id WHERE p.name = :name AND (p.id = :id OR p.active = :active)';
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     public function testUpdateWithReturning(): void
@@ -72,10 +71,10 @@ class UpdateTest extends TestCase
             ->returning('p.lib', ':myLib')
             ->build();
 
-        $expected = 'UPDATE params p SET p.id = :id WHERE p.name = :name AND (p.id = :id OR p.active = :active) ' .
-            'RETURNING p.desc, p.lib INTO :myDesc, :myLib';
+        $expected = 'UPDATE params p SET p.id = :id WHERE p.name = :name AND (p.id = :id OR p.active = :active) '
+            . 'RETURNING p.desc, p.lib INTO :myDesc, :myLib';
 
-        assertThat($sql, is($expected));
+        $this->assertSame($expected, $sql);
     }
 
     /**
@@ -99,11 +98,11 @@ class UpdateTest extends TestCase
             ->build();
 
         $expected = 'UPDATE params p1 SET p1.name = :name WHERE '
-                  . 'p1.id = :id AND EXISTS (SELECT 1 FROM (SELECT id FROM '
-                  . 'params WHERE active = :active ORDER BY name DESC) p2 '
-                  . 'WHERE p2.id = p1.id AND ROWNUM = 1)';
+            . 'p1.id = :id AND EXISTS (SELECT 1 FROM (SELECT id FROM '
+            . 'params WHERE active = :active ORDER BY name DESC) p2 '
+            . 'WHERE p2.id = p1.id AND ROWNUM = 1)';
 
-        assertThat($update, is($expected));
+        $this->assertSame($expected, $update);
     }
 
     private function lastParam(): string

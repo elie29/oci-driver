@@ -1,18 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Query\Builder;
+namespace Elie\OCI\Query\Builder;
 
 class Insert extends AbstractBuilder
 {
-
     /**
      * Adds one table name to the query structure.
      *
      * @param string $table Table name.
-     *
-     * @return self
      */
     public function into(string $table): self
     {
@@ -45,10 +42,8 @@ class Insert extends AbstractBuilder
      * </code>
      *
      * @param array $values The values to specify for the insert query indexed by column names.
-     *
-     * @return self
      */
-    public function values(array $values): self
+    public function values(array $values): static
     {
         $this->query[self::VALUES] = $values;
         return $this;
@@ -58,10 +53,8 @@ class Insert extends AbstractBuilder
      * Add a list of columns to the insert. Used in conjunction with the select.
      *
      * @param array $list List of columns.
-     *
-     * @return self
      */
-    public function columns(array $list): self
+    public function columns(array $list): static
     {
         $this->query[self::COLUMNS][] = implode(self::COMMA, $list);
         return $this;
@@ -84,10 +77,8 @@ class Insert extends AbstractBuilder
      * </code>
      *
      * @param Select $select A select builder.
-     *
-     * @return self
      */
-    public function select(Select $select): self
+    public function select(Select $select): static
     {
         $this->query[self::SELECT] = $select->build();
         return $this;
@@ -112,19 +103,13 @@ class Insert extends AbstractBuilder
      *
      * @param string $colName Column Name.
      * @param string $bind Bound key.
-     *
-     * @return self
      */
-    public function returning(string $colName, string $bind): self
+    public function returning(string $colName, string $bind): static
     {
         $this->returning[$colName] = $bind;
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \OCI\Query\Builder\BuilderInterface::build()
-     */
     public function build(): string
     {
         $res = 'INSERT INTO ' . $this->query[self::TABLE] . $this->buildPartial();

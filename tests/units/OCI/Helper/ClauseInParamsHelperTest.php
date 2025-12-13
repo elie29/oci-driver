@@ -1,16 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Helper;
+namespace Elie\OCI\Helper;
 
-use OCI\Driver\DriverException;
-use OCI\Driver\Parameter\Parameter;
-use OCI\OCITestCase;
+use Elie\OCI\Driver\DriverException;
+use Elie\OCI\Driver\Parameter\Parameter;
+use PHPUnit\Framework\TestCase;
 
-class ClauseInParamsHelperTest extends OCITestCase
+class ClauseInParamsHelperTest extends TestCase
 {
-
     public function testGetBoundParamsThrowsException(): void
     {
         $this->expectException(DriverException::class);
@@ -21,6 +20,9 @@ class ClauseInParamsHelperTest extends OCITestCase
         ClauseInParamsHelper::getBoundParams($values, ':ID', $param);
     }
 
+    /**
+     * @throws DriverException
+     */
     public function testGetBoundParamsWithValidValues(): void
     {
         $values = array_fill(0, 999, 1);
@@ -28,7 +30,7 @@ class ClauseInParamsHelperTest extends OCITestCase
 
         $key = ClauseInParamsHelper::getBoundParams($values, ':ID', $param);
 
-        assertThat($key, startsWith(':ID'));
-        assertThat($param->getAttributes(), arrayValue());
+        $this->assertStringStartsWith(':ID', $key);
+        $this->assertIsArray($param->getAttributes());
     }
 }

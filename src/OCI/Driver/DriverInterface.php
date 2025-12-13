@@ -1,101 +1,88 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Driver;
+namespace Elie\OCI\Driver;
 
-use OCI\Driver\Parameter\Parameter;
+use Elie\OCI\Driver\Parameter\Parameter;
 
 interface DriverInterface
 {
-
     /**
      * Returns current connection.
      *
      * @return resource
      */
-    public function getConnection();
+    public function getConnection(): mixed;
 
     /**
-     * Swicth to no auto commit transaction.
-     *
-     * @return self
+     * Switch to no auto-commit transaction.
      */
-    public function beginTransaction();
+    public function beginTransaction(): self;
 
     /**
      * Commit ends current transaction if connection is set and
      * transaction mode is not autocommit.
-     *
-     * @return self
      */
-    public function commitTransaction();
+    public function commitTransaction(): self;
 
     /**
-     * Rollabck ends current transaction if connection is set and
+     * Rollback ends current transaction if connection is set and
      * transaction mode is not autocommit.
-     *
-     * @return self
      */
-    public function rollbackTransaction();
+    public function rollbackTransaction(): self;
 
     /**
      * Other queries than select.
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $bind Optional for bound parameters.
-     *
-     *  @return int
+     * @param Parameter|null $bind Optional for bound parameters.
+     * @return int
      */
-    public function executeUpdate($sql, Parameter $bind = null): int;
+    public function executeUpdate(string $sql, ?Parameter $bind = null): int;
 
     /**
      * Fetch all data by column (indexed array).
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $bind Optional for bound parameters.
-     *
-     *  @return array
+     * @param Parameter|null $bind Optional for bound parameters.
+     * @return array
      */
-    public function fetchColumns($sql, Parameter $bind = null): array;
+    public function fetchColumns(string $sql, ?Parameter $bind = null): array;
 
     /**
      * Fetch one column (indexed array).
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $bind Optional for bound parameters.
-     *
-     *  @return array
+     * @param Parameter|null $bind Optional for bound parameters.
+     * @return array
      */
-    public function fetchColumn($sql, Parameter $bind = null): array;
+    public function fetchColumn(string $sql, ?Parameter $bind = null): array;
 
     /**
      * Fetch all data.
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $bind Optional for bound parameters.
-     *
-     *  @return array
+     * @param Parameter|null $bind Optional for bound parameters.
+     * @return array
      */
-    public function fetchAllAssoc($sql, Parameter $bind = null): array;
+    public function fetchAllAssoc(string $sql, ?Parameter $bind = null): array;
 
     /**
      * Fetch one row.
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $bind Optional for bound parameters.
-     *
-     *  @return array
+     * @param Parameter|null $bind Optional for bound parameters.
+     * @return array
      */
-    public function fetchAssoc($sql, Parameter $bind = null): array;
+    public function fetchAssoc(string $sql, ?Parameter $bind = null): array;
 
     /**
      * Executes only the query. Useful when dealing with CLob.
      *
      * @param string $sql Query could be bound.
-     * @param Parameter $bind Optional for bound parameters.
-     *
+     * @param Parameter|null $bind Optional for bound parameters.
      * @return resource
      */
-    public function executeQuery(string $sql, Parameter $bind = null);
+    public function executeQuery(string $sql, ?Parameter $bind = null): mixed;
 }

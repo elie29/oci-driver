@@ -1,31 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-   xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/5.2/phpunit.xsd"
-   bootstrap="vendor/autoload.php"
-   backupGlobals="false"
-   backupStaticAttributes="false"
-   beStrictAboutTestsThatDoNotTestAnything="false"
-   beStrictAboutTodoAnnotatedTests="true"
-   convertWarningsToExceptions="true"
-   stopOnFailure="false"
-   verbose="true" 
-   colors="true">
+<phpunit
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.0/phpunit.xsd"
+        bootstrap="tests/bootstrap.php"
+        colors="true"
+        cacheResult="false"
+>
+    <testsuites>
+        <testsuite name="Unit Tests">
+            <directory suffix="Test.php">tests/units</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory suffix="Test.php">tests/integration</directory>
+        </testsuite>
+    </testsuites>
 
-   <testsuite name="Tests">
-      <directory suffix="Test.php">tests</directory>
-   </testsuite>
+    <!-- Configure which source files belong to your project (used for coverage and error reporting) -->
+    <source>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </source>
 
-   <logging>
-      <log type="coverage-html" target="build/coverage" />
-      <log type="coverage-clover" target="build/logs/clover.xml" />
-      <log type="coverage-crap4j" target="build/logs/crap4j.xml" />
-      <log type="junit" target="build/logs/junit.xml" />
-      <log type="coverage-xml" target="build/logs/coverage" />
-   </logging>
-
-   <filter>
-      <whitelist processUncoveredFilesFromWhitelist="true">
-         <directory suffix=".php">src</directory>
-      </whitelist>
-   </filter>
+    <!-- Configure coverage *reports* -->
+    <coverage includeUncoveredFiles="true">
+        <report>
+            <html outputDirectory="./build/coverage"/>
+            <clover outputFile="clover.xml"/>
+            <text outputFile="php://stdout"/>
+        </report>
+    </coverage>
+    <php>
+        <env name="APP_ENV" value="testing"/>
+    </php>
 </phpunit>

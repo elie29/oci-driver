@@ -1,18 +1,17 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Query\Builder;
+namespace Elie\OCI\Query\Builder;
 
 class Select extends AbstractCommonBuilder
 {
-
-    protected $limit  = 0;
-    protected $offset = 0;
-    protected $sql    = '';
-    protected $distinct = false;
+    protected int $limit = 0;
+    protected int $offset = 0;
+    protected string $sql = '';
+    protected bool $distinct = false;
     // Preserves tables with aliases used in join syntax.
-    protected $joins = [];
+    protected array $joins = [];
 
     /**
      * Add a column to the select.
@@ -27,12 +26,10 @@ class Select extends AbstractCommonBuilder
      *
      * @param string $name Column name.
      * @param string $prefix Optional column prefix.
-     *
-     * @return self
      */
-    public function column(string $name, string $prefix = self::EMPTY): self
+    public function column(string $name, string $prefix = self::EMPTY): static
     {
-        $prefix .= ($prefix ? '.' : self::EMPTY);
+        $prefix .= $prefix ? '.' : self::EMPTY;
         return $this->add(self::COLUMNS, $prefix . $name);
     }
 
@@ -47,10 +44,8 @@ class Select extends AbstractCommonBuilder
      *        ->from('params', 'p')
      *        ->build();
      * </code>
-     *
-     * @return self
      */
-    public function distinct(): self
+    public function distinct(): static
     {
         $this->distinct = true;
         return $this;
@@ -70,12 +65,10 @@ class Select extends AbstractCommonBuilder
      *
      * @param array $list List of columns.
      * @param string $prefix Optional column prefix.
-     *
-     * @return self
      */
-    public function columns(array $list, string $prefix = self::EMPTY): self
+    public function columns(array $list, string $prefix = self::EMPTY): static
     {
-        $prefix .= ($prefix ? '.' : self::EMPTY);
+        $prefix .= $prefix ? '.' : self::EMPTY;
 
         return $this->add(self::COLUMNS, $prefix . implode(self::COMMA . $prefix, $list));
     }
@@ -97,10 +90,8 @@ class Select extends AbstractCommonBuilder
      *
      * @param string|Select $table Table name.
      * @param string $alias Alias name.
-     *
-     * @return self
      */
-    public function from($table, string $alias = self::EMPTY): self
+    public function from(string|Select $table, string $alias = self::EMPTY): static
     {
         if ($table instanceof Select) {
             $table = '(' . $table->build() . ')';
@@ -123,10 +114,8 @@ class Select extends AbstractCommonBuilder
      * @param string|Select $table Table name.
      * @param string $alias Alias name.
      * @param string $condition Join condition.
-     *
-     * @return self
      */
-    public function join($table, string $alias, string $condition): self
+    public function join(string|Select $table, string $alias, string $condition): static
     {
         return $this->forJoin('INNER JOIN', $table, $alias, $condition);
     }
@@ -146,10 +135,8 @@ class Select extends AbstractCommonBuilder
      * @param string|Select $table Table name.
      * @param string $alias Alias name.
      * @param string $condition Join condition.
-     *
-     * @return self
      */
-    public function leftJoin($table, string $alias, string $condition): self
+    public function leftJoin(string|Select $table, string $alias, string $condition): static
     {
         return $this->forJoin('LEFT JOIN', $table, $alias, $condition);
     }
@@ -169,10 +156,8 @@ class Select extends AbstractCommonBuilder
      * @param string|Select $table Table name.
      * @param string $alias Alias name.
      * @param string $condition Join condition.
-     *
-     * @return self
      */
-    public function rightJoin($table, string $alias, string $condition): self
+    public function rightJoin(string|Select $table, string $alias, string $condition): static
     {
         return $this->forJoin('RIGHT JOIN', $table, $alias, $condition);
     }
@@ -191,10 +176,8 @@ class Select extends AbstractCommonBuilder
      * </code>
      *
      * @param string $groupBy Group by condition.
-     *
-     * @return self
      */
-    public function groupBy(string $groupBy): self
+    public function groupBy(string $groupBy): static
     {
         return $this->add(self::GROUPBY, $groupBy);
     }
@@ -214,10 +197,8 @@ class Select extends AbstractCommonBuilder
      * </code>
      *
      * @param string $having having condition.
-     *
-     * @return self
      */
-    public function having(string $having): self
+    public function having(string $having): static
     {
         return $this->andHaving($having);
     }
@@ -239,9 +220,8 @@ class Select extends AbstractCommonBuilder
      * @param string $having having condition.
      *  <b>Parentheses are required when mixing or/and conditions.</b>
      *  <b>If no having exists, the andHaving is considered as a simple having.
-     * @return self
      */
-    public function andHaving(string $having): self
+    public function andHaving(string $having): static
     {
         if ($this->query[self::HAVING]) {
             $having = 'AND ' . $having;
@@ -266,10 +246,8 @@ class Select extends AbstractCommonBuilder
      *
      * @param string $having having condition.
      *  <b>Parentheses are required when mixing or/and conditions.</b>
-     *
-     * @return self
      */
-    public function orHaving(string $having): self
+    public function orHaving(string $having): static
     {
         return $this->add(self::HAVING, 'OR ' . $having);
     }
@@ -290,10 +268,8 @@ class Select extends AbstractCommonBuilder
      *        ->orderBy('id')
      *        ->build();
      * </code>
-     *
-     * @return self
      */
-    public function union(): self
+    public function union(): static
     {
         $this->sql .= $this->buildPartial();
         $this->sql .= ' UNION ';
@@ -323,10 +299,8 @@ class Select extends AbstractCommonBuilder
      * </code>
      *
      * @param Select $select Select Object without orderBy.
-     *
-     * @return self
      */
-    public function unionWith(Select $select): self
+    public function unionWith(Select $select): static
     {
         $this->union();
 
@@ -338,12 +312,11 @@ class Select extends AbstractCommonBuilder
     /**
      * Specifies an ordering for the query results.
      *
-     * @param string $sort  The ordering expression.
+     * @param string $sort The ordering expression.
      * @param string $order The ordering direction. ASC by default.
-     *
      * @return self.
      */
-    public function orderBy(string $sort, string $order = self::ASC): self
+    public function orderBy(string $sort, string $order = self::ASC): static
     {
         return $this->add(self::ORDERBY, $sort . self::SPACE . $order);
     }
@@ -353,21 +326,15 @@ class Select extends AbstractCommonBuilder
      *
      * @param int $limit Rows limit > 0.
      * @param int $offset Optional offset >=0.
-     *
-     * @return self
      */
-    public function setLimit(int $limit, int $offset = 0): self
+    public function setLimit(int $limit, int $offset = 0): static
     {
-        $this->limit = $limit > 0 ? $limit : 0;
-        $this->offset = $offset > 0 ? $offset : 0;
+        $this->limit = max($limit, 0);
+        $this->offset = max($offset, 0);
 
         return $this;
     }
 
-    /**
-     * {@inheritDoc}
-     * @see \OCI\Query\Builder\BuilderInterface::build()
-     */
     public function build(): string
     {
         $res = $this->sql . $this->buildPartial();
@@ -393,19 +360,17 @@ class Select extends AbstractCommonBuilder
 
     /**
      * Constructs the SQL Without order by.
-     *
-     * @return string
      */
     protected function buildPartial(): string
     {
         // Columns are required to build the query
-        if (! $this->query[self::COLUMNS]) {
+        if (!$this->query[self::COLUMNS]) {
             return '';
         }
 
         $select = $this->distinct ? 'SELECT DISTINCT ' : 'SELECT ';
-        $res  = $select . $this->implode(self::COLUMNS);
-        $res .= ' FROM ' .  $this->implode(self::FROM);
+        $res = $select . $this->implode(self::COLUMNS);
+        $res .= ' FROM ' . $this->implode(self::FROM);
 
         if ($this->query[self::JOIN]) {
             $res .= self::SPACE . $this->implode(self::JOIN, self::SPACE);
@@ -430,8 +395,6 @@ class Select extends AbstractCommonBuilder
      * Encapsulates the original query in a pagination SQL pattern.
      *
      * @param string $query Original SQL.
-     *
-     * @return string
      */
     protected function changeQueryLimit(string $query): string
     {
@@ -441,7 +404,7 @@ class Select extends AbstractCommonBuilder
             $columns[] = 'ROWNUM AS row_number';
         }
 
-        $query  = sprintf('SELECT %s FROM (%s) a', implode(self::COMMA, $columns), $query);
+        $query = sprintf('SELECT %s FROM (%s) a', implode(self::COMMA, $columns), $query);
         $query .= sprintf(' WHERE ROWNUM <= %d', $this->offset + $this->limit);
 
         if ($this->offset > 0) {
@@ -454,12 +417,12 @@ class Select extends AbstractCommonBuilder
     /**
      * @param string $join INNER JOIN, LEFT JOIN or RIGHT JOIN
      */
-    protected function forJoin(string $join, $table, string $alias, string $condition): self
+    protected function forJoin(string $join, $table, string $alias, string $condition): static
     {
         if ($table instanceof Select) {
             $table = '(' . $table->build() . ')';
         }
-        
+
         $key = md5($alias . $table);
 
         if (isset($this->joins[$key])) {

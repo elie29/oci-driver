@@ -1,74 +1,62 @@
 {
-   "name": "elie29/oci-driver",
-   "description": "OCI Driver",
-   "license": "MIT",
-   "keywords": [],
-   "authors": [
-      {
-         "name": "Elie NEHME",
-         "email": "elie29@gmail.com"
-      }
-   ],
-   "support": {
-      "issues": "https://github.com/elie29/oci-driver/issues",
-      "source": "https://github.com/elie29/oci-driver"
-   },
-   "type": "library",
-   "minimum-stability": "stable",
-   "config": {
-      "sort-packages": true,
-      "process-timeout": 9000
-   },
-   "require": {
-      "php": "^7.1",
-     "ext-oci8": "*",
-     "ext-json": "*"
-   },
-   "require-dev": {
-      "hamcrest/hamcrest-php": "^2.0",
-      "mayflower/php-codebrowser": "^2.0",
-      "mockery/mockery": "^1.0",
-      "pdepend/pdepend": "^2.5",
-      "phploc/phploc": "^4.0",
-      "phpmd/phpmd": "^2.6",
-      "phpmetrics/phpmetrics": "^2.4",
-      "phpstan/phpstan": "^0.10.3",
-      "phpstan/phpstan-mockery": "^0.10.2",
-      "phpunit/phpunit": "^7.1",
-      "sebastian/phpcpd": "^4.1",
-      "symfony/var-dumper": "^4.0",
-      "zendframework/zend-coding-standard": "^1.0"
-   },
-   "autoload": {
-      "psr-4": {
-         "": "src/"
-      }
-   },
-   "autoload-dev": {
-      "files": [
-         "vendor/hamcrest/hamcrest-php/hamcrest/Hamcrest.php"
-      ],
-      "psr-4": {
-         "": "tests/"
-      }
-   },
-   "scripts": {
-      "cover": [
-         "@test",
-         "php -S localhost:5000 -d display_errors=1 -t build/coverage"
-      ],
-      "test": [
-         "@clean",
-         "phpunit"
-      ],
-      "clean": [
-         "rm -rf build/*"
-      ],
-      "check": [
-         "@cs-check",
-         "@test"
-      ],
-      "cs-check": "phpcs",
-      "cs-fix": "phpcbf"
-   }
+  "name": "elie29/oci-driver",
+  "description": "OCI Driver",
+  "license": "MIT",
+  "keywords": [],
+  "authors": [
+    {
+      "name": "Elie NEHME",
+      "email": "elie29@gmail.com"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/elie29/oci-driver/issues",
+    "source": "https://github.com/elie29/oci-driver"
+  },
+  "type": "library",
+  "minimum-stability": "stable",
+  "require": {
+    "php": "^8.2",
+    "ext-oci8": "*",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.5",
+    "phpunit/phpunit": "^11.5",
+    "symfony/var-dumper": "^6.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Elie\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Elie\\": [
+        "tests/units",
+        "tests/integration"
+      ]
+    }
+  },
+  "config": {
+    "sort-packages": true,
+    "allow-plugins": true,
+    "optimize-autoloader": true,
+    "platform": {
+      "php": "8.2"
+    }
+  },
+  "scripts": {
+    "test": [
+      "@setup-tables",
+      "phpunit --color=always --display-deprecations --display-errors --display-warnings --no-coverage"
+    ],
+    "test-coverage": "@php -d xdebug.mode=coverage vendor/bin/phpunit --testsuite \"Unit Tests\" --color=always",
+    "cover": [
+      "@setup-tables",
+      "@php -d xdebug.mode=coverage vendor/bin/phpunit --color=always",
+      "php -S localhost:5001 -t build/coverage"
+    ],
+    "setup-tables": "php tests/integration/setup-tables.php"
+  }
 }

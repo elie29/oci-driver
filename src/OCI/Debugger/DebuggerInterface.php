@@ -1,12 +1,11 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Debugger;
+namespace Elie\OCI\Debugger;
 
 interface DebuggerInterface
 {
-
     /**
      * Called before the query execution.
      * Useful to set on the timing.
@@ -16,7 +15,7 @@ interface DebuggerInterface
     /**
      * Called after the query execution.
      *
-     * @param string $query The sql to be executed.
+     * @param string $query The SQL to be executed.
      * @param array $parameters Parameter binding.
      */
     public function end(string $query, array $parameters): void;

@@ -1,15 +1,14 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI;
+namespace Elie\OCI;
 
 use Mockery;
 use PHPUnit\Framework\TestCase;
 
-class OCITestCase extends TestCase
+abstract class OCITestCase extends TestCase
 {
-
     protected function tearDown(): void
     {
         Mockery::close();

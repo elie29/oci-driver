@@ -1,16 +1,15 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
-namespace OCI\Query\Builder;
+namespace Elie\OCI\Query\Builder;
 
 abstract class AbstractBuilder implements BuilderInterface
 {
-
-    protected $query = [];
+    protected array $query = [];
 
     // Used in Insert/Update class
-    protected $returning = [];
+    protected array $returning = [];
 
     /**
      * Creates a default query array structure.
@@ -32,16 +31,15 @@ abstract class AbstractBuilder implements BuilderInterface
      *
      * @return static
      */
-    public static function start(): self
+    public static function start(): static
     {
-        return new static;
+        return new static();
     }
 
     /**
      * Quotes value safely.
      *
      * @param string $value Value to be quoted.
-     *
      * @return string quoted value and surrounded by single quotes.
      */
     public static function quote(string $value): string
@@ -52,23 +50,21 @@ abstract class AbstractBuilder implements BuilderInterface
 
     /**
      * Reset the query array structure.
-     *
-     * @return self
      */
     protected function reset(): self
     {
         $this->query = [
             self::COLUMNS => [], // select
-            self::FROM    => [], // select
-            self::TABLE   => '', // insert, update, delete
-            self::SELECT  => '', // insert
-            self::JOIN    => [], // select
-            self::WHERE   => [], // select, update, delete
+            self::FROM => [], // select
+            self::TABLE => '', // insert, update, delete
+            self::SELECT => '', // insert
+            self::JOIN => [], // select
+            self::WHERE => [], // select, update, delete
             self::GROUPBY => [], // select
-            self::HAVING  => [], // select
+            self::HAVING => [], // select
             self::ORDERBY => [], // select
-            self::VALUES  => [], // insert
-            self::SET     => [], // update
+            self::VALUES => [], // insert
+            self::SET => [], // update
         ];
 
         $this->returning = [];
@@ -79,10 +75,7 @@ abstract class AbstractBuilder implements BuilderInterface
     /**
      * @param string $part Available parts are: 'columns', 'from', 'join', 'set', 'where',
      *  'groupBy', 'having', 'orderBy', 'values'.
-     *
      * @param string $separator Comma by default
-     *
-     * @return string
      */
     protected function implode(string $part, string $separator = self::COMMA): string
     {
@@ -91,16 +84,14 @@ abstract class AbstractBuilder implements BuilderInterface
 
     /**
      * Used in Insert/Update class.
-     *
-     * @return string
      */
     protected function addReturning(): string
     {
-        if (! $this->returning) {
+        if (!$this->returning) {
             return self::EMPTY;
         }
 
-        return ' RETURNING ' . implode(self::COMMA, array_keys($this->returning)) .
-            ' INTO ' . implode(self::COMMA, $this->returning);
+        return ' RETURNING ' . implode(self::COMMA, array_keys($this->returning))
+            . ' INTO ' . implode(self::COMMA, $this->returning);
     }
 }
