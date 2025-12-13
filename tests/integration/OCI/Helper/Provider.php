@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace OCI\Helper;
+namespace Elie\OCI\Helper;
 
 use Generator;
-use OCI\Debugger\DebuggerDumb;
-use OCI\Driver\Connection;
-use OCI\Driver\Driver;
-use OCI\Driver\DriverException;
-use OCI\Driver\DriverInterface;
+use Elie\OCI\Debugger\DebuggerDumb;
+use Elie\OCI\Driver\Connection;
+use Elie\OCI\Driver\Driver;
+use Elie\OCI\Driver\DriverException;
+use Elie\OCI\Driver\DriverInterface;
 
 class Provider
 {

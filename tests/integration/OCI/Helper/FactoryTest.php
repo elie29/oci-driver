@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace OCI\Helper;
+namespace Elie\OCI\Helper;
 
 use Mockery;
-use OCI\Driver\DriverException;
-use OCI\OCITestCase;
+use Elie\OCI\Driver\DriverException;
+use Elie\OCI\OCITestCase;
 use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
 use Symfony\Component\VarDumper\VarDumper;
 

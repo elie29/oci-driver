@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace OCI\Driver;
+namespace Elie\OCI\Driver;
 
 use Mockery;
-use OCI\Debugger\DebuggerInterface;
-use OCI\Driver\Parameter\Parameter;
-use OCI\Helper\Factory;
-use OCI\Helper\FormatInterface;
-use OCI\Helper\Provider;
-use OCI\Helper\SessionInit;
-use OCI\OCITestCase;
+use Elie\OCI\Debugger\DebuggerInterface;
+use Elie\OCI\Driver\Parameter\Parameter;
+use Elie\OCI\Helper\Factory;
+use Elie\OCI\Helper\FormatInterface;
+use Elie\OCI\Helper\Provider;
+use Elie\OCI\Helper\SessionInit;
+use Elie\OCI\OCITestCase;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\Depends;
 

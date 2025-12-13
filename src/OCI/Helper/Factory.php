@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace OCI\Helper;
+namespace Elie\OCI\Helper;
 
-use OCI\Debugger\DebuggerDumb;
-use OCI\Debugger\DebuggerDump;
-use OCI\Driver\Driver;
-use OCI\Driver\DriverInterface;
+use Elie\OCI\Debugger\DebuggerDumb;
+use Elie\OCI\Debugger\DebuggerDump;
+use Elie\OCI\Driver\Driver;
+use Elie\OCI\Driver\DriverInterface;
 
 /**
  * Helper for creating new or one instance of an OCI Driver Service.

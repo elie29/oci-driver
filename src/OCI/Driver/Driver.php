@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OCI\Driver;
+namespace Elie\OCI\Driver;
 
-use OCI\Debugger\DebuggerInterface;
-use OCI\Driver\Parameter\Parameter;
+use Elie\OCI\Debugger\DebuggerInterface;
+use Elie\OCI\Driver\Parameter\Parameter;
 
 class Driver implements DriverInterface
 {

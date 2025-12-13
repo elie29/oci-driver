@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCI\Driver;
+namespace Elie\OCI\Driver;
 
 use Exception;
 

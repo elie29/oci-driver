@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCI\Helper;
+namespace Elie\OCI\Helper;
 
 use PHPUnit\Framework\TestCase;
 

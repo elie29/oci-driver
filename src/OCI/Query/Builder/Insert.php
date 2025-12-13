@@ -2,10 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCI\Query\Builder;
-
-use function array_keys;
-use function implode;
+namespace Elie\OCI\Query\Builder;
 
 class Insert extends AbstractBuilder
 {

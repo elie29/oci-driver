@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCI\Debugger;
+namespace Elie\OCI\Debugger;
 
 class DebuggerDumb implements DebuggerInterface
 {

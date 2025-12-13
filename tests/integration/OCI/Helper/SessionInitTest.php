@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace OCI\Helper;
+namespace Elie\OCI\Helper;
 
 use Mockery;
-use OCI\Driver\DriverInterface;
-use OCI\OCITestCase;
+use Elie\OCI\Driver\DriverInterface;
+use Elie\OCI\OCITestCase;
 use PHPUnit\Framework\Attributes\DoesNotPerformAssertions;
 
 class SessionInitTest extends OCITestCase

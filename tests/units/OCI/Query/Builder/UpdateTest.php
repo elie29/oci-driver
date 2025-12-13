@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCI\Query\Builder;
+namespace Elie\OCI\Query\Builder;
 
 use PHPUnit\Framework\TestCase;
 

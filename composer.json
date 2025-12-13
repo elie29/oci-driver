@@ -27,12 +27,12 @@
   },
   "autoload": {
     "psr-4": {
-      "": "src/"
+      "Elie\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "": [
+      "Elie\\": [
         "tests/units",
         "tests/integration"
       ]

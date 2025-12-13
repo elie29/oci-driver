@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCI\Driver\Parameter;
+namespace Elie\OCI\Driver\Parameter;
 
-use OCI\Helper\FloatUtils;
-use stdClass;
+use Elie\OCI\Helper\FloatUtils;
 
 /**
  * Binds query parameters correctly.

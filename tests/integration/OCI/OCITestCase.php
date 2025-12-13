@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace OCI;
+namespace Elie\OCI;
 
 use Mockery;
 use PHPUnit\Framework\TestCase;

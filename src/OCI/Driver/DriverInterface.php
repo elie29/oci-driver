@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCI\Driver;
+namespace Elie\OCI\Driver;
 
-use OCI\Driver\Parameter\Parameter;
+use Elie\OCI\Driver\Parameter\Parameter;
 
 interface DriverInterface
 {

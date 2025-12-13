@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCI\Helper;
+namespace Elie\OCI\Helper;
 
-use OCI\Driver\DriverInterface;
+use Elie\OCI\Driver\DriverInterface;
 
 /**
  * The following environment variables are required for the default date format:

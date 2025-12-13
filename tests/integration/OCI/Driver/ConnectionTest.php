@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace OCI\Driver;
+namespace Elie\OCI\Driver;
 
-use OCI\OCITestCase;
+use Elie\OCI\OCITestCase;
 
 class ConnectionTest extends OCITestCase
 {

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace OCI\Helper;
+namespace Elie\OCI\Helper;
 
-use OCI\Driver\DriverException;
-use OCI\Driver\Parameter\Parameter;
+use Elie\OCI\Driver\DriverException;
+use Elie\OCI\Driver\Parameter\Parameter;
 
 class ClauseInParamsHelper
 {
