@@ -118,7 +118,8 @@ This eliminates the need to use `TO_CHAR` or `TO_DATE` in your SQL queries:
 
 ```php
 // Create driver with development debugging
-$driver = Factory::create(Provider::getConnection(), 'dev');
+$connection = new Connection(USERNAME, PASSWORD, SCHEMA);
+$driver = Factory::create($connexion->connect(), 'dev');
 
 $sql = 'SELECT * FROM A1 WHERE N_DATE BETWEEN :YESTERDAY AND :TOMORROW';
 
