@@ -263,20 +263,19 @@ Alternatively, you can manually create the tables:
 ```sql
 CREATE TABLE A1
 (
-    "N_CHAR" CHAR(5 BYTE
-) ,
-    "N_NUM"    NUMBER,
-    "N_NUM_3"  NUMBER(6,3),
-    "N_VAR"    VARCHAR2(4000),
-    "N_CLOB"   CLOB,
-    "N_DATE"   DATE,
-    "N_TS"     TIMESTAMP,
-    "N_LONG"   LONG
+  "N_CHAR"   CHAR(5 BYTE),
+  "N_NUM"    NUMBER,
+  "N_NUM_3"  NUMBER(6,3),
+  "N_VAR"    VARCHAR2(4000),
+  "N_CLOB"   CLOB,
+  "N_DATE"   DATE,
+  "N_TS"     TIMESTAMP,
+  "N_LONG"   LONG
 );
 
 CREATE TABLE A2
 (
-    "N_LONG_RAW" LONG RAW
+  "N_LONG_RAW" LONG RAW
 );
 ```
 
