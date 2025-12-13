@@ -29,7 +29,7 @@ jobs:
         run: composer validate --strict --no-interaction
 
       - name: Install Dependencies
-        run: composer install --no-interaction --prefer-dist --no-progress
+        run: composer install --no-interaction --prefer-dist --no-progress --ignore-platform-req=ext-oci8
 
       - name: Launch test unit in coverage mode
         run: composer test-coverage
