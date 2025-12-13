@@ -146,7 +146,7 @@ echo $count; // displays 1
 
 #### With Transaction
 
-To start a transaction, you should use beginTransaction as follow:
+To start a transaction, you should use beginTransaction as follows:
 
 ```php
 $connection = oci_pconnect('username', 'pass', 'schema', 'UTF8');
@@ -208,7 +208,7 @@ $rows = $driver->fetchAllAssoc($sql);
 
 **N.B.**: For binding parameters, follow the same insertion example above.
 
-## Prepare for test
+## Prepare for the test
 
 Before launching integration tests, you should follow these steps:
 
@@ -242,7 +242,7 @@ Modify `USERNAME`, `PASSWORD` and `SCHEMA` according to your Oracle Database Inf
 
 ### 2. Create A1 and A2 tables
 
-**Option A: Using the automated setup script (Recommended)**
+#### Option A: Using the automated setup script (Recommended)
 
 Run the composer script to automatically create the required tables:
 
@@ -256,7 +256,7 @@ This will:
 - Create fresh A1 and A2 tables with the correct structure
 - Verify the connection and provide helpful error messages
 
-**Option B: Manual SQL creation**
+#### Option B: Manual SQL creation
 
 Alternatively, you can manually create the tables:
 
@@ -295,12 +295,14 @@ vendor/bin/phpunit --testsuite "Integration Tests"
 The project uses PHPUnit for testing with two test suites as configured in `phpunit.xml.dist`:
 
 - **Unit Tests** (`tests/units/`): Fast, isolated tests that don't require database connections
-    - Query Builder tests (Select, Insert, Update, Delete)
-    - Helper utility tests (FloatUtils, ClauseInParamsHelper)
+
+  - Query Builder tests (Select, Insert, Update, Delete)
+  - Helper utility tests (FloatUtils, ClauseInParamsHelper)
 
 - **Integration Tests** (`tests/integration/`): Tests that require Oracle database connection
-    - Driver tests (Connection, Query execution, Transaction management)
-    - Factory and SessionInit tests
+
+  - Driver tests (Connection, Query execution, Transaction management)
+  - Factory and SessionInit tests
 
 ### Composer commands
 
