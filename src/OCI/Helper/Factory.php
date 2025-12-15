@@ -49,12 +49,14 @@ class Factory
 
     /**
      * @param resource $connection
-     * @param string $env dev|prod for DebuggerInterface
+     * @param string $env dev|development|test|prod|production for DebuggerInterface
      * @return DriverInterface A new instance of OCI Driver service.
      */
     public static function create($connection, string $env): DriverInterface
     {
-        $debugger = $env === 'dev'
+        $environment = Environment::fromString($env);
+
+        $debugger = $environment->isDevelopment()
             ? new DebuggerDump()
             : new DebuggerDumb();
 

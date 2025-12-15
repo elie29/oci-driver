@@ -34,7 +34,13 @@ class Connection
         $connection = @oci_pconnect($this->user, $this->password, $this->dbname, $this->charset);
 
         if (!$connection) {
-            $message = sprintf('Connection error %s, %s', $this->user, $this->dbname);
+            $error = oci_error();
+            $message = sprintf(
+                'Connection error for user %s to %s: %s',
+                $this->user,
+                $this->dbname,
+                $error['message'] ?? 'Unknown error'
+            );
             throw new DriverException($message);
         }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Elie\OCI\Driver\Parameter;
 
 use Elie\OCI\Helper\FloatUtils;
+use InvalidArgumentException;
 use stdClass;
 
 /**
@@ -22,12 +23,17 @@ class Parameter
      * `oci_bind_by_name` is called on each binding: maxlength is no longer useful
      * unless for OUTPUT binding.
      *
-     * @param string $column Column to be bound.
+     * @param string $column Column to be bound (must start with ':').
      * @param mixed $variable Column value.
      * @param int $maxlength Mostly with a default value.
+     * @throws InvalidArgumentException If the column name doesn't start with ':'.
      */
     public function add(string $column, mixed $variable, int $maxlength = self::DEFAULT_MAX_LEN): static
     {
+        if (!str_starts_with($column, ':')) {
+            throw new InvalidArgumentException("Column name must start with ':'. Got: $column");
+        }
+
         if (is_float($variable)) {
             // float is inserted with SQL_CHR and should ALWAYS contain . as decimal separator
             $variable = FloatUtils::convert($variable);
@@ -100,7 +106,7 @@ class Parameter
     {
         $this->attributes[$column] = (object)[
             'variable' => $variable,
-            'length' => $maxlength,
+            'maxlength' => $maxlength,
             'type' => $type,
         ];
 

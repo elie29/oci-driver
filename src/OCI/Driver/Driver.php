@@ -160,7 +160,7 @@ class Driver implements DriverInterface
         $attributes = $bind ? $bind->getAttributes() : [];
 
         foreach ($attributes as $column => $params) {
-            oci_bind_by_name($statement, $column, $params->variable, $params->length, $params->type);
+            oci_bind_by_name($statement, $column, $params->variable, $params->maxlength, $params->type);
         }
 
         if (!@oci_execute($statement, $this->commitOption)) {
