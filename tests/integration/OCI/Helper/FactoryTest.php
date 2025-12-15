@@ -4,25 +4,21 @@ declare(strict_types=1);
 
 namespace Elie\OCI\Helper;
 
-use Mockery;
 use Elie\OCI\Driver\DriverException;
-use Elie\OCI\OCITestCase;
-use PHPUnit\Framework\Attributes\RunTestsInSeparateProcesses;
-use Symfony\Component\VarDumper\VarDumper;
+use PHPUnit\Framework\TestCase;
 
-#[RunTestsInSeparateProcesses]
-class FactoryTest extends OCITestCase
+class FactoryTest extends TestCase
 {
     /**
      * @throws DriverException
      */
     public function testDevCreation()
     {
-        // Mock dump in order not to print out data
-        $mock = Mockery::mock('alias:' . VarDumper::class);
-        $mock->shouldReceive('dump');
-
+        // Suppress output for dev mode which uses DebuggerDump
+        ob_start();
         Factory::init(Provider::getConnection(), 'dev');
+        ob_end_clean();
+        
         $this->assertSame(Factory::get(), Factory::get());
     }
 

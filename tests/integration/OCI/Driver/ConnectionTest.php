@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Elie\OCI\Driver;
 
-use Elie\OCI\OCITestCase;
+use PHPUnit\Framework\TestCase;
 
-class ConnectionTest extends OCITestCase
+class ConnectionTest extends TestCase
 {
     public function testConnectionThrowException(): void
     {

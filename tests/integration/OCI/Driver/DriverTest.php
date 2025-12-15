@@ -10,12 +10,11 @@ use Elie\OCI\Helper\Factory;
 use Elie\OCI\Helper\FormatInterface;
 use Elie\OCI\Helper\Provider;
 use Elie\OCI\Helper\SessionInit;
-use Elie\OCI\OCITestCase;
-use Mockery;
 use PHPUnit\Framework\Attributes\DataProviderExternal;
 use PHPUnit\Framework\Attributes\Depends;
+use PHPUnit\Framework\TestCase;
 
-class DriverTest extends OCITestCase
+class DriverTest extends TestCase
 {
     /**
      * @throws DriverException
@@ -41,7 +40,7 @@ class DriverTest extends OCITestCase
     public function testCreateInstanceWithMock(): void
     {
         $connection = Provider::getConnection();
-        $debugger = Mockery::mock(DebuggerInterface::class);
+        $debugger = $this->createMock(DebuggerInterface::class);
         $driver = new Driver($connection, $debugger);
 
         $this->assertNotEmpty($driver);
