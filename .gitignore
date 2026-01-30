@@ -12,7 +12,6 @@ config-connection.php
 .DS_Store
 Thumbs.db
 node_modules/
-composer.lock
 public/storage
 storage/*.key
 .env.*
