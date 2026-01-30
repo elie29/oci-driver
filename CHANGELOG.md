@@ -6,8 +6,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### V2.0.1 - TBD
 
-- `.github/copilot-instructions.md` - Comprehensive AI agent instructions for development workflows, architecture overview, testing commands, and common patterns.
-- Documentation formatting in `readme.md` and `CONTRIBUTING.md`
+- [#52](https://github.com/elie29/oci-driver/issues/52) Compact and restructure CHANGELOG for improved readability
+- [#53](https://github.com/elie29/oci-driver/issues/53) Update PHP Composer dependencies (no breaking changes)
 
 ### V2.0.0 - 2025-12-13
 
