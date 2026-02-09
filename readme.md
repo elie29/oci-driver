@@ -228,18 +228,18 @@ Modify `USERNAME`, `PASSWORD` and `SCHEMA` according to your Oracle Database Inf
 
 - IP:PORT/SID eg: `11.22.33.25:12005/HR`
 - SID name if you are executing the tests on the same database server or if you have a configured SID in tnsnames.ora
-    - Use the following TNS:
+  - Use the following TNS:
 
-        ```TNSNAMES
-        (DESCRIPTION = 
-          (ADDRESS = 
-            (PROTOCOL = TCP)(HOST = DATABASE_IP)(PORT=DATABASE_PORT)
-          )
-          (CONNECT_DATA = 
-            (SID=DATABASE_SCHEMA)(SERVER=DEDICATED|POOLED)
-          )
+    ```TNSNAMES
+    (DESCRIPTION =
+        (ADDRESS =
+        (PROTOCOL = TCP)(HOST = DATABASE_IP)(PORT=DATABASE_PORT)
         )
-        ```
+        (CONNECT_DATA =
+        (SID=DATABASE_SCHEMA)(SERVER=DEDICATED|POOLED)
+        )
+    )
+    ```
 
 ### 2. Create A1 and A2 tables
 
@@ -297,13 +297,13 @@ The project uses PHPUnit for testing with two test suites as configured in `phpu
 
 - **Unit Tests** (`tests/units/`): Fast, isolated tests that don't require database connections
 
-    - Query Builder tests (Select, Insert, Update, Delete)
-    - Helper utility tests (FloatUtils, ClauseInParamsHelper)
+  - Query Builder tests (Select, Insert, Update, Delete)
+  - Helper utility tests (FloatUtils, ClauseInParamsHelper)
 
 - **Integration Tests** (`tests/integration/`): Tests that require Oracle database connection
 
-    - Driver tests (Connection, Query execution, Transaction management)
-    - Factory and SessionInit tests
+  - Driver tests (Connection, Query execution, Transaction management)
+  - Factory and SessionInit tests
 
 ### Composer commands
 
