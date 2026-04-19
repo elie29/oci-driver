@@ -21,7 +21,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          coverage: xdebug
+          coverage: none
 
       - name: Validate composer.json and composer.lock
         run: composer validate --strict --no-interaction
@@ -29,16 +29,8 @@ jobs:
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --no-progress --ignore-platform-req=ext-oci8
 
-      - name: Launch test unit in coverage mode
-        run: composer test-coverage
-
-      - name: Publish coveralls report for PHP 8.2
-        if: matrix.php-versions == '8.2'
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-        run: |
-          composer global require php-coveralls/php-coveralls
-          php-coveralls -v
+      - name: Run unit tests
+        run: php vendor/bin/phpunit --testsuite "Unit Tests" --color=always --display-deprecations --display-errors --display-warnings --no-coverage
 
   integration:
     name: Integration Tests (Oracle)
@@ -68,7 +60,7 @@ jobs:
         with:
           php-version: '8.2'
           extensions: oci8
-          coverage: none
+          coverage: xdebug
 
       - name: Install Dependencies
         run: composer install --no-interaction --prefer-dist --no-progress
@@ -84,5 +76,15 @@ jobs:
             );
           "
 
-      - name: Run integration tests
-        run: composer test
+      - name: Setup tables
+        run: composer setup-tables
+
+      - name: Run all tests with coverage
+        run: composer test-coverage
+
+      - name: Publish coveralls report
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
+        run: |
+          composer global require php-coveralls/php-coveralls
+          php-coveralls -v
