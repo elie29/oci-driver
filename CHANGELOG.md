@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ## [2.0+] - PHP 8.2+ & Modern Tooling Era
 
+### V2.0.2 - TBD
+
+- Update PHPUnit and Symfony polyfills to latest versions
+
 ### V2.0.1 - 2026-02-09
 
 - [#52](https://github.com/elie29/oci-driver/issues/52) Compact and restructure CHANGELOG for improved readability
