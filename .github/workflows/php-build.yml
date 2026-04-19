@@ -39,3 +39,50 @@ jobs:
         run: |
           composer global require php-coveralls/php-coveralls
           php-coveralls -v
+
+  integration:
+    name: Integration Tests (Oracle)
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+
+    services:
+      oracle:
+        image: gvenzl/oracle-free:23-slim
+        env:
+          ORACLE_PASSWORD: ${{ secrets.ORACLE_PASSWORD }}
+          APP_USER: ${{ secrets.ORACLE_USERNAME }}
+          APP_USER_PASSWORD: ${{ secrets.ORACLE_PASSWORD }}
+        ports:
+          - 1521:1521
+        options: >-
+          --health-cmd healthcheck.sh
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 30
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP with oci8
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: oci8
+          coverage: none
+
+      - name: Install Dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Generate connection config
+        env:
+          ORACLE_USERNAME: ${{ secrets.ORACLE_USERNAME }}
+          ORACLE_PASSWORD: ${{ secrets.ORACLE_PASSWORD }}
+        run: |
+          php -r "
+            file_put_contents('tests/integration/config-connection.php',
+              \"<?php\ndefine('USERNAME', '\" . getenv('ORACLE_USERNAME') . \"');\ndefine('PASSWORD', '\" . getenv('ORACLE_PASSWORD') . \"');\ndefine('SCHEMA', 'localhost:1521/FREEPDB1');\n\"
+            );
+          "
+
+      - name: Run integration tests
+        run: composer test
