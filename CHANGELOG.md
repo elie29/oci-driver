@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ## [2.0+] - PHP 8.2+ & Modern Tooling Era
 
+### V2.0.3 - TBD
+
 ### V2.0.2 - 2026-05-29
 
 - Update PHPUnit and Symfony polyfills to latest versions
