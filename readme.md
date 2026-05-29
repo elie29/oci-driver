@@ -209,6 +209,49 @@ $rows = $driver->fetchAllAssoc($sql);
 
 **N.B.**: For binding parameters, follow the same insertion example above.
 
+## Running Oracle via Docker
+
+If Oracle is not installed locally, use Docker to spin up an Oracle Free 23 container before running integration tests:
+
+```bash
+docker run -d \
+  --name oracle-free \
+  -p 1521:1521 \
+  -e ORACLE_PASSWORD=MyPassword \
+  -e APP_USER=myuser \
+  -e APP_USER_PASSWORD=MyPassword \
+  gvenzl/oracle-free:23-slim
+```
+
+- `ORACLE_PASSWORD` — required; sets the password for the SYS and SYSTEM accounts.
+- `APP_USER` / `APP_USER_PASSWORD` — optional; creates a dedicated application user in `XEPDB1`. If omitted, connect as `SYSTEM` with `ORACLE_PASSWORD` instead.
+
+Wait for the container to be ready (this can take 1–2 minutes):
+
+```bash
+docker logs -f oracle-free
+```
+
+The database is ready when the logs show:
+
+```text
+DATABASE IS READY TO USE!
+```
+
+Then configure `tests/integration/config-connection.php` with:
+
+- `USERNAME` → `APP_USER` if set, otherwise `SYSTEM`
+- `PASSWORD` → `APP_USER_PASSWORD` if set, otherwise `ORACLE_PASSWORD`
+- `SCHEMA` → `localhost:1521/XEPDB1`
+
+To stop and remove the container when done:
+
+```bash
+docker stop oracle-free && docker rm oracle-free
+```
+
+Continue with the steps below to set up and run the integration tests.
+
 ## Prepare for the test
 
 Before launching integration tests, you should follow these steps:
