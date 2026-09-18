@@ -224,7 +224,7 @@ docker run -d \
 ```
 
 - `ORACLE_PASSWORD` — required; sets the password for the SYS and SYSTEM accounts.
-- `APP_USER` / `APP_USER_PASSWORD` — optional; creates a dedicated application user in `XEPDB1`. If omitted, connect as `SYSTEM` with `ORACLE_PASSWORD` instead.
+- `APP_USER` / `APP_USER_PASSWORD` — optional; creates a dedicated application user in `FREEPDB1`. If omitted, connect as `SYSTEM` with `ORACLE_PASSWORD` instead.
 
 Wait for the container to be ready (this can take 1–2 minutes):
 
@@ -242,7 +242,7 @@ Then configure `tests/integration/config-connection.php` with:
 
 - `USERNAME` → `APP_USER` if set, otherwise `SYSTEM`
 - `PASSWORD` → `APP_USER_PASSWORD` if set, otherwise `ORACLE_PASSWORD`
-- `SCHEMA` → `localhost:1521/XEPDB1`
+- `SCHEMA` → `localhost:1521/FREEPDB1`
 
 To stop and remove the container when done:
 

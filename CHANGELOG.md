@@ -4,7 +4,13 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ## [2.0+] - PHP 8.2+ & Modern Tooling Era
 
-### V2.0.3 - TBD
+### V2.0.3 - 2026-09-18
+
+- Update README Docker instructions to use the Oracle Free 23 default pluggable database `FREEPDB1` instead of `XEPDB1`
+- Fix `.gitattributes` export-ignore entry: `composer` renamed to `composer.phar`
+- Update dev dependencies (PHPUnit 11.5.56, nikic/php-parser 5.9.0, symfony/var-dumper 7.4.18, Symfony polyfills and contracts) and bundled `composer.phar`
+
+No feature additions or bug fixes.
 
 ### V2.0.2 - 2026-05-29
 
