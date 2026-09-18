@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ## [2.0+] - PHP 8.2+ & Modern Tooling Era
 
+### V2.0.4 - TBD
+
 ### V2.0.3 - 2026-09-18
 
 - Update README Docker instructions to use the Oracle Free 23 default pluggable database `FREEPDB1` instead of `XEPDB1`
